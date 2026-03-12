@@ -10,21 +10,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         :root {
             --bg-color: #fdfdfd; /* Off-White */
             --text-color: #1a1a1a; /* Deep Charcoal */
             --accent-color: #c5a059; /* Gold */
+            --surprise-color: #0b3d2e; /* Emerald Green */
             --nav-bg: rgba(253, 253, 253, 0.7);
             --border-color: rgba(0, 0, 0, 0.1);
+            --particle-color: rgba(197, 160, 89, 0.2);
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212; /* Deep Charcoal/Black */
+            --bg-color: #0d1117; /* Deep Navy/Black */
             --text-color: #fdfdfd; /* Off-White */
             --accent-color: #d4af37; /* Lighter Gold */
-            --nav-bg: rgba(18, 18, 18, 0.7);
+            --surprise-color: #1b4d3e; /* Lighter Emerald */
+            --nav-bg: rgba(13, 17, 23, 0.7);
             --border-color: rgba(255, 255, 255, 0.1);
+            --particle-color: rgba(212, 175, 55, 0.2);
         }
 
         * {
@@ -38,7 +45,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
-            min-height: 200vh; /* For scrolling test */
+            overflow-x: hidden;
         }
 
         h1, h2, h3, .branding {
@@ -180,6 +187,110 @@
                 color: var(--accent-color);
             }
         }
+
+        /* Hero Section Styles */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .mesh-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, var(--surprise-color), transparent);
+            opacity: 0.1;
+            filter: blur(100px);
+        }
+
+        .particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            overflow: hidden; /* For split text effect */
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border: 1px solid var(--accent-color);
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: transform 0.4s ease, background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .cta-button.primary {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .cta-button.primary:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        .cta-button.secondary:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-color: var(--text-color);
+        }
     </style>
 </head>
 <body>
@@ -217,7 +328,22 @@
     </header>
 
     <main>
-        <section id="about" style="height: 100vh; padding: 100px 20px;">
+        <section class="hero">
+            <div class="hero-bg-container">
+                <div class="mesh-gradient"></div>
+                <canvas class="particles-canvas" id="particles"></canvas>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title">Graphic Designer & <br>Multimedia Artist</h1>
+                <p class="hero-subtitle">Crafting Visual Stories with Elegance & Precision</p>
+                <div class="hero-ctas">
+                    <a href="#work" class="cta-button primary">View My Work</a>
+                    <a href="#contact" class="cta-button secondary">Get In Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" style="height: 100vh; padding: 100px 20px; position: relative; background: var(--bg-color); z-index: 2;">
             <h1>About</h1>
             <p>Welcome to my portfolio.</p>
         </section>
@@ -245,6 +371,10 @@
             } else {
                 body.setAttribute('data-theme', 'dark');
             }
+            // Update cached color for particles after theme change
+            setTimeout(() => {
+                cachedParticleColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
+            }, 0);
         });
 
         // Mobile Menu Logic
@@ -261,6 +391,131 @@
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
             });
+        });
+
+        // Particles Animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let cachedParticleColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = cachedParticleColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 100; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Mesh Gradient Movement
+        gsap.to(".mesh-gradient", {
+            duration: 10,
+            scale: 1.5,
+            x: "10%",
+            y: "10%",
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // Creative Intro Animations
+        const tl = gsap.timeline({
+            defaults: { ease: "power4.out" },
+            onComplete: () => {
+                console.log("Animation complete");
+                document.body.classList.add("animation-done");
+            }
+        });
+
+        tl.from(".hero-title", {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            skewY: 7
+        })
+        .from(".hero-subtitle", {
+            y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, "-=0.6")
+        .from(".hero-ctas .cta-button", {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1
+        }, "-=0.4")
+        .from(".navbar", {
+            y: -100,
+            opacity: 0,
+            duration: 1
+        }, "-=1");
+
+        // Scroll-Triggered Parallax
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.to(".hero-content", {
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 200,
+            opacity: 0
+        });
+
+        gsap.to(".hero-bg-container", {
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 100
         });
     </script>
 </body>
