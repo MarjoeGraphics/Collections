@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marjoe - Portfolio</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #fdfdfd; /* Off-White */
+            --text-color: #1a1a1a; /* Deep Charcoal */
+            --accent-color: #c5a059; /* Gold */
+            --surprise-color: #0b3d2e; /* Emerald Green */
+            --nav-bg: rgba(253, 253, 253, 0.7);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --particle-color: rgba(197, 160, 89, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0d1117; /* Deep Navy/Black */
+            --text-color: #fdfdfd; /* Off-White */
+            --accent-color: #d4af37; /* Lighter Gold */
+            --surprise-color: #1b4d3e; /* Lighter Emerald */
+            --nav-bg: rgba(13, 17, 23, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --particle-color: rgba(212, 175, 55, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .branding {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .branding {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        button:hover {
+            color: var(--accent-color);
+        }
+
+        .sun-icon {
+            display: block;
+        }
+        .moon-icon {
+            display: none;
+        }
+
+        [data-theme="dark"] .sun-icon {
+            display: none;
+        }
+        [data-theme="dark"] .moon-icon {
+            display: block;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .desktop-links {
+                display: none;
+            }
+
+            .mobile-only {
+                display: block;
+            }
+
+            .mobile-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-color);
+                border-bottom: 1px solid var(--border-color);
+                display: none;
+                flex-direction: column;
+                padding: 1rem 0;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-links {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .mobile-menu-links a {
+                text-decoration: none;
+                color: var(--text-color);
+                font-weight: 500;
+                text-transform: uppercase;
+                font-size: 1rem;
+                letter-spacing: 1px;
+                transition: color 0.3s ease;
+            }
+
+            .mobile-menu-links a:hover {
+                color: var(--accent-color);
+            }
+        }
+
+        /* Hero Section Styles */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .mesh-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, var(--surprise-color), transparent);
+            opacity: 0.1;
+            filter: blur(100px);
+        }
+
+        .particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            overflow: hidden; /* For split text effect */
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border: 1px solid var(--accent-color);
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: transform 0.4s ease, background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .cta-button.primary {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .cta-button.primary:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        .cta-button.secondary:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="branding">Marjoe</div>
+
+                <div class="nav-links desktop-links">
+                    <a href="#about">About</a>
+                    <a href="#work">Work</a>
+                    <a href="#contact">Contact</a>
+                </div>
+
+                <div class="nav-actions">
+                    <button id="theme-toggle" aria-label="Toggle Theme">
+                        <i data-lucide="sun" class="sun-icon"></i>
+                        <i data-lucide="moon" class="moon-icon"></i>
+                    </button>
+                    <button id="mobile-menu-toggle" aria-label="Open Menu" class="mobile-only">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu" class="mobile-menu mobile-only">
+                <div class="mobile-menu-links">
+                    <a href="#about">About</a>
+                    <a href="#work">Work</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-bg-container">
+                <div class="mesh-gradient"></div>
+                <canvas class="particles-canvas" id="particles"></canvas>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title">Graphic Designer & <br>Multimedia Artist</h1>
+                <p class="hero-subtitle">Crafting Visual Stories with Elegance & Precision</p>
+                <div class="hero-ctas">
+                    <a href="#work" class="cta-button primary">View My Work</a>
+                    <a href="#contact" class="cta-button secondary">Get In Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" style="height: 100vh; padding: 100px 20px; position: relative; background: var(--bg-color); z-index: 2;">
+            <h1>About</h1>
+            <p>Welcome to my portfolio.</p>
+        </section>
+        <section id="work" style="height: 100vh; padding: 100px 20px;">
+            <h1>Work</h1>
+            <p>Check out my projects.</p>
+        </section>
+        <section id="contact" style="height: 100vh; padding: 100px 20px;">
+            <h1>Contact</h1>
+            <p>Get in touch.</p>
+        </section>
+    </main>
+
+    <script>
+        // Lucide icons initialization
+        lucide.createIcons();
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+            }
+            // Update cached color for particles after theme change
+            setTimeout(() => {
+                cachedParticleColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
+            }, 0);
+        });
+
+        // Mobile Menu Logic
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-menu-links a');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Particles Animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let cachedParticleColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = cachedParticleColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 100; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Mesh Gradient Movement
+        gsap.to(".mesh-gradient", {
+            duration: 10,
+            scale: 1.5,
+            x: "10%",
+            y: "10%",
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // Creative Intro Animations
+        const tl = gsap.timeline({
+            defaults: { ease: "power4.out" },
+            onComplete: () => {
+                console.log("Animation complete");
+                document.body.classList.add("animation-done");
+            }
+        });
+
+        tl.from(".hero-title", {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            skewY: 7
+        })
+        .from(".hero-subtitle", {
+            y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, "-=0.6")
+        .from(".hero-ctas .cta-button", {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1
+        }, "-=0.4")
+        .from(".navbar", {
+            y: -100,
+            opacity: 0,
+            duration: 1
+        }, "-=1");
+
+        // Scroll-Triggered Parallax
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.to(".hero-content", {
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 200,
+            opacity: 0
+        });
+
+        gsap.to(".hero-bg-container", {
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 100
+        });
+    </script>
+</body>
+</html>
