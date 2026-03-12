@@ -7,7 +7,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&family=Archivo+Black&display=swap" rel="stylesheet">
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Animation Libraries -->
@@ -274,12 +274,13 @@
         }
 
         .hero-title {
-            font-size: clamp(3rem, 10vw, 6rem);
-            line-height: 1.1;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(4rem, 15vw, 10rem);
+            line-height: 0.9;
             margin-bottom: 1.5rem;
-            font-weight: 700;
+            text-transform: uppercase;
             color: var(--text-color);
-            overflow: hidden; /* For split text effect */
+            overflow: hidden;
         }
 
         .hero-subtitle {
@@ -410,8 +411,8 @@
 
         // Load saved theme
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
         }
 
         themeToggle.addEventListener('click', () => {
@@ -541,10 +542,20 @@
         });
 
         tl.from(".hero-title", {
-            y: 100,
+            scale: 0.5,
             opacity: 0,
-            duration: 1,
-            skewY: 7
+            duration: 1.5,
+            ease: "expo.out",
+            onComplete: () => {
+                // Looping pulse animation
+                gsap.to(".hero-title", {
+                    scale: 1.05,
+                    duration: 3,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
         })
         .from(".hero-subtitle", {
             y: 20,
@@ -574,7 +585,8 @@
                 scrub: true
             },
             y: 200,
-            opacity: 0
+            opacity: 0,
+            scale: 0.5
         });
 
         gsap.to(".hero-bg-container", {
