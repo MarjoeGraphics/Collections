@@ -7,12 +7,40 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&family=Archivo+Black&display=swap" rel="stylesheet">
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#c5a059',
+                        charcoal: '#1a1a1a',
+                        emerald: '#0b3d2e',
+                    },
+                    fontFamily: {
+                        playfair: ['Playfair Display', 'serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        archivo: ['Archivo Black', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass {
+                @apply bg-white/70 dark:bg-black/70 backdrop-blur-xl border border-white/20 dark:border-white/10;
+            }
+        }
+    </style>
     <style>
         :root {
             --bg-color: #fdfdfd; /* Off-White */
@@ -274,12 +302,13 @@
         }
 
         .hero-title {
-            font-size: clamp(2rem, 8vw, 4.5rem);
-            line-height: 1.1;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(4rem, 15vw, 10rem);
+            line-height: 0.9;
             margin-bottom: 1.5rem;
-            font-weight: 700;
+            text-transform: uppercase;
             color: var(--text-color);
-            overflow: hidden; /* For split text effect */
+            overflow: hidden;
         }
 
         .hero-subtitle {
@@ -382,13 +411,13 @@
                 </div>
 
                 <div class="nav-actions">
-                    <button id="theme-toggle" aria-label="Toggle Theme">
-                        <i data-lucide="sun" class="sun-icon"></i>
-                        <i data-lucide="moon" class="moon-icon"></i>
+                    <button id="theme-toggle" aria-label="Toggle Theme" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-colors">
+                        <i data-lucide="sun" class="sun-icon w-5 h-5"></i>
+                        <i data-lucide="moon" class="moon-icon w-5 h-5"></i>
                     </button>
-                    <button id="mobile-menu-toggle" aria-label="Open Menu" aria-expanded="false" aria-controls="mobile-menu" class="mobile-only">
-                        <i data-lucide="menu" class="menu-icon"></i>
-                        <i data-lucide="x" class="close-icon"></i>
+                    <button id="mobile-menu-toggle" aria-label="Open Menu" aria-expanded="false" aria-controls="mobile-menu" class="mobile-only p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-colors">
+                        <i data-lucide="menu" class="menu-icon w-6 h-6"></i>
+                        <i data-lucide="x" class="close-icon w-6 h-6"></i>
                     </button>
                 </div>
             </div>
@@ -413,24 +442,86 @@
             <div class="hero-content">
                 <h1 class="hero-title">Graphic Designer & <br>Multimedia Artist</h1>
                 <p class="hero-subtitle">Crafting Visual Stories with Elegance & Precision</p>
-                <a href="#work" class="scroll-down" aria-label="Scroll to work">
-                    <span>Scroll Down</span>
-                    <i data-lucide="chevron-down"></i>
-                </a>
+                <div class="hero-ctas flex flex-wrap justify-center gap-6">
+                    <a href="#work" class="cta-button primary magnetic-target">View My Work</a>
+                    <a href="#contact" class="cta-button secondary magnetic-target">Get In Touch</a>
+                </div>
             </div>
         </section>
 
-        <section id="work" style="height: 100vh; padding: 100px 20px;">
-            <h1>Work</h1>
-            <p>Check out my projects.</p>
+        <section id="about" class="min-h-screen py-32 px-6 max-w-6xl mx-auto relative z-10">
+            <h2 class="text-5xl md:text-7xl font-playfair font-bold mb-12 opacity-0 reveal-item">About</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="opacity-0 reveal-item" style="transition-delay: 200ms;">
+                    <p class="text-xl md:text-2xl leading-relaxed text-neutral-600 dark:text-neutral-400">
+                        I am a multidisciplinary designer focused on creating high-end digital experiences.
+                        By blending technical precision with artistic intuition, I help brands tell their stories through motion, color, and interaction.
+                    </p>
+                </div>
+                <div class="aspect-square glass rounded-3xl flex items-center justify-center opacity-0 reveal-item" style="transition-delay: 400ms;">
+                    <i data-lucide="sparkles" class="w-32 h-32 text-gold animate-pulse"></i>
+                </div>
+            </div>
         </section>
-        <section id="about" style="height: 100vh; padding: 100px 20px; position: relative; background: var(--bg-color); z-index: 2;">
-            <h1>About</h1>
-            <p>Welcome to my portfolio.</p>
+
+        <section id="work" class="min-h-screen py-32 px-6 max-w-7xl mx-auto">
+            <h2 class="text-5xl md:text-7xl font-playfair font-bold mb-16 opacity-0 reveal-item">Work</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[300px] md:auto-rows-[350px]">
+                <!-- Bento Item 1: Large Featured -->
+                <div class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-[2.5rem] bg-neutral-100 dark:bg-neutral-900 opacity-0 reveal-item">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute bottom-10 left-10 z-10">
+                        <span class="text-sm font-bold tracking-widest uppercase text-gold mb-2 block">Brand Identity</span>
+                        <h3 class="text-3xl font-bold">Luxe Horizon</h3>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center translate-y-12 group-hover:translate-y-0 transition-transform duration-700 ease-out">
+                         <i data-lucide="layers" class="w-48 h-48 text-neutral-200 dark:text-neutral-800"></i>
+                    </div>
+                </div>
+
+                <!-- Bento Item 2: Vertical -->
+                <div class="md:col-span-2 group relative overflow-hidden rounded-[2.5rem] bg-neutral-100 dark:bg-neutral-900 opacity-0 reveal-item">
+                    <div class="absolute inset-0 bg-emerald/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute bottom-8 left-8 z-10">
+                        <span class="text-sm font-bold tracking-widest uppercase text-emerald mb-2 block">Interaction</span>
+                        <h3 class="text-2xl font-bold">Fluid Motion</h3>
+                    </div>
+                    <div class="absolute top-10 right-10">
+                        <i data-lucide="external-link" class="text-neutral-400 group-hover:text-gold transition-colors"></i>
+                    </div>
+                </div>
+
+                <!-- Bento Item 3: Square -->
+                <div class="group relative overflow-hidden rounded-[2.5rem] bg-neutral-100 dark:bg-neutral-900 opacity-0 reveal-item">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i data-lucide="palette" class="w-20 h-20 text-neutral-200 dark:text-neutral-800 group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="absolute bottom-6 left-6">
+                        <h3 class="text-lg font-bold">Color Theory</h3>
+                    </div>
+                </div>
+
+                <!-- Bento Item 4: Square -->
+                <div class="group relative overflow-hidden rounded-[2.5rem] bg-neutral-100 dark:bg-neutral-900 opacity-0 reveal-item">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                         <i data-lucide="camera" class="w-20 h-20 text-neutral-200 dark:text-neutral-800 group-hover:rotate-12 transition-transform duration-500"></i>
+                    </div>
+                    <div class="absolute bottom-6 left-6">
+                        <h3 class="text-lg font-bold">Visuals</h3>
+                    </div>
+                </div>
+            </div>
         </section>
-        <section id="contact" style="height: 100vh; padding: 100px 20px;">
-            <h1>Contact</h1>
-            <p>Get in touch.</p>
+
+        <section id="contact" class="min-h-screen py-32 px-6 flex flex-col items-center justify-center text-center">
+            <h2 class="text-5xl md:text-8xl font-playfair font-bold mb-8 opacity-0 reveal-item">Let's Create.</h2>
+            <p class="text-xl md:text-2xl text-neutral-500 mb-12 max-w-2xl opacity-0 reveal-item">
+                Ready to transform your vision into a digital masterpiece? Drop me a line and let's get started.
+            </p>
+            <a href="mailto:hello@marjoe.design" class="group relative inline-flex items-center gap-4 text-3xl md:text-5xl font-bold text-gold hover:text-charcoal dark:hover:text-white transition-colors opacity-0 reveal-item magnetic-target">
+                hello@marjoe.design
+                <i data-lucide="arrow-up-right" class="w-12 h-12 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform"></i>
+            </a>
         </section>
     </main>
 
@@ -444,8 +535,8 @@
 
         // Load saved theme
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
         }
 
         themeToggle.addEventListener('click', () => {
@@ -542,11 +633,22 @@
             }
         }
 
+        let isHeroVisible = true;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isHeroVisible = entry.isIntersecting;
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(document.querySelector('.hero'));
+
         function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
+            if (isHeroVisible) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                }
             }
             requestAnimationFrame(animateParticles);
         }
@@ -565,6 +667,50 @@
             ease: "sine.inOut"
         });
 
+        // Magnetic Effect
+        const magneticTargets = document.querySelectorAll('.magnetic-target');
+        magneticTargets.forEach(target => {
+            target.addEventListener('mousemove', (e) => {
+                const rect = target.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+
+                gsap.to(target, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+            });
+
+            target.addEventListener('mouseleave', () => {
+                gsap.to(target, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+        });
+
+        // Reveal Animations
+        const revealItems = document.querySelectorAll('.reveal-item');
+        revealItems.forEach(item => {
+            gsap.to(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                },
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            });
+            // Set initial state via GSAP to ensure it's hidden before animation
+            gsap.set(item, { y: 50, opacity: 0 });
+        });
+
         // Creative Intro Animations
         const tl = gsap.timeline({
             defaults: { ease: "power4.out" },
@@ -575,10 +721,20 @@
         });
 
         tl.from(".hero-title", {
-            y: 100,
+            scale: 5,
             opacity: 0,
-            duration: 1,
-            skewY: 7
+            duration: 1.8,
+            ease: "expo.out",
+            onComplete: () => {
+                // Looping pulse animation
+                gsap.to(".hero-title", {
+                    scale: 1.05,
+                    duration: 3,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
         })
         .from(".hero-subtitle", {
             y: 20,
@@ -607,7 +763,8 @@
                 scrub: true
             },
             y: 200,
-            opacity: 0
+            opacity: 0,
+            scale: 0
         });
 
         gsap.to(".hero-bg-container", {
