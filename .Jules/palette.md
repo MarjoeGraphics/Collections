@@ -13,3 +13,7 @@
 ## 2025-03-12 - [Gold Theme Accessibility]
 **Learning:** The brand's Gold color (#c5a059) has poor contrast with white text (2.1:1). It requires a dark text color (#1a1a1a) to meet WCAG AA standards (5.5:1).
 **Action:** Always check contrast for brand accent colors; don't assume white text is the default for "primary" buttons.
+
+## 2025-03-13 - [Decoupling Positioning from Animation]
+**Learning:** To prevent animation jitter and logic duplication, decouple CSS keyframe animations (like bouncers) from absolute centering logic (`transform: translateX(-50%)`) by applying the animation to a nested inner element instead of the parent that handles positioning.
+**Action:** Use a `.target-inner` wrapper for CSS animations when the parent `.target` is positioned absolutely or animated by GSAP.
