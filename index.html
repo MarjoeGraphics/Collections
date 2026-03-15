@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div id="scroll-progress"></div>
+    <div id="scroll-progress" role="progressbar" aria-label="Page scroll progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <nav class="navbar">
             <div class="nav-container">
-                <div class="branding">Marjoe</div>
+                <a href="#" class="branding" aria-label="Marjoe - Back to top">Marjoe</a>
 
                 <div class="nav-links desktop-links">
                     <a href="#work">Work</a>
@@ -61,11 +61,11 @@
             <div class="hero-content">
                 <h1 class="hero-title">Graphic Designer & <br>Multimedia Artist</h1>
                 <p class="hero-subtitle">Crafting Visual Stories with Elegance & Precision</p>
-                <a href="#work" class="scroll-down" aria-label="Scroll to work">
-                    <span>Scroll Down</span>
-                    <i data-lucide="chevron-down"></i>
-                </a>
             </div>
+            <a href="#work" class="scroll-down" aria-label="Scroll to work">
+                <span>Scroll Down</span>
+                <i data-lucide="chevron-down"></i>
+            </a>
         </section>
 
         <section id="work" style="height: 100vh; padding: 100px 20px;">

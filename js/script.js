@@ -5,11 +5,17 @@
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
 
+        function updateThemeToggleLabel() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        }
+
         // Load saved theme
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             body.setAttribute('data-theme', savedTheme);
         }
+        updateThemeToggleLabel();
 
         themeToggle.addEventListener('click', () => {
             const isDark = body.getAttribute('data-theme') === 'dark';
@@ -22,6 +28,8 @@
                 body.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
             }
+
+            updateThemeToggleLabel();
 
             // GSAP rotation animation for the toggle
             gsap.to(themeToggle, {
@@ -214,13 +222,18 @@
         });
 
         // Scroll Progress Indicator
-        gsap.to("#scroll-progress", {
+        const scrollProgress = document.getElementById('scroll-progress');
+        gsap.to(scrollProgress, {
             width: "100%",
             ease: "none",
             scrollTrigger: {
                 trigger: "body",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 0.3
+                scrub: 0.3,
+                onUpdate: (self) => {
+                    const progress = Math.round(self.progress * 100);
+                    scrollProgress.setAttribute('aria-valuenow', progress);
+                }
             }
         });
