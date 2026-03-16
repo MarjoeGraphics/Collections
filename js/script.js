@@ -162,15 +162,29 @@
         // Scroll-Triggered Parallax
         gsap.registerPlugin(ScrollTrigger);
 
-        gsap.to(".hero-content", {
+        // Move title and subtitle at different speeds for overlap parallax
+        gsap.to(".hero-title", {
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
                 end: "bottom top",
                 scrub: true
             },
-            y: 200,
-            opacity: 0
+            y: 350, // Faster
+            opacity: 0,
+            ease: "none"
+        });
+
+        gsap.to(".hero-subtitle", {
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 150, // Slower - will cause title to overlap it
+            opacity: 0,
+            ease: "none"
         });
 
         gsap.to(".hero-bg-container", {
