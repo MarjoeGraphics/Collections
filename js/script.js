@@ -163,28 +163,36 @@
         gsap.registerPlugin(ScrollTrigger);
 
         // Move title and subtitle at different speeds for overlap parallax
-        // Staying fully visible during the overlap as requested
-        gsap.to(".hero-title", {
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            },
-            y: 350, // Faster
-            ease: "none"
-        });
+        // Using fromTo and explicit ScrollTrigger settings to ensure reset on scroll back
+        gsap.fromTo(".hero-title",
+            { y: 0 },
+            {
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                    invalidateOnRefresh: true
+                },
+                y: 350, // Faster
+                ease: "none"
+            }
+        );
 
-        gsap.to(".hero-subtitle", {
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            },
-            y: 150, // Slower - will cause title to overlap it
-            ease: "none"
-        });
+        gsap.fromTo(".hero-subtitle",
+            { y: 0 },
+            {
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                    invalidateOnRefresh: true
+                },
+                y: 150, // Slower - will cause title to overlap it
+                ease: "none"
+            }
+        );
 
         gsap.to(".hero-bg-container", {
             scrollTrigger: {
@@ -196,14 +204,50 @@
             y: 100
         });
 
-        // Modal Logic
+        // Modal Logic & Data
+        const projectData = {
+            "Visual Identity": [
+                { name: "Lumina Brand", info: "Complete brand redesign including logo, color palette, and guidelines.", mockup: "Brand Identity Mockup" },
+                { name: "Aura Skincare", info: "Minimalist packaging and identity design for a luxury skincare line.", mockup: "Packaging Design" }
+            ],
+            "Digital Experience": [
+                { name: "Nexus App", info: "Intuitive UI/UX design for a next-gen project management platform.", mockup: "Mobile App Mockup" },
+                { name: "Zenith E-com", info: "A high-conversion e-commerce storefront with seamless navigation.", mockup: "Web Dashboard Mockup" }
+            ],
+            "Motion Design": [
+                { name: "Flow Promo", info: "Cinematic product reveal with fluid motion and abstract 3D elements.", mockup: "Motion Keyframe" },
+                { name: "Stellar Intro", info: "Dynamic logo animation and broadcast branding package.", mockup: "Animated Logo" }
+            ],
+            "Brand Strategy": [
+                { name: "Insight Workshop", info: "Full strategic roadmap for a tech startup's market entry.", mockup: "Strategy Deck" },
+                { name: "Global Rebrand", info: "Multi-channel communication strategy for an international firm.", mockup: "Communication Plan" }
+            ]
+        };
+
         const modal = document.getElementById('project-modal');
         const modalTitle = document.getElementById('modal-title');
+        const modalGrid = document.getElementById('modal-projects-grid');
         const modalClose = document.querySelector('.modal-close');
         const projectCards = document.querySelectorAll('.project-card');
 
         function openModal(projectTitle) {
             modalTitle.textContent = projectTitle;
+            modalGrid.innerHTML = ''; // Clear previous content
+
+            const projects = projectData[projectTitle] || [];
+            projects.forEach(proj => {
+                const projectItem = document.createElement('div');
+                projectItem.className = 'modal-project-item';
+                projectItem.innerHTML = `
+                    <div class="modal-project-image">${proj.mockup}</div>
+                    <div class="modal-project-info">
+                        <h4>${proj.name}</h4>
+                        <p>${proj.info}</p>
+                    </div>
+                `;
+                modalGrid.appendChild(projectItem);
+            });
+
             modal.classList.add('active');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open

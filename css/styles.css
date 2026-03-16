@@ -528,10 +528,59 @@
             font-size: 2.5rem;
         }
 
-        .modal-body p {
-            line-height: 1.8;
-            opacity: 0.8;
-            font-size: 1.1rem;
+        .modal-projects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .modal-project-item {
+            background: rgba(0,0,0,0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        [data-theme="dark"] .modal-project-item {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .modal-project-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--accent-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .modal-project-info h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .modal-project-info p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .modal-projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Generic Container */
@@ -671,20 +720,27 @@
 
         .footer-nav {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
-        .footer-nav a {
+        .footer-btn {
             text-decoration: none;
             color: var(--text-color);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s;
+            letter-spacing: 2px;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            transition: all 0.3s ease;
         }
 
-        .footer-nav a:hover {
+        .footer-btn:hover {
             color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: rgba(197, 160, 89, 0.05);
+            transform: translateY(-3px);
         }
 
         .footer-bottom {
