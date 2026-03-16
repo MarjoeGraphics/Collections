@@ -162,47 +162,40 @@
         // Scroll-Triggered Parallax
         gsap.registerPlugin(ScrollTrigger);
 
-        // Move title and subtitle at different speeds for overlap parallax
-        // Using fromTo and explicit ScrollTrigger settings to ensure reset on scroll back
-        gsap.fromTo(".hero-title",
-            { y: 0 },
-            {
-                scrollTrigger: {
-                    trigger: ".hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                    invalidateOnRefresh: true
-                },
-                y: 350, // Faster
-                ease: "none"
-            }
-        );
-
-        gsap.fromTo(".hero-subtitle",
-            { y: 0 },
-            {
-                scrollTrigger: {
-                    trigger: ".hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                    invalidateOnRefresh: true
-                },
-                y: 150, // Slower - will cause title to overlap it
-                ease: "none"
-            }
-        );
-
-        gsap.to(".hero-bg-container", {
+        // Section Stacking + Text Overlap Parallax
+        const heroTimeline = gsap.timeline({
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
                 end: "bottom top",
-                scrub: true
-            },
-            y: 100
+                scrub: true,
+                pin: true,
+                pinSpacing: false
+            }
         });
+
+        // Title moves faster than Subtitle to create overlap
+        heroTimeline.to(".hero-title", {
+            y: 300,
+            ease: "none"
+        }, 0);
+
+        heroTimeline.to(".hero-subtitle", {
+            y: 100,
+            ease: "none"
+        }, 0);
+
+        heroTimeline.to(".hero-bg-container", {
+            opacity: 0.5,
+            scale: 1.1,
+            ease: "none"
+        }, 0);
+
+        heroTimeline.to(".scroll-down", {
+            opacity: 0,
+            y: -20,
+            duration: 0.2
+        }, 0);
 
         // Modal Logic & Data
         const projectData = {
@@ -276,26 +269,66 @@
             }
         });
 
-        // Magnetic Buttons Interaction
-        const magneticElements = document.querySelectorAll('.cta-button, .scroll-down, .project-card');
+        // Custom Cursor Logic
+        const cursor = document.getElementById('custom-cursor');
+        const cursorDot = cursor.querySelector('.cursor-dot');
+        const cursorCircle = cursor.querySelector('.cursor-circle');
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let dotX = 0;
+        let dotY = 0;
+        let circleX = 0;
+        let circleY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            // Smooth follow (lerp)
+            dotX += (mouseX - dotX) * 0.2;
+            dotY += (mouseY - dotY) * 0.2;
+            circleX += (mouseX - circleX) * 0.1;
+            circleY += (mouseY - circleY) * 0.1;
+
+            cursorDot.style.left = `${dotX}px`;
+            cursorDot.style.top = `${dotY}px`;
+            cursorCircle.style.left = `${circleX}px`;
+            cursorCircle.style.top = `${circleY}px`;
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor interactions
+        const interactables = document.querySelectorAll('a, button, .project-card');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // Magnetic Buttons Interaction (Limited to small elements)
+        const magneticElements = document.querySelectorAll('.footer-btn, .scroll-down, .nav-links a, #theme-toggle');
         magneticElements.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
-                const isCentered = btn.classList.contains('scroll-down') || btn.classList.contains('skip-link');
+                const isCentered = btn.classList.contains('scroll-down');
 
                 gsap.to(btn, {
-                    x: x * 0.3,
+                    x: x * 0.4,
                     xPercent: isCentered ? -50 : 0,
-                    y: y * 0.3,
+                    y: y * 0.4,
                     duration: 0.4,
                     ease: "power2.out"
                 });
             });
 
             btn.addEventListener('mouseleave', () => {
-                const isCentered = btn.classList.contains('scroll-down') || btn.classList.contains('skip-link');
+                const isCentered = btn.classList.contains('scroll-down');
                 gsap.to(btn, {
                     x: 0,
                     xPercent: isCentered ? -50 : 0,
