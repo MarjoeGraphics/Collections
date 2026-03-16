@@ -274,6 +274,44 @@
             }
         });
 
+        // Reveal Animations for New Sections
+        gsap.from(".about-text", {
+            scrollTrigger: {
+                trigger: ".about-section",
+                start: "top 80%",
+            },
+            x: -50,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
+        });
+
+        gsap.from(".about-skills", {
+            scrollTrigger: {
+                trigger: ".about-section",
+                start: "top 80%",
+            },
+            x: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
+        });
+
+        gsap.from(".contact-content > *", {
+            scrollTrigger: {
+                trigger: ".contact-section",
+                start: "top 80%",
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+
+        // Set Current Year in Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
         // Project Cards Stacking Effect Enhancement
         const cards = document.querySelectorAll('.project-card');
         cards.forEach((card, index) => {
