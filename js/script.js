@@ -163,6 +163,7 @@
         gsap.registerPlugin(ScrollTrigger);
 
         // Move title and subtitle at different speeds for overlap parallax
+        // Staying fully visible during the overlap as requested
         gsap.to(".hero-title", {
             scrollTrigger: {
                 trigger: ".hero",
@@ -171,7 +172,6 @@
                 scrub: true
             },
             y: 350, // Faster
-            opacity: 0,
             ease: "none"
         });
 
@@ -183,7 +183,6 @@
                 scrub: true
             },
             y: 150, // Slower - will cause title to overlap it
-            opacity: 0,
             ease: "none"
         });
 
@@ -197,8 +196,44 @@
             y: 100
         });
 
+        // Modal Logic
+        const modal = document.getElementById('project-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalClose = document.querySelector('.modal-close');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        function openModal(projectTitle) {
+            modalTitle.textContent = projectTitle;
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.getAttribute('data-project');
+                openModal(title);
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
         // Magnetic Buttons Interaction
-        const magneticElements = document.querySelectorAll('.cta-button, .scroll-down');
+        const magneticElements = document.querySelectorAll('.cta-button, .scroll-down, .project-card');
         magneticElements.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
@@ -237,4 +272,32 @@
                 end: "bottom bottom",
                 scrub: 0.3
             }
+        });
+
+        // Project Cards Stacking Effect Enhancement
+        const cards = document.querySelectorAll('.project-card');
+        cards.forEach((card, index) => {
+            // Slight scale down as you scroll past
+            gsap.to(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 15%",
+                    end: "bottom 15%",
+                    scrub: true
+                },
+                scale: 0.95,
+                opacity: 0.9
+            });
+
+            // Reveal from bottom animation
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top bottom",
+                    end: "top 15%",
+                    scrub: true
+                },
+                y: 100,
+                opacity: 0
+            });
         });

@@ -70,10 +70,63 @@
             </a>
         </section>
 
-        <section id="work" style="height: 100vh; padding: 100px 20px;">
-            <h1>Work</h1>
-            <p>Check out my projects.</p>
+        <section id="work" class="work-section">
+            <div class="section-header">
+                <h2 class="section-title">Selected Work</h2>
+                <div class="title-underline"></div>
+            </div>
+
+            <div class="cards-container">
+                <div class="project-card" data-project="Visual Identity">
+                    <div class="card-content">
+                        <h3>01</h3>
+                        <h2>Visual Identity</h2>
+                        <p>Defining the essence of global brands through strategic design.</p>
+                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="project-card" data-project="Digital Experience">
+                    <div class="card-content">
+                        <h3>02</h3>
+                        <h2>Digital Experience</h2>
+                        <p>Immersive digital ecosystems that bridge the gap between users and technology.</p>
+                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="project-card" data-project="Motion Design">
+                    <div class="card-content">
+                        <h3>03</h3>
+                        <h2>Motion Design</h2>
+                        <p>Bringing static stories to life through cinematic motion and fluid transitions.</p>
+                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="project-card" data-project="Brand Strategy">
+                    <div class="card-content">
+                        <h3>04</h3>
+                        <h2>Brand Strategy</h2>
+                        <p>Navigating complexity with insight-driven strategies for long-term growth.</p>
+                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
         </section>
+
+        <!-- Project Modal -->
+        <div id="project-modal" class="modal" aria-hidden="true" role="dialog">
+            <div class="modal-overlay"></div>
+            <div class="modal-container">
+                <button class="modal-close" aria-label="Close Modal">
+                    <i data-lucide="x"></i>
+                </button>
+                <div class="modal-content">
+                    <h2 id="modal-title">Project Title</h2>
+                    <div class="modal-body">
+                        <p>Detailed project description and case study information goes here. Exploring the creative process, challenges, and final solutions delivered for this specific branding project.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <section id="about" style="height: 100vh; padding: 100px 20px; position: relative; background: var(--bg-color); z-index: 2;">
             <h1>About</h1>
             <p>Welcome to my portfolio.</p>
