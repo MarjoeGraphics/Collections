@@ -137,14 +137,23 @@
             }
         });
 
-        tl.from(".hero-title", {
-            y: 100,
+        tl.from(".hero-tagline", {
+            y: 20,
             opacity: 0,
-            duration: 1,
-            skewY: 7
+            duration: 0.8
         })
+        .from(".hero-title", {
+            y: 50,
+            opacity: 0,
+            duration: 1
+        }, "-=0.4")
         .from(".hero-subtitle", {
             y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, "-=0.6")
+        .from(".hero-location", {
+            y: 10,
             opacity: 0,
             duration: 0.8
         }, "-=0.6")
@@ -199,59 +208,72 @@
 
         // Modal Logic & Data
         const projectData = {
-            "Visual Identity": [
-                { name: "Lumina Brand", info: "Complete brand redesign including logo, color palette, and guidelines.", mockup: "Brand Identity Mockup" },
-                { name: "Aura Skincare", info: "Minimalist packaging and identity design for a luxury skincare line.", mockup: "Packaging Design" }
-            ],
-            "Digital Experience": [
-                { name: "Nexus App", info: "Intuitive UI/UX design for a next-gen project management platform.", mockup: "Mobile App Mockup" },
-                { name: "Zenith E-com", info: "A high-conversion e-commerce storefront with seamless navigation.", mockup: "Web Dashboard Mockup" }
-            ],
-            "Motion Design": [
-                { name: "Flow Promo", info: "Cinematic product reveal with fluid motion and abstract 3D elements.", mockup: "Motion Keyframe" },
-                { name: "Stellar Intro", info: "Dynamic logo animation and broadcast branding package.", mockup: "Animated Logo" }
-            ],
-            "Brand Strategy": [
-                { name: "Insight Workshop", info: "Full strategic roadmap for a tech startup's market entry.", mockup: "Strategy Deck" },
-                { name: "Global Rebrand", info: "Multi-channel communication strategy for an international firm.", mockup: "Communication Plan" }
-            ]
+            "Visual Identity": {
+                type: "Branding",
+                overview: "A comprehensive rebranding for a global tech firm focused on sustainable energy solutions.",
+                problem: "The previous identity was outdated and failed to communicate the company's shift towards innovative green technology.",
+                process: "Extensive market research, mood boarding, and iteration on typographic marks that evoke flow and stability.",
+                solution: "A minimalist, modular visual system that works across digital and physical touchpoints.",
+                result: "30% increase in brand recognition and a successful Series B funding round within 6 months."
+            },
+            "Digital Experience": {
+                type: "UI/UX",
+                overview: "Designing a next-generation project management tool for creative agencies.",
+                problem: "Agencies were struggling with fragmented workflows and disconnected communication channels.",
+                process: "User interviews, persona mapping, and high-fidelity prototyping in Figma with focus on cognitive load reduction.",
+                solution: "A unified dashboard that prioritizes contextual information and deep work states.",
+                result: "45% reduction in project delivery time and positive feedback from 50+ beta testers."
+            },
+            "Motion Design": {
+                type: "Motion",
+                overview: "Cinematic launch video for a premium automotive brand's first electric SUV.",
+                problem: "How to convey 'luxury' and 'sustainability' simultaneously without relying on traditional tropes.",
+                process: "Storyboarding, 3D simulation of abstract energy flows, and custom sound design integration.",
+                solution: "A 60-second sequence that uses light and texture to tell a story of silent power.",
+                result: "1.2M views on social media and a record number of pre-orders within the first week."
+            },
+            "Brand Strategy": {
+                type: "Strategy",
+                overview: "Repositioning a heritage retail brand for the Gen-Z market.",
+                problem: "Declining sales and brand relevance among younger demographics due to an 'old-fashioned' image.",
+                process: "Cultural trend analysis, white space mapping, and community-led workshop sessions.",
+                solution: "A strategy centered on 'radical transparency' and community-driven product development.",
+                result: "85% increase in engagement from 18-24 year olds and a successful pop-up tour across 5 cities."
+            }
         };
 
         const modal = document.getElementById('project-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalGrid = document.getElementById('modal-projects-grid');
         const modalClose = document.querySelector('.modal-close');
-        const projectCards = document.querySelectorAll('.project-card');
 
-        function openModal(projectTitle) {
-            modalTitle.textContent = projectTitle;
-            modalGrid.innerHTML = ''; // Clear previous content
+        function openModal(projectName) {
+            const data = projectData[projectName];
+            if (!data) return;
 
-            const projects = projectData[projectTitle] || [];
-            projects.forEach(proj => {
-                const projectItem = document.createElement('div');
-                projectItem.className = 'modal-project-item';
-                projectItem.innerHTML = `
-                    <div class="modal-project-image">${proj.mockup}</div>
-                    <div class="modal-project-info">
-                        <h4>${proj.name}</h4>
-                        <p>${proj.info}</p>
-                    </div>
-                `;
-                modalGrid.appendChild(projectItem);
-            });
+            // Map data to modal elements
+            document.getElementById('modal-project-name').textContent = projectName;
+            document.getElementById('modal-project-type').textContent = data.type;
+            document.getElementById('modal-project-overview').textContent = data.overview;
+            document.getElementById('modal-project-problem').textContent = data.problem;
+            document.getElementById('modal-project-process').textContent = data.process;
+            document.getElementById('modal-project-solution').textContent = data.solution;
+            document.getElementById('modal-project-result').textContent = data.result;
 
             modal.classList.add('active');
             modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+
+            // Animation for modal contents
+            gsap.from(".modal-header > *", { y: 20, opacity: 0, stagger: 0.1, duration: 0.6, ease: "power2.out" });
+            gsap.from(".modal-body section", { y: 30, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power2.out", delay: 0.2 });
         }
 
         function closeModal() {
             modal.classList.remove('active');
             modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = ''; // Restore scrolling
+            document.body.style.overflow = '';
         }
 
+        const projectCards = document.querySelectorAll('.project-card');
         projectCards.forEach(card => {
             card.addEventListener('click', () => {
                 const title = card.getAttribute('data-project');
@@ -389,30 +411,18 @@
         // Set Current Year in Footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Project Cards Stacking Effect Enhancement
+        // Project Cards Reveal Animation
         const cards = document.querySelectorAll('.project-card');
         cards.forEach((card, index) => {
-            // Slight scale down as you scroll past
-            gsap.to(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 15%",
-                    end: "bottom 15%",
-                    scrub: true
-                },
-                scale: 0.95,
-                opacity: 0.9
-            });
-
-            // Reveal from bottom animation
             gsap.from(card, {
                 scrollTrigger: {
                     trigger: card,
-                    start: "top bottom",
-                    end: "top 15%",
-                    scrub: true
+                    start: "top 95%", // Adjusted start
                 },
-                y: 100,
-                opacity: 0
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                delay: index * 0.05 // Reduced stagger for better responsive feel
             });
         });

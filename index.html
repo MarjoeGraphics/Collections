@@ -63,8 +63,10 @@
                 <canvas class="particles-canvas" id="particles"></canvas>
             </div>
             <div class="hero-content">
-                <h1 class="hero-title">Graphic Designer & <br>Multimedia Artist</h1>
-                <p class="hero-subtitle">Crafting Visual Stories with Elegance & Precision</p>
+                <div class="hero-tagline">UI/UX DESIGNER & PRODUCT STRATEGIST</div>
+                <h1 class="hero-title">Designing digital experiences that elevate brands.</h1>
+                <p class="hero-subtitle">Crafting modern, high-impact websites and product experiences with intentionality and precision.</p>
+                <div class="hero-location">Based in Philippines • Available Worldwide</div>
             </div>
             <a href="#work" class="scroll-down" aria-label="Scroll to work">
                 <div class="scroll-indicator-line"></div>
@@ -78,37 +80,51 @@
                 <div class="title-underline"></div>
             </div>
 
-            <div class="cards-container">
-                <div class="project-card" data-project="Visual Identity">
+            <div class="bento-grid">
+                <div class="project-card bento-item-large" data-project="Visual Identity">
+                    <div class="card-bg"></div>
                     <div class="card-content">
-                        <h3>01</h3>
+                        <div class="card-header">
+                            <span class="card-category">Branding</span>
+                            <span class="card-number">01</span>
+                        </div>
                         <h2>Visual Identity</h2>
-                        <p>Defining the essence of global brands through strategic design.</p>
-                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                        <p>Defining the essence of global brands through strategic design and art direction.</p>
+                        <span class="card-link">Explore Case Study <i data-lucide="arrow-right"></i></span>
                     </div>
                 </div>
-                <div class="project-card" data-project="Digital Experience">
+                <div class="project-card bento-item-small" data-project="Digital Experience">
+                    <div class="card-bg"></div>
                     <div class="card-content">
-                        <h3>02</h3>
+                        <div class="card-header">
+                            <span class="card-category">UI/UX</span>
+                            <span class="card-number">02</span>
+                        </div>
                         <h2>Digital Experience</h2>
-                        <p>Immersive digital ecosystems that bridge the gap between users and technology.</p>
-                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                        <span class="card-link">Explore <i data-lucide="arrow-right"></i></span>
                     </div>
                 </div>
-                <div class="project-card" data-project="Motion Design">
+                <div class="project-card bento-item-small" data-project="Motion Design">
+                    <div class="card-bg"></div>
                     <div class="card-content">
-                        <h3>03</h3>
+                        <div class="card-header">
+                            <span class="card-category">Motion</span>
+                            <span class="card-number">03</span>
+                        </div>
                         <h2>Motion Design</h2>
-                        <p>Bringing static stories to life through cinematic motion and fluid transitions.</p>
-                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                        <span class="card-link">Explore <i data-lucide="arrow-right"></i></span>
                     </div>
                 </div>
-                <div class="project-card" data-project="Brand Strategy">
+                <div class="project-card bento-item-medium" data-project="Brand Strategy">
+                    <div class="card-bg"></div>
                     <div class="card-content">
-                        <h3>04</h3>
+                        <div class="card-header">
+                            <span class="card-category">Strategy</span>
+                            <span class="card-number">04</span>
+                        </div>
                         <h2>Brand Strategy</h2>
-                        <p>Navigating complexity with insight-driven strategies for long-term growth.</p>
-                        <span class="card-link">View Case Study <i data-lucide="arrow-right"></i></span>
+                        <p>Insight-driven roadmaps for sustainable growth.</p>
+                        <span class="card-link">Explore <i data-lucide="arrow-right"></i></span>
                     </div>
                 </div>
             </div>
@@ -121,10 +137,43 @@
                 <button class="modal-close" aria-label="Close Modal">
                     <i data-lucide="x"></i>
                 </button>
-                <div class="modal-content">
-                    <h2 id="modal-title">Project Title</h2>
-                    <div id="modal-projects-grid" class="modal-projects-grid">
-                        <!-- Projects will be injected here -->
+                <div class="modal-header">
+                    <span id="modal-project-type" class="project-type">Project Type</span>
+                    <h2 id="modal-project-name" class="project-name">Project Name</h2>
+                </div>
+                <div class="modal-scroll-area">
+                    <div class="modal-body">
+                        <section class="cs-intro">
+                            <h3>Overview</h3>
+                            <p id="modal-project-overview">Short project overview text goes here.</p>
+                        </section>
+
+                        <section class="cs-visuals">
+                            <div class="visual-placeholder">Project Visual 1</div>
+                            <div class="visual-grid">
+                                <div class="visual-placeholder">Visual 2</div>
+                                <div class="visual-placeholder">Visual 3</div>
+                            </div>
+                        </section>
+
+                        <div class="cs-details-grid">
+                            <section class="cs-detail-item">
+                                <h3>The Problem</h3>
+                                <p id="modal-project-problem">Detailed problem description.</p>
+                            </section>
+                            <section class="cs-detail-item">
+                                <h3>The Process</h3>
+                                <p id="modal-project-process">Description of the design process.</p>
+                            </section>
+                            <section class="cs-detail-item">
+                                <h3>The Solution</h3>
+                                <p id="modal-project-solution">Description of the final solution.</p>
+                            </section>
+                            <section class="cs-detail-item highlight">
+                                <h3>The Result</h3>
+                                <p id="modal-project-result">Final impact and outcomes.</p>
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
