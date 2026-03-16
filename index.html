@@ -7,7 +7,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Animation Libraries -->
@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <div id="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-circle"></div>
+    </div>
     <div id="scroll-progress"></div>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
@@ -63,10 +67,8 @@
                 <p class="hero-subtitle">Crafting Visual Stories with Elegance & Precision</p>
             </div>
             <a href="#work" class="scroll-down" aria-label="Scroll to work">
-                <div class="scroll-down-inner">
-                    <span>Scroll Down</span>
-                    <i data-lucide="chevron-down"></i>
-                </div>
+                <div class="scroll-indicator-line"></div>
+                <span>Explore Work</span>
             </a>
         </section>
 
