@@ -1,0 +1,42 @@
+{
+  "nike": {
+    "portfolioTitle": "Marjoe + Nike",
+    "role": "Motion & Brand Designer",
+    "description": "Designing high-performance visual narratives and bold athletic experiences for the world's most iconic sports brand.",
+    "introLead": "Pushing the boundaries of sports branding and apparel graphics through rhythmic motion and high-energy visual storytelling.",
+    "philosophy": "Design is a sport. It's about movement, speed, and the relentless pursuit of human potential through intentional, performance-driven visuals.",
+    "featuredCategory": "Motion",
+    "cta": "Ready to design the future of sport together at Nike?",
+    "themeClass": "theme-nike"
+  },
+  "apple": {
+    "portfolioTitle": "Marjoe + Apple",
+    "role": "Product & Systems Designer",
+    "description": "Crafting intuitive, minimalist digital experiences with a focus on meticulous typography and holistic system thinking.",
+    "introLead": "A decade of experience bridging the gap between sophisticated branding and high-precision product design for seamless user ecosystems.",
+    "philosophy": "Design is invisible. It's the silent bridge between complex technology and human intuition, achieved through radical simplicity and relentless precision.",
+    "featuredCategory": "UI/UX",
+    "cta": "Let's build the next generation of intuitive products at Apple.",
+    "themeClass": "theme-apple"
+  },
+  "adobe": {
+    "portfolioTitle": "Marjoe + Adobe",
+    "role": "Creative Workflow Strategist",
+    "description": "Empowering creators through innovative design workflows, motion experiments, and strategic multimedia storytelling.",
+    "introLead": "Exploring the intersection of creative tools and human expression through advanced motion graphics and AI-assisted design workflows.",
+    "philosophy": "Design is an experiment. It's a continuous loop of discovery and refinement, fueled by the tools that empower us to see the world differently.",
+    "featuredCategory": "Motion",
+    "cta": "Ready to empower the next billion creators at Adobe?",
+    "themeClass": "theme-adobe"
+  },
+  "spotify": {
+    "portfolioTitle": "Marjoe + Spotify",
+    "role": "Experience & Brand Designer",
+    "description": "Creating vibrant, culture-led visual experiences that synchronize brand identity with personal human moments.",
+    "introLead": "Designing at the rhythm of culture, focused on data-driven branding and immersive multimedia campaigns for a global audio community.",
+    "philosophy": "Design is a pulse. It should reflect the energy of the moment while building a timeless connection through color, rhythm, and shared human experience.",
+    "featuredCategory": "Branding",
+    "cta": "Let's amplify the world's audio experience at Spotify.",
+    "themeClass": "theme-spotify"
+  }
+}

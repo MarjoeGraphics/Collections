@@ -1,26 +1,80 @@
 document.addEventListener('DOMContentLoaded', () => {
     let projectsData = [];
     let configData = {};
+    let profilesData = {};
+    let activeProfile = null;
 
-    // Fetch Config and Projects
+    // URL Parsing for Company Detection
+    function getCompanyFromURL() {
+        const path = window.location.pathname.toLowerCase();
+        const search = new URLSearchParams(window.location.search).get('for');
+
+        // Match "/collections/company" or "?for=company"
+        const pathMatch = path.match(/\/collections\/([^\/]+)/);
+        const company = pathMatch ? pathMatch[1] : search;
+
+        console.log('Detected Company:', company);
+        return company;
+    }
+
+    // Fetch All Data
     async function loadData() {
         try {
-            const [configRes, projectsRes] = await Promise.all([
+            const [configRes, projectsRes, profilesRes] = await Promise.all([
                 fetch('data/config.json'),
-                fetch('data/projects.json')
+                fetch('data/projects.json'),
+                fetch('data/profiles.json')
             ]);
+
             configData = await configRes.json();
             projectsData = await projectsRes.json();
+            profilesData = await profilesRes.json();
+
+            const company = getCompanyFromURL();
+            if (company && profilesData[company]) {
+                activeProfile = profilesData[company];
+                applyProfileOverrides();
+            }
 
             initPortfolio();
         } catch (error) {
             console.error('Error loading data:', error);
+            // Fallback to basic init if any data fails
+            initPortfolio();
         }
+    }
+
+    // Personalization Overrides
+    function applyProfileOverrides() {
+        console.log('Applying profile overrides for:', activeProfile.portfolioTitle);
+
+        // Merge profile into config
+        configData.portfolioTitle = activeProfile.portfolioTitle;
+        configData.role = activeProfile.role;
+        configData.description = activeProfile.description;
+        configData.about.lead = activeProfile.introLead || configData.about.lead;
+        configData.about.philosophy = activeProfile.philosophy || configData.about.philosophy;
+
+        // Add specific theme class to body
+        if (activeProfile.themeClass) document.body.classList.add(activeProfile.themeClass);
     }
 
     function initPortfolio() {
         populateConfig();
-        renderProjects('all');
+        const initialFilter = activeProfile?.featuredCategory ? activeProfile.featuredCategory : 'all';
+
+        // Update filter button state for initial filter
+        if (initialFilter !== 'all') {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-filter') === initialFilter) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        renderProjects(initialFilter);
         initCommonUI();
         initTheme();
         initParticles();
@@ -33,7 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.title = `${configData.portfolioTitle} - Portfolio`;
         document.getElementById('site-branding').textContent = configData.portfolioTitle;
         document.getElementById('hero-role').textContent = configData.role;
-        document.getElementById('hero-title').textContent = configData.portfolioTitle === 'Marjoe' ? 'Where Strategic Design Meets Technical Precision.' : configData.portfolioTitle;
+
+        // Use custom title if profile exists, otherwise default
+        const heroTitleElem = document.getElementById('hero-title');
+        heroTitleElem.textContent = activeProfile ? activeProfile.portfolioTitle : "Where Strategic Design Meets Technical Precision.";
+
         document.getElementById('hero-description').textContent = configData.description;
         document.getElementById('hero-location').textContent = configData.location;
 
@@ -41,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('about-lead').textContent = configData.about.lead;
         document.getElementById('about-bio').textContent = configData.about.bio;
         document.getElementById('about-philosophy').textContent = configData.about.philosophy;
+
+        const contactDescElem = document.getElementById('contact-description');
+        contactDescElem.textContent = activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.";
 
         document.getElementById('contact-email').textContent = configData.contact.email;
         document.getElementById('contact-email').href = `mailto:${configData.contact.email}`;
@@ -58,9 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const grid = document.getElementById('project-grid');
         grid.innerHTML = '';
 
-        const filtered = filter === 'all'
+        let filtered = filter === 'all'
             ? projectsData
             : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
+
+        // In profile mode, ensure we show at least 4 items if filtered results are sparse
+        if (activeProfile && filtered.length < 4) {
+            const extra = projectsData.filter(p => !filtered.includes(p)).slice(0, 4 - filtered.length);
+            filtered = [...filtered, ...extra];
+        }
 
         filtered.forEach((project, index) => {
             const card = document.createElement('div');
@@ -89,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lucide.createIcons();
 
-        // Re-init reveal animations for new cards
+        // Reveal animations
         gsap.from(".project-card", {
             y: 50,
             opacity: 0,
@@ -188,10 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mobile Menu
         const menuToggle = document.getElementById('mobile-menu-toggle');
         const menu = document.getElementById('mobile-menu');
-        menuToggle.addEventListener('click', () => {
-            const active = menu.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', active);
-        });
+        if (menuToggle && menu) {
+            menuToggle.addEventListener('click', () => {
+                const active = menu.classList.toggle('active');
+                menuToggle.setAttribute('aria-expanded', active);
+            });
+        }
 
         // Magnetic Effect
         const magnetic = document.querySelectorAll('.footer-btn, .scroll-down, .nav-links a, #theme-toggle, .filter-btn');
@@ -240,21 +309,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') body.setAttribute('data-theme', 'dark');
 
-        themeBtn.addEventListener('click', () => {
-            const isDark = body.hasAttribute('data-theme');
-            if (isDark) {
-                body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-            gsap.to(themeBtn, { rotation: "+=360", duration: 0.5 });
-        });
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const isDark = body.hasAttribute('data-theme');
+                if (isDark) {
+                    body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+                gsap.to(themeBtn, { rotation: "+=360", duration: 0.5 });
+            });
+        }
     }
 
     function initParticles() {
         const canvas = document.getElementById('particles');
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let particles = [];
 
@@ -315,6 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initCursor() {
         const cursor = document.getElementById('custom-cursor');
+        if (!cursor) return;
         const dot = cursor.querySelector('.cursor-dot');
         const circle = cursor.querySelector('.cursor-circle');
         let mx=0, my=0, dx=0, dy=0, cx=0, cy=0;

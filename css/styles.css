@@ -58,6 +58,40 @@
             }
         }
 
+        /* Company Theme Overrides */
+        .theme-nike {
+            --accent-color: #ff0000; /* Nike Red */
+            --surprise-color: #000;
+        }
+
+        .theme-apple {
+            --accent-color: #a2aaad; /* Apple Silver */
+            --surprise-color: #fff;
+        }
+
+        .theme-adobe {
+            --accent-color: #fa0f00; /* Adobe Red */
+            --surprise-color: #ff00ff;
+        }
+
+        .theme-spotify {
+            --accent-color: #1DB954; /* Spotify Green */
+            --surprise-color: #191414;
+        }
+
+        .theme-nike h1, .theme-nike .branding {
+            font-family: 'Archivo', sans-serif;
+            font-stretch: condensed;
+            font-weight: 900;
+        }
+
+        .theme-apple h1, .theme-apple .branding {
+            font-family: 'Archivo', sans-serif;
+            font-stretch: 100%;
+            font-weight: 300;
+            letter-spacing: -3px;
+        }
+
         #custom-cursor {
             position: fixed;
             top: 0;
@@ -1014,7 +1048,9 @@
 
         .footer-nav {
             display: flex;
+            justify-content: center;
             gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .footer-btn {
