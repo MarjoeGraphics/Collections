@@ -17,5 +17,7 @@
     "lead": "With over a decade of hands-on experience in the design industry, I have navigated the evolution from traditional print production to modern digital ecosystems. My journey is defined by a deep understanding of signage, large-format print, and brand development.",
     "bio": "I specialize in creative problem solving, ensuring that every visual not only looks premium but is technically sound for production. Currently, I am expanding my horizons into motion design, video editing, and AI-assisted workflows to stay at the forefront of visual communication.",
     "philosophy": "I believe design should be intentional, not just aesthetic. It's about bridging the gap between a brand's vision and its physical or digital reality through meticulous attention to detail and production-ready precision."
-  }
+  },
+  "defaultExpertise": ["Brand Identity & Strategy", "Signage & Large Format", "Print Production & Pre-press", "Marketing Visuals", "Creative Problem Solving"],
+  "defaultToolkit": ["Adobe Creative Suite", "After Effects & Premiere", "Figma", "Midjourney / Firefly"]
 }
