@@ -137,14 +137,23 @@
             }
         });
 
-        tl.from(".hero-title", {
-            y: 100,
+        tl.from(".hero-tagline", {
+            y: 20,
             opacity: 0,
-            duration: 1,
-            skewY: 7
+            duration: 0.8
         })
+        .from(".hero-title", {
+            y: 50,
+            opacity: 0,
+            duration: 1
+        }, "-=0.4")
         .from(".hero-subtitle", {
             y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, "-=0.6")
+        .from(".hero-location", {
+            y: 10,
             opacity: 0,
             duration: 0.8
         }, "-=0.6")
@@ -162,103 +171,147 @@
         // Scroll-Triggered Parallax
         gsap.registerPlugin(ScrollTrigger);
 
-        // Move title and subtitle at different speeds for overlap parallax
-        // Using fromTo and explicit ScrollTrigger settings to ensure reset on scroll back
-        gsap.fromTo(".hero-title",
-            { y: 0 },
-            {
-                scrollTrigger: {
-                    trigger: ".hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                    invalidateOnRefresh: true
-                },
-                y: 350, // Faster
-                ease: "none"
-            }
-        );
-
-        gsap.fromTo(".hero-subtitle",
-            { y: 0 },
-            {
-                scrollTrigger: {
-                    trigger: ".hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                    invalidateOnRefresh: true
-                },
-                y: 150, // Slower - will cause title to overlap it
-                ease: "none"
-            }
-        );
-
-        gsap.to(".hero-bg-container", {
+        // Section Stacking + Text Overlap Parallax
+        const heroTimeline = gsap.timeline({
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
                 end: "bottom top",
-                scrub: true
-            },
-            y: 100
+                scrub: true,
+                pin: true,
+                pinSpacing: false
+            }
         });
 
+        // Title moves faster than Subtitle to create overlap
+        heroTimeline.to(".hero-title", {
+            y: 300,
+            ease: "none"
+        }, 0);
+
+        heroTimeline.to(".hero-subtitle", {
+            y: 100,
+            ease: "none"
+        }, 0);
+
+        heroTimeline.to(".hero-bg-container", {
+            opacity: 0.5,
+            scale: 1.1,
+            ease: "none"
+        }, 0);
+
+        heroTimeline.to(".scroll-down", {
+            opacity: 0,
+            y: -20,
+            duration: 0.2
+        }, 0);
+
         // Modal Logic & Data
-        const projectData = {
+        const projectPairs = {
             "Visual Identity": [
-                { name: "Lumina Brand", info: "Complete brand redesign including logo, color palette, and guidelines.", mockup: "Brand Identity Mockup" },
-                { name: "Aura Skincare", info: "Minimalist packaging and identity design for a luxury skincare line.", mockup: "Packaging Design" }
+                {
+                    name: "Global Energy Rebrand",
+                    type: "Branding & Strategy",
+                    overview: "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
+                    details: "The existing brand was tethered to legacy perception and failed to reflect the company's shift towards innovative, renewable tech. Our solution was a modular visual identity system built for longevity, ensuring technical scalability across digital and large-format physical signage.",
+                    result: "30% increase in brand equity and a successful Series B funding round within six months."
+                },
+                {
+                    name: "Lumina Tech Assets",
+                    type: "Visual Communication",
+                    overview: "High-precision digital and print assets for a next-gen hardware startup.",
+                    details: "A focus on technical clarity and production-ready accuracy, ensuring that brand complexity didn't hinder manufacturing and technical documentation.",
+                    result: "Streamlined production workflows and consistent brand application across 15+ global vendors."
+                }
             ],
             "Digital Experience": [
-                { name: "Nexus App", info: "Intuitive UI/UX design for a next-gen project management platform.", mockup: "Mobile App Mockup" },
-                { name: "Zenith E-com", info: "A high-conversion e-commerce storefront with seamless navigation.", mockup: "Web Dashboard Mockup" }
+                {
+                    name: "Agency OS Platform",
+                    type: "UI/UX Design",
+                    overview: "Architecting a high-performance project management ecosystem for global creative agencies.",
+                    details: "Fragmented communication and redundant workflows were causing significant delays. We designed an intuitive platform that prioritizes deep-work states and contextual information management.",
+                    result: "45% improvement in operational efficiency across 50+ partner agencies."
+                },
+                {
+                    name: "Nexus Design System",
+                    type: "Product Strategy",
+                    overview: "A unified component library and governance model for a fintech giant.",
+                    details: "Ensuring cross-platform consistency while allowing for rapid iterative design cycles in high-stakes environments.",
+                    result: "Reduction in design-to-development handoff time by 60%."
+                }
             ],
             "Motion Design": [
-                { name: "Flow Promo", info: "Cinematic product reveal with fluid motion and abstract 3D elements.", mockup: "Motion Keyframe" },
-                { name: "Stellar Intro", info: "Dynamic logo animation and broadcast branding package.", mockup: "Animated Logo" }
+                {
+                    name: "EV SUV Launch",
+                    type: "Multimedia & Motion",
+                    overview: "A high-impact cinematic launch for a premium automotive brand's flagship electric SUV.",
+                    details: "Communicating 'luxury' and 'silent power' through a digital-first narrative using light, texture, and fluid motion.",
+                    result: "1.2M engagement across social platforms and record-breaking pre-order inquiries."
+                },
+                {
+                    name: "Quantum Reveal",
+                    type: "3D Motion",
+                    overview: "Abstract product reveal sequence for a leading semiconductor manufacturer.",
+                    details: "Visualizing the invisible through advanced fluid dynamics and light-path simulations.",
+                    result: "Featured in 3 international motion design festivals and won 'Best of Category'."
+                }
             ],
             "Brand Strategy": [
-                { name: "Insight Workshop", info: "Full strategic roadmap for a tech startup's market entry.", mockup: "Strategy Deck" },
-                { name: "Global Rebrand", info: "Multi-channel communication strategy for an international firm.", mockup: "Communication Plan" }
+                {
+                    name: "Heritage Pivot",
+                    type: "Strategic Planning",
+                    overview: "Repositioning a 50-year-old heritage retail brand for the Gen-Z market.",
+                    details: "The brand was losing market share due to an 'out-of-touch' identity. We pivoted to 'radical transparency' and community-driven co-creation.",
+                    result: "85% increase in Gen-Z audience engagement and a successful multi-city pop-up tour."
+                },
+                {
+                    name: "Vision 2030 Roadmap",
+                    type: "Brand Visioning",
+                    overview: "Long-term strategic narrative for a global manufacturing conglomerate.",
+                    details: "Defining the next decade of innovation and sustainability goals through visual storytelling and stakeholder alignment.",
+                    result: "Board-approved roadmap now guiding investment for 5 global business units."
+                }
             ]
         };
 
         const modal = document.getElementById('project-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalGrid = document.getElementById('modal-projects-grid');
         const modalClose = document.querySelector('.modal-close');
-        const projectCards = document.querySelectorAll('.project-card');
 
-        function openModal(projectTitle) {
-            modalTitle.textContent = projectTitle;
-            modalGrid.innerHTML = ''; // Clear previous content
+        function openModal(pairKey) {
+            const pair = projectPairs[pairKey];
+            if (!pair || pair.length < 2) return;
 
-            const projects = projectData[projectTitle] || [];
-            projects.forEach(proj => {
-                const projectItem = document.createElement('div');
-                projectItem.className = 'modal-project-item';
-                projectItem.innerHTML = `
-                    <div class="modal-project-image">${proj.mockup}</div>
-                    <div class="modal-project-info">
-                        <h4>${proj.name}</h4>
-                        <p>${proj.info}</p>
-                    </div>
-                `;
-                modalGrid.appendChild(projectItem);
-            });
+            // Map data to modal elements (Project One)
+            const p1 = pair[0];
+            document.querySelector('.modal-p1-name').textContent = p1.name;
+            document.querySelector('.modal-p1-type').textContent = p1.type;
+            document.querySelector('.modal-p1-overview').textContent = p1.overview;
+            document.querySelector('.modal-p1-details').textContent = p1.details;
+            document.querySelector('.modal-p1-result').textContent = p1.result;
+
+            // Map data to modal elements (Project Two)
+            const p2 = pair[1];
+            document.querySelector('.modal-p2-name').textContent = p2.name;
+            document.querySelector('.modal-p2-type').textContent = p2.type;
+            document.querySelector('.modal-p2-overview').textContent = p2.overview;
+            document.querySelector('.modal-p2-details').textContent = p2.details;
+            document.querySelector('.modal-p2-result').textContent = p2.result;
 
             modal.classList.add('active');
             modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+
+            // Animation for modal contents
+            gsap.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" });
         }
 
         function closeModal() {
             modal.classList.remove('active');
             modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = ''; // Restore scrolling
+            document.body.style.overflow = '';
         }
 
+        const projectCards = document.querySelectorAll('.project-card');
         projectCards.forEach(card => {
             card.addEventListener('click', () => {
                 const title = card.getAttribute('data-project');
@@ -276,26 +329,66 @@
             }
         });
 
-        // Magnetic Buttons Interaction
-        const magneticElements = document.querySelectorAll('.cta-button, .scroll-down, .project-card');
+        // Custom Cursor Logic
+        const cursor = document.getElementById('custom-cursor');
+        const cursorDot = cursor.querySelector('.cursor-dot');
+        const cursorCircle = cursor.querySelector('.cursor-circle');
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let dotX = 0;
+        let dotY = 0;
+        let circleX = 0;
+        let circleY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            // Smooth follow (lerp)
+            dotX += (mouseX - dotX) * 0.2;
+            dotY += (mouseY - dotY) * 0.2;
+            circleX += (mouseX - circleX) * 0.1;
+            circleY += (mouseY - circleY) * 0.1;
+
+            cursorDot.style.left = `${dotX}px`;
+            cursorDot.style.top = `${dotY}px`;
+            cursorCircle.style.left = `${circleX}px`;
+            cursorCircle.style.top = `${circleY}px`;
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor interactions
+        const interactables = document.querySelectorAll('a, button, .project-card');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // Magnetic Buttons Interaction (Limited to small elements)
+        const magneticElements = document.querySelectorAll('.footer-btn, .scroll-down, .nav-links a, #theme-toggle');
         magneticElements.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
-                const isCentered = btn.classList.contains('scroll-down') || btn.classList.contains('skip-link');
+                const isCentered = btn.classList.contains('scroll-down');
 
                 gsap.to(btn, {
-                    x: x * 0.3,
+                    x: x * 0.4,
                     xPercent: isCentered ? -50 : 0,
-                    y: y * 0.3,
+                    y: y * 0.4,
                     duration: 0.4,
                     ease: "power2.out"
                 });
             });
 
             btn.addEventListener('mouseleave', () => {
-                const isCentered = btn.classList.contains('scroll-down') || btn.classList.contains('skip-link');
+                const isCentered = btn.classList.contains('scroll-down');
                 gsap.to(btn, {
                     x: 0,
                     xPercent: isCentered ? -50 : 0,
@@ -356,30 +449,18 @@
         // Set Current Year in Footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Project Cards Stacking Effect Enhancement
+        // Project Cards Reveal Animation
         const cards = document.querySelectorAll('.project-card');
         cards.forEach((card, index) => {
-            // Slight scale down as you scroll past
-            gsap.to(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 15%",
-                    end: "bottom 15%",
-                    scrub: true
-                },
-                scale: 0.95,
-                opacity: 0.9
-            });
-
-            // Reveal from bottom animation
             gsap.from(card, {
                 scrollTrigger: {
                     trigger: card,
-                    start: "top bottom",
-                    end: "top 15%",
-                    scrub: true
+                    start: "top 95%", // Adjusted start
                 },
-                y: 100,
-                opacity: 0
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                delay: index * 0.05 // Reduced stagger for better responsive feel
             });
         });
