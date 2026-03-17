@@ -30,9 +30,10 @@ This portfolio is built with a **"Minimalist + Technical Bento"** aesthetic, emp
 This portfolio features a dynamic personalization engine that adapts the content and design based on the company you are applying to.
 
 ### How to create a targeted URL
-1. Use the format: `https://yourdomain.com/collections/company-name`
-2. Example for Nike: `https://yourdomain.com/collections/nike`
-3. If path-based URLs fail on your hosting, use: `https://yourdomain.com/index.html?for=nike`
+The most reliable way to generate a targeted view (especially on GitHub Pages) is using the `for` query parameter:
+
+1. **Preferred Method:** `https://marjoegraphics.github.io/?for=nike`
+2. **Alternative:** `https://marjoegraphics.github.io/index.html?for=apple`
 
 ### How to add a new company profile
 1. Open `data/profiles.json`.

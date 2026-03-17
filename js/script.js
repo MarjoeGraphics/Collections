@@ -6,15 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // URL Parsing for Company Detection
     function getCompanyFromURL() {
-        const path = window.location.pathname.toLowerCase();
+        // Prioritize query parameter "?for=company" as it is most reliable for GitHub Pages
         const search = new URLSearchParams(window.location.search).get('for');
 
-        // Match "/collections/company" or "?for=company"
-        const pathMatch = path.match(/\/collections\/([^\/]+)/);
-        const company = pathMatch ? pathMatch[1] : search;
+        // Secondary: check for path-based identifier in case of custom routing
+        const path = window.location.pathname.toLowerCase();
+        const pathMatch = path.match(/\/(?:collections|for)\/([^\/]+)/);
 
-        console.log('Detected Company:', company);
-        return company;
+        const company = search || (pathMatch ? pathMatch[1] : null);
+
+        console.log('Detected Company Identifier:', company);
+        return company?.toLowerCase();
     }
 
     // Fetch All Data
