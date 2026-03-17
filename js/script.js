@@ -209,36 +209,36 @@
         // Modal Logic & Data
         const projectData = {
             "Visual Identity": {
-                type: "Branding",
-                overview: "A comprehensive rebranding for a global tech firm focused on sustainable energy solutions.",
-                problem: "The previous identity was outdated and failed to communicate the company's shift towards innovative green technology.",
-                process: "Extensive market research, mood boarding, and iteration on typographic marks that evoke flow and stability.",
-                solution: "A minimalist, modular visual system that works across digital and physical touchpoints.",
-                result: "30% increase in brand recognition and a successful Series B funding round within 6 months."
+                type: "Branding & Strategy",
+                overview: "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
+                problem: "The existing brand was tethered to legacy perception and failed to reflect the company's shift towards innovative, renewable tech.",
+                process: "Strategic market positioning, stakeholder interviews, and an iterative design process focused on balancing heritage with future-readiness.",
+                solution: "A modular visual identity system built for longevity, ensuring technical scalability across digital and large-format physical signage.",
+                result: "30% increase in brand equity and a successful Series B funding round within six months of launch."
             },
             "Digital Experience": {
-                type: "UI/UX",
-                overview: "Designing a next-generation project management tool for creative agencies.",
-                problem: "Agencies were struggling with fragmented workflows and disconnected communication channels.",
-                process: "User interviews, persona mapping, and high-fidelity prototyping in Figma with focus on cognitive load reduction.",
-                solution: "A unified dashboard that prioritizes contextual information and deep work states.",
-                result: "45% reduction in project delivery time and positive feedback from 50+ beta testers."
+                type: "UI/UX Design",
+                overview: "Architecting a high-performance project management ecosystem for global creative agencies.",
+                problem: "Fragmented communication and redundant workflows were causing significant project delays and tool-fatigue.",
+                process: "User-centric research, persona mapping, and high-fidelity prototyping with a focus on cognitive load reduction.",
+                solution: "An intuitive digital platform that prioritizes deep-work states and contextual information management.",
+                result: "45% improvement in operational efficiency and positive adoption rates from over 50 partner agencies."
             },
             "Motion Design": {
-                type: "Motion",
-                overview: "Cinematic launch video for a premium automotive brand's first electric SUV.",
-                problem: "How to convey 'luxury' and 'sustainability' simultaneously without relying on traditional tropes.",
-                process: "Storyboarding, 3D simulation of abstract energy flows, and custom sound design integration.",
-                solution: "A 60-second sequence that uses light and texture to tell a story of silent power.",
-                result: "1.2M views on social media and a record number of pre-orders within the first week."
+                type: "Multimedia & Motion",
+                overview: "A high-impact cinematic launch for a premium automotive brand's flagship electric SUV.",
+                problem: "The challenge was to communicate 'luxury' and 'silent power' through a digital-first visual narrative.",
+                process: "Creative direction, storyboarding, and custom 3D motion design integrated with rhythmic sound design.",
+                solution: "A 60-second visual experience that uses light, texture, and fluid motion to tell a story of sustainable luxury.",
+                result: "1.2M engagement across social platforms and record-breaking pre-order inquiries."
             },
             "Brand Strategy": {
-                type: "Strategy",
-                overview: "Repositioning a heritage retail brand for the Gen-Z market.",
-                problem: "Declining sales and brand relevance among younger demographics due to an 'old-fashioned' image.",
-                process: "Cultural trend analysis, white space mapping, and community-led workshop sessions.",
-                solution: "A strategy centered on 'radical transparency' and community-driven product development.",
-                result: "85% increase in engagement from 18-24 year olds and a successful pop-up tour across 5 cities."
+                type: "Strategic Planning",
+                overview: "Repositioning a 50-year-old heritage retail brand for the digital-native Gen-Z market.",
+                problem: "The brand was losing market share due to an 'out-of-touch' identity and lack of community engagement.",
+                process: "Cultural trend analysis, competitive audit, and community-led strategic workshops.",
+                solution: "A strategic pivot centered on 'radical transparency' and community-driven product co-creation.",
+                result: "85% increase in Gen-Z audience engagement and a successful multi-city pop-up tour."
             }
         };
 
