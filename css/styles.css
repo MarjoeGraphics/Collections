@@ -41,23 +41,6 @@
             overflow-x: hidden;
         }
 
-        @media (hover: hover) {
-            body, a, button, .project-card {
-                cursor: none;
-            }
-        }
-
-        /* Custom Cursor */
-        #custom-cursor {
-            display: none;
-        }
-
-        @media (hover: hover) {
-            #custom-cursor {
-                display: block;
-            }
-        }
-
         /* Company Theme Overrides */
         .theme-nike {
             --accent-color: #ff0000; /* Nike Red */
@@ -92,49 +75,6 @@
             letter-spacing: -3px;
         }
 
-        #custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            margin: -4px 0 0 -4px;
-            z-index: 10000;
-            pointer-events: none;
-        }
-
-        .cursor-circle {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--accent-color);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            margin: -20px 0 0 -20px;
-            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        #custom-cursor.active .cursor-circle {
-            width: 80px;
-            height: 80px;
-            background-color: rgba(197, 160, 89, 0.1);
-            border-color: transparent;
-        }
 
         .skip-link {
             position: fixed;
@@ -556,7 +496,7 @@
             padding: 0 2rem;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: minmax(300px, auto);
+            grid-auto-rows: 350px;
             gap: 2rem;
         }
 
@@ -573,7 +513,7 @@
             flex-direction: column;
             justify-content: flex-end;
             padding: 3rem;
-            min-height: 300px;
+            height: 100%;
         }
 
         [data-theme="dark"] .project-card {
@@ -585,7 +525,7 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.12);
         }
 
-        .bento-item-large { grid-column: span 8; grid-row: span 2; min-height: 600px; }
+        .bento-item-large { grid-column: span 8; grid-row: span 2; }
         .bento-item-small { grid-column: span 4; grid-row: span 1; }
         .bento-item-medium { grid-column: span 8; grid-row: span 1; }
 
