@@ -9,7 +9,14 @@
     "expertise": ["Sports Branding", "Apparel Graphics", "Campaign Visuals", "Motion Graphics", "Bold Athletic Design"],
     "toolkit": ["After Effects", "Premiere Pro", "Illustrator", "Photoshop", "AI-Assisted Workflow"],
     "cta": "Ready to design the future of sport together at Nike?",
-    "themeClass": "theme-nike"
+    "themeClass": "theme-nike",
+    "projectOverrides": {
+      "ev-launch": {
+        "name": "Nike Run: Motion Concept",
+        "overview": "A dynamic motion study for Nike's latest performance footwear launch.",
+        "result": "Unified visual language for retail motion displays."
+      }
+    }
   },
   "apple": {
     "portfolioTitle": "Marjoe + Apple",
@@ -21,7 +28,14 @@
     "expertise": ["Product UI Design", "System Thinking", "Meticulous Typography", "UX Architecture", "Minimalist Design"],
     "toolkit": ["Figma", "Design Systems", "Prototyping", "Adobe Creative Suite", "Technical Documentation"],
     "cta": "Let's build the next generation of intuitive products at Apple.",
-    "themeClass": "theme-apple"
+    "themeClass": "theme-apple",
+    "projectOverrides": {
+      "agency-os": {
+        "name": "Apple Design Ops Tooling",
+        "overview": "Exploring system-driven project management for high-output design teams.",
+        "details": "Focused on creating a tool that matches the aesthetic and functional standards of internal Apple software."
+      }
+    }
   },
   "adobe": {
     "portfolioTitle": "Marjoe + Adobe",

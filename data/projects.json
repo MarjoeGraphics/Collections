@@ -9,6 +9,7 @@
     "isDual": true,
     "projects": [
       {
+        "id": "energy-rebrand",
         "name": "Global Energy Rebrand",
         "type": "Branding & Strategy",
         "overview": "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
@@ -21,6 +22,7 @@
         }
       },
       {
+        "id": "lumina-assets",
         "name": "Lumina Tech Assets",
         "type": "Visual Communication",
         "overview": "High-precision digital and print assets for a next-gen hardware startup.",
@@ -44,6 +46,7 @@
     "isDual": true,
     "projects": [
       {
+        "id": "agency-os",
         "name": "Agency OS Platform",
         "type": "UI/UX Design",
         "overview": "Architecting a high-performance project management ecosystem for global creative agencies.",
@@ -56,6 +59,7 @@
         }
       },
       {
+        "id": "nexus-design-system",
         "name": "Nexus Design System",
         "type": "Product Strategy",
         "overview": "A unified component library and governance model for a fintech giant.",
@@ -79,6 +83,7 @@
     "isDual": true,
     "projects": [
       {
+        "id": "ev-launch",
         "name": "EV SUV Launch",
         "type": "Multimedia & Motion",
         "overview": "A high-impact cinematic launch for a premium automotive brand's flagship electric SUV.",
@@ -91,6 +96,7 @@
         }
       },
       {
+        "id": "quantum-reveal",
         "name": "Quantum Reveal",
         "type": "3D Motion",
         "overview": "Abstract product reveal sequence for a leading semiconductor manufacturer.",
@@ -114,6 +120,7 @@
     "isDual": true,
     "projects": [
       {
+        "id": "heritage-pivot",
         "name": "Heritage Pivot",
         "type": "Strategic Planning",
         "overview": "Repositioning a 50-year-old heritage retail brand for the Gen-Z market.",
@@ -126,6 +133,7 @@
         }
       },
       {
+        "id": "vision-roadmap",
         "name": "Vision 2030 Roadmap",
         "type": "Brand Visioning",
         "overview": "Long-term strategic narrative for a global manufacturing conglomerate.",
