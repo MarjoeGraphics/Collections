@@ -26,6 +26,22 @@ This portfolio is built with a **"Minimalist + Technical Bento"** aesthetic, emp
 
 ---
 
+## 🎯 Targeted Portfolio System
+This portfolio features a dynamic personalization engine that adapts the content and design based on the company you are applying to.
+
+### How to create a targeted URL
+1. Use the format: `https://yourdomain.com/collections/company-name`
+2. Example for Nike: `https://yourdomain.com/collections/nike`
+3. If path-based URLs fail on your hosting, use: `https://yourdomain.com/index.html?for=nike`
+
+### How to add a new company profile
+1. Open `data/profiles.json`.
+2. Add a new object with the company's identifier (e.g., `"google": { ... }`).
+3. Define the overrides for `portfolioTitle`, `role`, `description`, `introLead`, `philosophy`, and `cta`.
+4. (Optional) Define a `themeClass` and add corresponding CSS in `styles.css` to adjust brand colors or typography.
+
+---
+
 ## 🛠 Maintenance & Customization
 This portfolio is refactored to separate content from layout. You can update your site without touching the HTML/CSS.
 
