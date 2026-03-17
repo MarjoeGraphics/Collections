@@ -1,0 +1,142 @@
+[
+  {
+    "id": "visual-identity",
+    "title": "Visual Identity",
+    "category": "Branding",
+    "tags": ["Branding", "Strategy"],
+    "bentoSize": "large",
+    "shortDesc": "Defining the essence of global brands through strategic design and art direction. Showcasing dual case studies.",
+    "isDual": true,
+    "projects": [
+      {
+        "name": "Global Energy Rebrand",
+        "type": "Branding & Strategy",
+        "overview": "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
+        "details": "The existing brand was tethered to legacy perception and failed to reflect the company's shift towards innovative, renewable tech. Our solution was a modular visual identity system built for longevity, ensuring technical scalability across digital and large-format physical signage.",
+        "result": "30% increase in brand equity and a successful Series B funding round within six months.",
+        "images": {
+          "main": "assets/images/energy-main.jpg",
+          "mockupA": "assets/images/energy-mockup-a.jpg",
+          "mockupB": "assets/images/energy-mockup-b.jpg"
+        }
+      },
+      {
+        "name": "Lumina Tech Assets",
+        "type": "Visual Communication",
+        "overview": "High-precision digital and print assets for a next-gen hardware startup.",
+        "details": "A focus on technical clarity and production-ready accuracy, ensuring that brand complexity didn't hinder manufacturing and technical documentation.",
+        "result": "Streamlined production workflows and consistent brand application across 15+ global vendors.",
+        "images": {
+          "main": "assets/images/lumina-main.jpg",
+          "mockupA": "assets/images/lumina-mockup-a.jpg",
+          "mockupB": "assets/images/lumina-mockup-b.jpg"
+        }
+      }
+    ]
+  },
+  {
+    "id": "digital-experience",
+    "title": "Digital Experience",
+    "category": "UI/UX",
+    "tags": ["UI/UX", "Product"],
+    "bentoSize": "small",
+    "shortDesc": "Architecting high-performance digital ecosystems.",
+    "isDual": true,
+    "projects": [
+      {
+        "name": "Agency OS Platform",
+        "type": "UI/UX Design",
+        "overview": "Architecting a high-performance project management ecosystem for global creative agencies.",
+        "details": "Fragmented communication and redundant workflows were causing significant delays. We designed an intuitive platform that prioritizes deep-work states and contextual information management.",
+        "result": "45% improvement in operational efficiency across 50+ partner agencies.",
+        "images": {
+          "main": "assets/images/agency-main.jpg",
+          "mockupA": "assets/images/agency-mockup-a.jpg",
+          "mockupB": "assets/images/agency-mockup-b.jpg"
+        }
+      },
+      {
+        "name": "Nexus Design System",
+        "type": "Product Strategy",
+        "overview": "A unified component library and governance model for a fintech giant.",
+        "details": "Ensuring cross-platform consistency while allowing for rapid iterative design cycles in high-stakes environments.",
+        "result": "Reduction in design-to-development handoff time by 60%.",
+        "images": {
+          "main": "assets/images/nexus-main.jpg",
+          "mockupA": "assets/images/nexus-mockup-a.jpg",
+          "mockupB": "assets/images/nexus-mockup-b.jpg"
+        }
+      }
+    ]
+  },
+  {
+    "id": "motion-design",
+    "title": "Motion Design",
+    "category": "Motion",
+    "tags": ["Motion", "Multimedia"],
+    "bentoSize": "small",
+    "shortDesc": "Cinematic storytelling through digital movement.",
+    "isDual": true,
+    "projects": [
+      {
+        "name": "EV SUV Launch",
+        "type": "Multimedia & Motion",
+        "overview": "A high-impact cinematic launch for a premium automotive brand's flagship electric SUV.",
+        "details": "Communicating 'luxury' and 'silent power' through a digital-first narrative using light, texture, and fluid motion.",
+        "result": "1.2M engagement across social platforms and record-breaking pre-order inquiries.",
+        "images": {
+          "main": "assets/images/ev-main.jpg",
+          "mockupA": "assets/images/ev-mockup-a.jpg",
+          "mockupB": "assets/images/ev-mockup-b.jpg"
+        }
+      },
+      {
+        "name": "Quantum Reveal",
+        "type": "3D Motion",
+        "overview": "Abstract product reveal sequence for a leading semiconductor manufacturer.",
+        "details": "Visualizing the invisible through advanced fluid dynamics and light-path simulations.",
+        "result": "Featured in 3 international motion design festivals and won 'Best of Category'.",
+        "images": {
+          "main": "assets/images/quantum-main.jpg",
+          "mockupA": "assets/images/quantum-mockup-a.jpg",
+          "mockupB": "assets/images/quantum-mockup-b.jpg"
+        }
+      }
+    ]
+  },
+  {
+    "id": "brand-strategy",
+    "title": "Brand Strategy",
+    "category": "Strategy",
+    "tags": ["Strategy", "Branding"],
+    "bentoSize": "medium",
+    "shortDesc": "Insight-driven roadmaps for sustainable brand growth.",
+    "isDual": true,
+    "projects": [
+      {
+        "name": "Heritage Pivot",
+        "type": "Strategic Planning",
+        "overview": "Repositioning a 50-year-old heritage retail brand for the Gen-Z market.",
+        "details": "The brand was losing market share due to an 'out-of-touch' identity. We pivoted to 'radical transparency' and community-driven co-creation.",
+        "result": "85% increase in Gen-Z audience engagement and a successful multi-city pop-up tour.",
+        "images": {
+          "main": "assets/images/retail-main.jpg",
+          "mockupA": "assets/images/retail-mockup-a.jpg",
+          "mockupB": "assets/images/retail-mockup-b.jpg"
+        }
+      },
+      {
+        "name": "Vision 2030 Roadmap",
+        "type": "Brand Visioning",
+        "overview": "Long-term strategic narrative for a global manufacturing conglomerate.",
+        "details": "Defining the next decade of innovation and sustainability goals through visual storytelling and stakeholder alignment.",
+        "result": "Board-approved roadmap now guiding investment for 5 global business units.",
+        "images": {
+          "main": "assets/images/vision-main.jpg",
+          "mockupA": "assets/images/vision-mockup-a.jpg",
+          "mockupB": "assets/images/vision-mockup-b.jpg"
+        }
+      }
+    ]
+  }
+]

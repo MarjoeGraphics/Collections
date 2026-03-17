@@ -74,8 +74,11 @@
             background-color: var(--accent-color);
             border-radius: 50%;
             position: fixed;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            margin: -4px 0 0 -4px;
             z-index: 10000;
+            pointer-events: none;
         }
 
         .cursor-circle {
@@ -84,9 +87,12 @@
             border: 1px solid var(--accent-color);
             border-radius: 50%;
             position: fixed;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            margin: -20px 0 0 -20px;
             transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
             z-index: 9999;
+            pointer-events: none;
         }
 
         #custom-cursor.active .cursor-circle {
@@ -485,6 +491,31 @@
             margin: 0 auto;
         }
 
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: rgba(197, 160, 89, 0.05);
+        }
+
         .bento-grid {
             max-width: 1400px;
             margin: 0 auto;
@@ -508,6 +539,7 @@
             flex-direction: column;
             justify-content: flex-end;
             padding: 3rem;
+            min-height: 300px;
         }
 
         [data-theme="dark"] .project-card {
