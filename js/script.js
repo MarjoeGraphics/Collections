@@ -9,11 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Prioritize query parameter "?for=company" as it is most reliable for GitHub Pages
         const search = new URLSearchParams(window.location.search).get('for');
 
-        // Secondary: check for path-based identifier in case of custom routing
+        // Secondary: check for hash-based identifier "#company" (clean and static-friendly)
+        const hash = window.location.hash.substring(1);
+
+        // Tertiary: check for path-based identifier in case of custom routing
         const path = window.location.pathname.toLowerCase();
         const pathMatch = path.match(/\/(?:collections|for)\/([^\/]+)/);
 
-        const company = search || (pathMatch ? pathMatch[1] : null);
+        const company = search || hash || (pathMatch ? pathMatch[1] : null);
 
         console.log('Detected Company Identifier:', company);
         return company?.toLowerCase();
