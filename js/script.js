@@ -133,18 +133,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const grid = document.getElementById('project-grid');
         grid.innerHTML = '';
 
-        let filtered = [];
+        // 1. Filter the data based on active category
+        let filtered = filter === 'all'
+            ? projectsData
+            : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
 
+        // 2. If a profile is active, sort the filtered results to prioritize featured items
         if (activeProfile?.featuredProjectIds) {
-            // Priority: Explicitly featured projects from profile
-            const featured = projectsData.filter(p => activeProfile.featuredProjectIds.includes(p.id));
-            const others = projectsData.filter(p => !activeProfile.featuredProjectIds.includes(p.id));
-            filtered = [...featured, ...others];
-        } else {
-            // Default filter logic
-            filtered = filter === 'all'
-                ? projectsData
-                : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
+            filtered.sort((a, b) => {
+                const indexA = activeProfile.featuredProjectIds.indexOf(a.id);
+                const indexB = activeProfile.featuredProjectIds.indexOf(b.id);
+
+                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                if (indexA !== -1) return -1;
+                if (indexB !== -1) return 1;
+                return 0;
+            });
         }
 
         filtered.forEach((project, index) => {
@@ -194,6 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            // When user manually filters, we reset activeProfile prioritization behavior
+            // but keep the profile content elsewhere.
             renderProjects(btn.getAttribute('data-filter'));
         });
     });
