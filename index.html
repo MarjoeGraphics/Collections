@@ -7,7 +7,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Archivo:wdth,wght@62.5..125,100..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Animation Libraries -->
@@ -84,14 +84,15 @@
             <div class="bento-grid">
                 <div class="project-card bento-item-large" data-project="Visual Identity">
                     <div class="card-bg"></div>
+                    <div class="card-split-indicator"></div>
                     <div class="card-content">
                         <div class="card-header">
-                            <span class="card-category">Branding</span>
+                            <span class="card-category">Branding & Strategy</span>
                             <span class="card-number">01</span>
                         </div>
                         <h2>Visual Identity</h2>
-                        <p>Defining the essence of global brands through strategic design and art direction.</p>
-                        <span class="card-link">Explore Case Study <i data-lucide="arrow-right"></i></span>
+                        <p>Defining the essence of global brands through strategic design and art direction. Showcasing dual case studies.</p>
+                        <span class="card-link">Explore Dual Case Study <i data-lucide="arrow-right"></i></span>
                     </div>
                 </div>
                 <div class="project-card bento-item-small" data-project="Digital Experience">
@@ -138,41 +139,65 @@
                 <button class="modal-close" aria-label="Close Modal">
                     <i data-lucide="x"></i>
                 </button>
-                <div class="modal-header">
-                    <span id="modal-project-type" class="project-type">Project Type</span>
-                    <h2 id="modal-project-name" class="project-name">Project Name</h2>
-                </div>
                 <div class="modal-scroll-area">
                     <div class="modal-body">
-                        <section class="cs-intro">
-                            <h3>Overview</h3>
-                            <p id="modal-project-overview">Short project overview text goes here.</p>
-                        </section>
-
-                        <section class="cs-visuals">
-                            <div class="visual-placeholder">Project Visual 1</div>
-                            <div class="visual-grid">
-                                <div class="visual-placeholder">Visual 2</div>
-                                <div class="visual-placeholder">Visual 3</div>
+                        <!-- Project One -->
+                        <div class="project-split-section" id="project-one">
+                            <div class="modal-header">
+                                <span class="project-type modal-p1-type">Project Type</span>
+                                <h2 class="project-name modal-p1-name">Project One Name</h2>
                             </div>
-                        </section>
+                            <section class="cs-intro">
+                                <h3>Overview</h3>
+                                <p class="modal-p1-overview">Short project overview text goes here.</p>
+                            </section>
+                            <div class="cs-details-grid">
+                                <section class="cs-detail-item">
+                                    <h3>Problem & Solution</h3>
+                                    <p class="modal-p1-details">Detailed problem and solution description.</p>
+                                </section>
+                                <section class="cs-detail-item highlight">
+                                    <h3>Impact</h3>
+                                    <p class="modal-p1-result">Final impact and outcomes.</p>
+                                </section>
+                            </div>
+                            <section class="cs-visuals">
+                                <div class="visual-placeholder">Project Case Study Visual One</div>
+                                <div class="visual-grid">
+                                    <div class="visual-placeholder">Mockup A</div>
+                                    <div class="visual-placeholder">Mockup B</div>
+                                </div>
+                            </section>
+                        </div>
 
-                        <div class="cs-details-grid">
-                            <section class="cs-detail-item">
-                                <h3>The Problem</h3>
-                                <p id="modal-project-problem">Detailed problem description.</p>
+                        <div class="modal-separator"></div>
+
+                        <!-- Project Two -->
+                        <div class="project-split-section" id="project-two">
+                            <div class="modal-header">
+                                <span class="project-type modal-p2-type">Project Type</span>
+                                <h2 class="project-name modal-p2-name">Project Two Name</h2>
+                            </div>
+                            <section class="cs-intro">
+                                <h3>Overview</h3>
+                                <p class="modal-p2-overview">Short project overview text goes here.</p>
                             </section>
-                            <section class="cs-detail-item">
-                                <h3>The Process</h3>
-                                <p id="modal-project-process">Description of the design process.</p>
-                            </section>
-                            <section class="cs-detail-item">
-                                <h3>The Solution</h3>
-                                <p id="modal-project-solution">Description of the final solution.</p>
-                            </section>
-                            <section class="cs-detail-item highlight">
-                                <h3>The Result</h3>
-                                <p id="modal-project-result">Final impact and outcomes.</p>
+                            <div class="cs-details-grid">
+                                <section class="cs-detail-item">
+                                    <h3>Problem & Solution</h3>
+                                    <p class="modal-p2-details">Detailed problem and solution description.</p>
+                                </section>
+                                <section class="cs-detail-item highlight">
+                                    <h3>Impact</h3>
+                                    <p class="modal-p2-result">Final impact and outcomes.</p>
+                                </section>
+                            </div>
+                            <section class="cs-visuals">
+                                <div class="visual-placeholder">Project Case Study Visual Two</div>
+                                <div class="visual-grid">
+                                    <div class="visual-placeholder">Mockup C</div>
+                                    <div class="visual-placeholder">Mockup D</div>
+                                </div>
                             </section>
                         </div>
                     </div>
