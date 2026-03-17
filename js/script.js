@@ -105,6 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('about-bio').textContent = configData.about.bio;
         document.getElementById('about-philosophy').textContent = configData.about.philosophy;
 
+        // Populate Skills
+        const expertiseList = document.getElementById('expertise-list');
+        const toolkitList = document.getElementById('toolkit-list');
+        const expertiseData = activeProfile?.expertise || configData.defaultExpertise;
+        const toolkitData = activeProfile?.toolkit || configData.defaultToolkit;
+
+        expertiseList.innerHTML = expertiseData.map(item => `<li>${item}</li>`).join('');
+        toolkitList.innerHTML = toolkitData.map(item => `<li>${item}</li>`).join('');
+
         const contactDescElem = document.getElementById('contact-description');
         contactDescElem.textContent = activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.";
 
@@ -124,14 +133,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const grid = document.getElementById('project-grid');
         grid.innerHTML = '';
 
-        let filtered = filter === 'all'
-            ? projectsData
-            : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
+        let filtered = [];
 
-        // In profile mode, ensure we show at least 4 items if filtered results are sparse
-        if (activeProfile && filtered.length < 4) {
-            const extra = projectsData.filter(p => !filtered.includes(p)).slice(0, 4 - filtered.length);
-            filtered = [...filtered, ...extra];
+        if (activeProfile?.featuredProjectIds) {
+            // Priority: Explicitly featured projects from profile
+            const featured = projectsData.filter(p => activeProfile.featuredProjectIds.includes(p.id));
+            const others = projectsData.filter(p => !activeProfile.featuredProjectIds.includes(p.id));
+            filtered = [...featured, ...others];
+        } else {
+            // Default filter logic
+            filtered = filter === 'all'
+                ? projectsData
+                : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
         }
 
         filtered.forEach((project, index) => {
