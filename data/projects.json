@@ -5,70 +5,70 @@
     "category": "Branding",
     "tags": ["Branding", "Strategy", "Print"],
     "bentoSize": "large",
-    "shortDesc": "Defining the essence of global brands through strategic design and art direction. Showcasing dual case studies.",
+    "shortDesc": "Creating high-impact brand faces, from friendly neighborhood services to aggressive gaming-grade identities.",
     "isDual": true,
     "projects": [
       {
-        "id": "energy-rebrand",
-        "name": "Global Energy Rebrand",
-        "type": "Branding & Strategy",
-        "overview": "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
-        "details": "The existing brand was tethered to legacy perception and failed to reflect the company's shift towards innovative, renewable tech. Our solution was a modular visual identity system built for longevity, ensuring technical scalability across digital and large-format physical signage.",
-        "result": "30% increase in brand equity and a successful Series B funding round within six months.",
+        "id": "washabor-laundry",
+        "name": "Washabor Laundry Services",
+        "type": "Identity & Mascot Design",
+        "overview": "Washabor needed a brand identity that stood out in a competitive local market by moving away from generic icons and creating a friendly face for their business.",
+        "details": "The solution features a custom-illustrated mascot paired with bubbly, fluid typography to evoke a sense of water and cleanliness. The palette uses deep navy and bright cyan for trust, accented by a 'sunny' yellow.",
+        "result": "Created a distinct visual brand that works across digital social media and physical storefront signage, leading to high brand recall.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg"
+          "main": "assets/images/mascot+name@1.5x.png",
+          "mockupA": "assets/images/washabor-storefront.jpg",
+          "mockupB": "assets/images/washabor-signage.jpg"
         }
       },
       {
-        "id": "lumina-assets",
-        "name": "Lumina Tech Assets",
-        "type": "Visual Communication",
-        "overview": "High-precision digital and print assets for a next-gen hardware startup.",
-        "details": "A focus on technical clarity and production-ready accuracy, ensuring that brand complexity didn't hinder manufacturing and technical documentation.",
-        "result": "Streamlined production workflows and consistent brand application across 15+ global vendors.",
+        "id": "digibyte-computers",
+        "name": "Digibyte",
+        "type": "Esports & Tech Branding",
+        "overview": "Digibyte needed a high-impact visual identity that resonated with the gaming and high-performance PC community. They required a 'badass' brand mark that felt aggressive and modern.",
+        "details": "I designed a fierce T-Rex skull mascot with sharp, angular linework to represent precision and power. The deep navy and cyan gradients provide a tech-focused feel, while the glowing red eye symbolizes high-energy performance.",
+        "result": "A powerful, cohesive brand identity optimized for everything from large-scale shop signage to custom PC decals and social media avatars.",
         "images": {
-          "main": "assets/images/lumina-main.jpg",
-          "mockupA": "assets/images/lumina-mockup-a.jpg",
-          "mockupB": "assets/images/lumina-mockup-b.jpg"
+          "main": "assets/images/emblem@1.5x.png",
+          "mockupA": "assets/images/digibyte-signage.jpg",
+          "mockupB": "assets/images/digibyte-display.jpg"
         }
       }
     ]
   },
   {
-    "id": "digital-experience",
-    "title": "Digital Experience",
-    "category": "UI/UX",
-    "tags": ["UI/UX", "Product", "Print"],
-    "bentoSize": "small",
-    "shortDesc": "Architecting high-performance digital ecosystems.",
+    "id": "illustration-apparel",
+    "title": "Illustration & Apparel",
+    "category": "Illustration",
+    "tags": ["Apparel Design", "Vector Art", "Streetwear"],
+    "bentoSize": "medium",
+    "shortDesc": "High-fidelity vector illustrations and custom apparel concepts featuring intricate character work and cultural motifs.",
     "isDual": true,
     "projects": [
       {
-        "id": "agency-os",
-        "name": "Agency OS Platform",
-        "type": "UI/UX Design",
-        "overview": "Architecting a high-performance project management ecosystem for global creative agencies.",
-        "details": "Fragmented communication and redundant workflows were causing significant delays. We designed an intuitive platform that prioritizes deep-work states and contextual information management.",
-        "result": "45% improvement in operational efficiency across 50+ partner agencies.",
+        "id": "skeptron-anniversary",
+        "name": "Skeptron Anniversary Shirt",
+        "type": "Anniversary Apparel Design",
+        "overview": "The client required a high-impact, commemorative illustration for the Alpha Kappa Rho anniversary that captured the strength and fiery spirit of the organization.",
+        "details": "I created a detailed dragon illustration ('Skeptron') using a vibrant five-color palette. The design focuses on aggressive linework, stippled shading for texture, and custom 'flaming' typography.",
+        "result": "A highly successful anniversary release that resonated with members, showcasing a professional balance between traditional symbols and modern streetwear illustration.",
         "images": {
-          "main": "assets/images/agency-main.jpg",
-          "mockupA": "assets/images/agency-mockup-a.jpg",
-          "mockupB": "assets/images/agency-mockup-b.jpg"
+          "main": "assets/images/Asset 3.jpg",
+          "mockupA": "assets/images/skeptron-shirt-mockup.jpg",
+          "mockupB": "assets/images/skeptron-detail.jpg"
         }
       },
       {
-        "id": "nexus-design-system",
-        "name": "Nexus Design System",
-        "type": "Product Strategy",
-        "overview": "A unified component library and governance model for a fintech giant.",
-        "details": "Ensuring cross-platform consistency while allowing for rapid iterative design cycles in high-stakes environments.",
-        "result": "Reduction in design-to-development handoff time by 60%.",
+        "id": "lucky-cat-streetwear",
+        "name": "Lucky Cat Custom Tee",
+        "type": "Streetwear Illustration",
+        "overview": "A conceptual t-shirt design blending traditional Japanese 'Maneki-neko' themes with modern urban culture and vibrant color palettes.",
+        "details": "This vector illustration uses an arched composition featuring the 'Lucky Cat' surrounded by smoke, lanterns, and stylized clouds. The four-color palette (Red, Green, Dark Brown, Gold) provides a cohesive, premium look suitable for high-end screen printing.",
+        "result": "A versatile illustrative asset ready for apparel production, demonstrating high-level mastery of line weight and thematic storytelling.",
         "images": {
-          "main": "assets/images/nexus-main.jpg",
-          "mockupA": "assets/images/nexus-mockup-a.jpg",
-          "mockupB": "assets/images/nexus-mockup-b.jpg"
+          "main": "assets/images/Asset 1.jpg",
+          "mockupA": "assets/images/lucky-cat-mockup.jpg",
+          "mockupB": "assets/images/lucky-cat-detail.jpg"
         }
       }
     ]
