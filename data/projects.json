@@ -8,18 +8,18 @@
     "shortDesc": "Defining the essence of global brands through strategic design and art direction. Showcasing dual case studies.",
     "isDual": true,
     "projects": [
-      {
-        "id": "energy-rebrand",
-        "name": "Global Energy Rebrand",
-        "type": "Branding & Strategy",
-        "overview": "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
-        "details": "The existing brand was tethered to legacy perception and failed to reflect the company's shift towards innovative, renewable tech. Our solution was a modular visual identity system built for longevity, ensuring technical scalability across digital and large-format physical signage.",
-        "result": "30% increase in brand equity and a successful Series B funding round within six months.",
-        "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg"
-        }
+        {
+          "id": "washabor-laundry",
+          "name": "Washabor Laundry Services",
+          "type": "Identity & Mascot Design",
+          "overview": "Washabor needed a brand identity that stood out in a competitive local market. They wanted to move away from generic soap-sud icons and create a memorable, friendly face for their 'Wash-Dry-Fold' business.",
+          "details": "The solution features a custom-illustrated mascot paired with bubbly, fluid typography to evoke a sense of water and cleanliness. The color palette uses deep navy and bright cyan for trust and freshness, accented by a 'sunny' yellow to highlight their core services.",
+          "result": "Created a distinct visual brand that works across digital social media and physical storefront signage, leading to high brand recall and a friendly neighborhood presence.",
+          "images": {
+            "main": "assets/images/mascot+name@1.5x.png",
+            "mockupA": "assets/images/washabor-storefront.jpg",
+            "mockupB": "assets/images/washabor-signage.jpg"
+          }
       },
       {
         "id": "lumina-assets",
