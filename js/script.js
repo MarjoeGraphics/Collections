@@ -210,32 +210,42 @@ document.addEventListener('DOMContentLoaded', () => {
         modalBody.innerHTML = '';
 
         data.projects.forEach((proj, i) => {
+            // Apply Project Overrides from Active Profile
+            const override = activeProfile?.projectOverrides?.[proj.id];
+            const displayData = override ? { ...proj, ...override } : proj;
+
             const section = document.createElement('div');
             section.className = 'project-split-section';
             section.innerHTML = `
                 <div class="modal-header">
-                    <span class="project-type">${proj.type}</span>
-                    <h2 class="project-name">${proj.name}</h2>
+                    <span class="project-type">${displayData.type}</span>
+                    <h2 class="project-name">${displayData.name}</h2>
                 </div>
                 <section class="cs-intro">
                     <h3>Overview</h3>
-                    <p>${proj.overview}</p>
+                    <p>${displayData.overview}</p>
                 </section>
                 <div class="cs-details-grid">
                     <section class="cs-detail-item">
                         <h3>Problem & Solution</h3>
-                        <p>${proj.details}</p>
+                        <p>${displayData.details}</p>
                     </section>
                     <section class="cs-detail-item highlight">
                         <h3>Impact</h3>
-                        <p>${proj.result}</p>
+                        <p>${displayData.result}</p>
                     </section>
                 </div>
                 <section class="cs-visuals">
-                    <div class="visual-placeholder">Visualizing: ${proj.name}</div>
+                    <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
+                        ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
+                    </div>
                     <div class="visual-grid">
-                        <div class="visual-placeholder">Mockup A</div>
-                        <div class="visual-placeholder">Mockup B</div>
+                        <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
+                            ${!displayData.images?.mockupA ? 'Mockup A' : ''}
+                        </div>
+                        <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
+                            ${!displayData.images?.mockupB ? 'Mockup B' : ''}
+                        </div>
                     </div>
                 </section>
             `;
