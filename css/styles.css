@@ -1025,27 +1025,6 @@
             border-top: 1px solid var(--border-color);
         }
 
-        .footer-grid {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 4rem;
-        }
-
-        .footer-info .branding {
-            margin-bottom: 1rem;
-        }
-
-        .footer-name {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-address {
-            opacity: 0.6;
-            font-size: 0.9rem;
-        }
-
         .footer-nav {
             display: flex;
             justify-content: center;
@@ -1085,13 +1064,6 @@
             .about-grid {
                 grid-template-columns: 1fr;
                 gap: 4rem;
-            }
-
-            .footer-grid {
-                flex-direction: column;
-                gap: 3rem;
-                align-items: center;
-                text-align: center;
             }
 
             .footer-nav {

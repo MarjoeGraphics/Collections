@@ -1,76 +1,72 @@
-# Marjoe M. Salto | Senior Multidisciplinary Designer
+# Marjoe | Senior Multidisciplinary Designer
 
-A high-impact, modern portfolio showcasing over a decade of design leadership, strategic thinking, and production-ready visual communication.
+A high-impact, modern portfolio system showcasing over a decade of design leadership, strategic thinking, and production-ready visual communication.
 
 ## 🚀 The Vision
-This portfolio is built with a **"Minimalist + Technical Bento"** aesthetic, emphasizing the bridge between traditional print production expertise and modern digital motion design. It utilizes advanced scroll-triggered animations to create a premium, immersive user experience.
+This portfolio is built with a **"Minimalist + Technical Bento"** aesthetic, emphasizing the bridge between traditional print production expertise and modern digital motion design. It utilizes advanced scroll-triggered animations (GSAP) to create a premium, immersive user experience.
 
 ## ✨ Key Features
+- **Dynamic Personalization Engine:** Tailor the entire site (Hero, Bio, Skills, Work) for specific job applications using simple URL identifiers.
 - **Modern Technical Bento Layout:** A responsive 12-column grid system that presents work as a curated editorial experience.
-- **Scroll-Triggered Parallax Overlap:** Complex GSAP-driven hero animations where text elements physicaly overlap on scroll, creating visual depth.
-- **Dual-Project Case Study Modals:** A unique interaction pattern where each bento card opens a shared modal featuring two distinct but related case studies.
-- **Context-Aware Custom Cursor:** A dual-element smooth-follow cursor that scales and reacts to interactive UI elements.
-- **Senior Persona-Driven Copy:** Professional narratives focused on design thinking, strategic problem solving, and real-world impact.
-
-## 🛠 Tech Stack
-- **Frontend:** Semantic HTML5, CSS3 (Modern features: Grid, Flexbox, Backdrop-blur, Clamp)
-- **Animation:** GSAP 3 (GreenSock Animation Platform) + ScrollTrigger Plugin
-- **Typography:** Archivo Narrow (Headings/Branding) & Plus Jakarta Sans (UI/Body)
-- **Icons:** Lucide Icons
-- **Performance:** Optimized for smooth 60fps animations with minimal dependency overhead.
-
-## 📂 Repository Structure
-- `index.html`: Main portfolio entry point.
-- `css/styles.css`: Centralized luxury design system and layout logic.
-- `js/script.js`: Core animation engine, project data, and interactive modal logic.
+- **Scroll-Triggered Parallax Overlap:** Sophisticated hero animations where text elements physically overlap on scroll, creating visual depth.
+- **Dual-Project Case Study Modals:** interaction pattern where a single card opens a shared modal featuring two distinct but related case studies.
+- **Maintainable Architecture:** Content (JSON) is decoupled from logic (JS) and layout (HTML/CSS).
 
 ---
 
-## 🎯 Targeted Portfolio System
-This portfolio features a dynamic personalization engine that adapts the content and design based on the company you are applying to.
+## 🎯 Targeted Portfolio System (Recruiter UX)
+This system allows you to send a recruiter a link that makes them feel like the portfolio was built specifically for them.
 
-### How to create a targeted URL
-The most reliable way to generate a tailored view for a specific company is using the following URL formats.
+### How to share tailored links
+Based on your URL: `https://marjoegraphics.github.io/Collections/`
 
-Based on your URL `https://marjoegraphics.github.io/Collections/`, you can use:
+| Company | Recommended Link (Clean Hash) | Alternative Link (Query Param) |
+| :--- | :--- | :--- |
+| **Nike** | `.../Collections/#nike` | `.../Collections/?for=nike` |
+| **Apple** | `.../Collections/#apple` | `.../Collections/?for=apple` |
+| **Adobe** | `.../Collections/#adobe` | `.../Collections/?for=adobe` |
 
-1. **Clean Hash Method (Recommended):**
-   `https://marjoegraphics.github.io/Collections/#nike`
-
-2. **Query Parameter Method:**
-   `https://marjoegraphics.github.io/Collections/?for=apple`
-
-3. **Explicit Method:**
-   `https://marjoegraphics.github.io/Collections/index.html?for=adobe`
-
-### How to add a new company profile
-1. Open `data/profiles.json`.
-2. Add a new object with the company's identifier (e.g., `"google": { ... }`).
-3. Define the overrides for `portfolioTitle`, `role`, `description`, `introLead`, `philosophy`, and `cta`.
-4. (Optional) Define a `themeClass` and add corresponding CSS in `styles.css` to adjust brand colors or typography.
+### Why use this?
+When a recruiter clicks a tailored link:
+1. The **Hero Title** changes to include their company name (e.g., "Marjoe + Apple").
+2. The **Bio & Philosophy** update to reflect the specific values of that company.
+3. The **Skills & Toolkit** prioritize the software they actually use.
+4. The **Project Order** changes to show the most relevant work first.
+5. The **Contact CTA** mentions them directly (e.g., "Let's build the next generation of products at Apple").
 
 ---
 
-## 🛠 Maintenance & Customization
-This portfolio is refactored to separate content from layout. You can update your site without touching the HTML/CSS.
+## 🛠 Step-by-Step: Customizing for a Company
+Follow this guide to create a tailored experience for a new application.
 
-### How to add/edit projects
+### 1. Define the Profile
+Open `data/profiles.json` and add a new entry (e.g., `"google": { ... }`).
+Define overrides for `portfolioTitle`, `role`, `description`, `introLead`, `philosophy`, and `cta`.
+
+### 2. Tailor Skills & Work
+Set `featuredProjectIds` to reorder projects, and customize the `expertise` and `toolkit` arrays to match the job description.
+
+### 3. Override Specific Projects (Ultimate Tailoring)
+Use the `projectOverrides` object within a profile to change the name or description of a specific case study just for that one company.
+
+### 4. Apply Brand Styling
+In `css/styles.css`, add a theme class:
+```css
+.theme-companyname {
+  --accent-color: #YOURCOLOR;
+}
+```
+
+---
+
+## 🛠 General Maintenance
+### Adding Projects
 1. Open `data/projects.json`.
-2. Add a new object to the array following the existing structure.
-3. If you want a "Dual" case study (showing two projects in one modal), set `"isDual": true` and provide two objects in the `"projects"` array.
-4. Update `"tags"` to control how the project is filtered.
+2. Add a new object to the array. Note the `id` for reordering in profiles.
+3. Update `assets/images/` and link the paths in the JSON.
 
-### How to change site settings
-1. Open `data/config.json`.
-2. Update the fields like `portfolioTitle`, `role`, `description`, or `contact` info.
-3. The site branding, hero section, and contact links will update automatically.
-
-### How to update images
-1. Place your new image files in `assets/images/`.
-2. Update the image paths in `data/projects.json` (e.g., `"assets/images/my-new-project.jpg"`).
-
-### GitHub Pages Compatibility
-The site is purely static (HTML/JS/CSS/JSON). Simply push your changes to your GitHub repository and it will serve automatically via GitHub Pages.
+### Site Settings
+Edit `data/config.json` to change your global email, default skills, or site title.
 
 ---
-© 2024 Marjoe M. Salto. Designed with intentionality and precision.
+© 2024 Marjoe. Designed with intentionality and precision.
