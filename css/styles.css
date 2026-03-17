@@ -468,6 +468,16 @@
             margin-bottom: 1rem;
         }
 
+        .section-intro {
+            font-size: 1.1rem;
+            opacity: 0.6;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
         .title-underline {
             width: 80px;
             height: 4px;
@@ -793,6 +803,37 @@
             line-height: 1.6;
             margin-bottom: 2rem;
             opacity: 0.9;
+            color: var(--accent-color);
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .philosophy-block {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(197, 160, 89, 0.05);
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .philosophy-title {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+        }
+
+        .philosophy-block p {
+            margin-bottom: 0;
+            font-style: italic;
+            font-size: 1.2rem;
         }
 
         .hire-hook {
