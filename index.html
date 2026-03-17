@@ -25,7 +25,7 @@
     <header>
         <nav class="navbar">
             <div class="nav-container">
-                <div class="branding">Marjoe</div>
+                <div class="branding" id="site-branding">Marjoe</div>
 
                 <div class="nav-links desktop-links">
                     <a href="#work">Work</a>
@@ -63,10 +63,10 @@
                 <canvas class="particles-canvas" id="particles"></canvas>
             </div>
             <div class="hero-content">
-                <div class="hero-tagline">10+ YEARS OF DESIGN LEADERSHIP</div>
-                <h1 class="hero-title">Where Strategic Design Meets Technical Precision.</h1>
-                <p class="hero-subtitle">A Senior Multidisciplinary Designer bridging the gap between bold branding and real-world production through intentional visual communication.</p>
-                <div class="hero-location">Based in Philippines • Serving Global Brands</div>
+                <div class="hero-tagline" id="hero-role">10+ YEARS OF DESIGN LEADERSHIP</div>
+                <h1 class="hero-title" id="hero-title">Where Strategic Design Meets Technical Precision.</h1>
+                <p class="hero-subtitle" id="hero-description">A Senior Multidisciplinary Designer bridging the gap between bold branding and real-world production through intentional visual communication.</p>
+                <div class="hero-location" id="hero-location">Based in Philippines • Serving Global Brands</div>
             </div>
             <a href="#work" class="scroll-down" aria-label="Scroll to work">
                 <div class="scroll-indicator-line"></div>
@@ -81,54 +81,16 @@
                 <div class="title-underline"></div>
             </div>
 
-            <div class="bento-grid">
-                <div class="project-card bento-item-large" data-project="Visual Identity">
-                    <div class="card-bg"></div>
-                    <div class="card-split-indicator"></div>
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-category">Branding & Strategy</span>
-                            <span class="card-number">01</span>
-                        </div>
-                        <h2>Visual Identity</h2>
-                        <p>Defining the essence of global brands through strategic design and art direction. Showcasing dual case studies.</p>
-                        <span class="card-link">Explore Dual Case Study <i data-lucide="arrow-right"></i></span>
-                    </div>
-                </div>
-                <div class="project-card bento-item-small" data-project="Digital Experience">
-                    <div class="card-bg"></div>
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-category">UI/UX</span>
-                            <span class="card-number">02</span>
-                        </div>
-                        <h2>Digital Experience</h2>
-                        <span class="card-link">Explore <i data-lucide="arrow-right"></i></span>
-                    </div>
-                </div>
-                <div class="project-card bento-item-small" data-project="Motion Design">
-                    <div class="card-bg"></div>
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-category">Motion</span>
-                            <span class="card-number">03</span>
-                        </div>
-                        <h2>Motion Design</h2>
-                        <span class="card-link">Explore <i data-lucide="arrow-right"></i></span>
-                    </div>
-                </div>
-                <div class="project-card bento-item-medium" data-project="Brand Strategy">
-                    <div class="card-bg"></div>
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-category">Strategy</span>
-                            <span class="card-number">04</span>
-                        </div>
-                        <h2>Brand Strategy</h2>
-                        <p>Insight-driven roadmaps for sustainable growth.</p>
-                        <span class="card-link">Explore <i data-lucide="arrow-right"></i></span>
-                    </div>
-                </div>
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="Branding">Branding</button>
+                <button class="filter-btn" data-filter="UI/UX">UI/UX</button>
+                <button class="filter-btn" data-filter="Motion">Motion</button>
+                <button class="filter-btn" data-filter="Strategy">Strategy</button>
+            </div>
+
+            <div class="bento-grid" id="project-grid">
+                <!-- Projects injected via JavaScript -->
             </div>
         </section>
 
@@ -141,65 +103,7 @@
                 </button>
                 <div class="modal-scroll-area">
                     <div class="modal-body">
-                        <!-- Project One -->
-                        <div class="project-split-section" id="project-one">
-                            <div class="modal-header">
-                                <span class="project-type modal-p1-type">Project Type</span>
-                                <h2 class="project-name modal-p1-name">Project One Name</h2>
-                            </div>
-                            <section class="cs-intro">
-                                <h3>Overview</h3>
-                                <p class="modal-p1-overview">Short project overview text goes here.</p>
-                            </section>
-                            <div class="cs-details-grid">
-                                <section class="cs-detail-item">
-                                    <h3>Problem & Solution</h3>
-                                    <p class="modal-p1-details">Detailed problem and solution description.</p>
-                                </section>
-                                <section class="cs-detail-item highlight">
-                                    <h3>Impact</h3>
-                                    <p class="modal-p1-result">Final impact and outcomes.</p>
-                                </section>
-                            </div>
-                            <section class="cs-visuals">
-                                <div class="visual-placeholder">Project Case Study Visual One</div>
-                                <div class="visual-grid">
-                                    <div class="visual-placeholder">Mockup A</div>
-                                    <div class="visual-placeholder">Mockup B</div>
-                                </div>
-                            </section>
-                        </div>
-
-                        <div class="modal-separator"></div>
-
-                        <!-- Project Two -->
-                        <div class="project-split-section" id="project-two">
-                            <div class="modal-header">
-                                <span class="project-type modal-p2-type">Project Type</span>
-                                <h2 class="project-name modal-p2-name">Project Two Name</h2>
-                            </div>
-                            <section class="cs-intro">
-                                <h3>Overview</h3>
-                                <p class="modal-p2-overview">Short project overview text goes here.</p>
-                            </section>
-                            <div class="cs-details-grid">
-                                <section class="cs-detail-item">
-                                    <h3>Problem & Solution</h3>
-                                    <p class="modal-p2-details">Detailed problem and solution description.</p>
-                                </section>
-                                <section class="cs-detail-item highlight">
-                                    <h3>Impact</h3>
-                                    <p class="modal-p2-result">Final impact and outcomes.</p>
-                                </section>
-                            </div>
-                            <section class="cs-visuals">
-                                <div class="visual-placeholder">Project Case Study Visual Two</div>
-                                <div class="visual-grid">
-                                    <div class="visual-placeholder">Mockup C</div>
-                                    <div class="visual-placeholder">Mockup D</div>
-                                </div>
-                            </section>
-                        </div>
+                        <!-- Content injected via JavaScript -->
                     </div>
                 </div>
             </div>
@@ -208,13 +112,13 @@
             <div class="container">
                 <div class="about-grid">
                     <div class="about-text">
-                        <h2 class="section-title">The Designer</h2>
-                        <p class="lead">With over a decade of hands-on experience in the design industry, I have navigated the evolution from traditional print production to modern digital ecosystems. My journey is defined by a deep understanding of signage, large-format print, and brand development.</p>
-                        <p>I specialize in creative problem solving, ensuring that every visual not only looks premium but is technically sound for production. Currently, I am expanding my horizons into motion design, video editing, and AI-assisted workflows to stay at the forefront of visual communication.</p>
+                        <h2 class="section-title" id="about-title">The Designer</h2>
+                        <p class="lead" id="about-lead">With over a decade of hands-on experience in the design industry, I have navigated the evolution from traditional print production to modern digital ecosystems. My journey is defined by a deep understanding of signage, large-format print, and brand development.</p>
+                        <p id="about-bio">I specialize in creative problem solving, ensuring that every visual not only looks premium but is technically sound for production. Currently, I am expanding my horizons into motion design, video editing, and AI-assisted workflows to stay at the forefront of visual communication.</p>
 
                         <div class="philosophy-block">
                             <h3 class="philosophy-title">Design Philosophy</h3>
-                            <p>I believe design should be intentional, not just aesthetic. It's about bridging the gap between a brand's vision and its physical or digital reality through meticulous attention to detail and production-ready precision.</p>
+                            <p id="about-philosophy">I believe design should be intentional, not just aesthetic. It's about bridging the gap between a brand's vision and its physical or digital reality through meticulous attention to detail and production-ready precision.</p>
                         </div>
 
                         <p class="hire-hook">Strategic vision. Technical execution. <strong>Let's build something enduring.</strong></p>
@@ -256,12 +160,12 @@
             <div class="container">
                 <div class="contact-content">
                     <h2 class="section-title">Let's Work Together</h2>
-                    <p>Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.</p>
-                    <a href="mailto:marjoegraphics@gmail.com" class="email-link">marjoegraphics@gmail.com</a>
-                    <div class="social-links">
-                        <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
-                        <a href="#" aria-label="Behance"><i data-lucide="behance"></i></a>
+                    <p id="contact-description">Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.</p>
+                    <a href="mailto:marjoegraphics@gmail.com" class="email-link" id="contact-email">marjoegraphics@gmail.com</a>
+                    <div class="social-links" id="social-links">
+                        <a href="#" aria-label="Instagram" id="social-instagram"><i data-lucide="instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" id="social-linkedin"><i data-lucide="linkedin"></i></a>
+                        <a href="#" aria-label="Behance" id="social-behance"><i data-lucide="behance"></i></a>
                     </div>
                 </div>
             </div>
@@ -271,7 +175,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom">
-                <p>&copy; <span id="year"></span> Marjoe M. Salto. All rights reserved.</p>
+                <p>&copy; <span id="year"></span> <span id="footer-name">Marjoe M. Salto</span>. All rights reserved.</p>
             </div>
         </div>
     </footer>

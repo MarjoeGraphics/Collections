@@ -25,4 +25,27 @@ This portfolio is built with a **"Minimalist + Technical Bento"** aesthetic, emp
 - `js/script.js`: Core animation engine, project data, and interactive modal logic.
 
 ---
+
+## 🛠 Maintenance & Customization
+This portfolio is refactored to separate content from layout. You can update your site without touching the HTML/CSS.
+
+### How to add/edit projects
+1. Open `data/projects.json`.
+2. Add a new object to the array following the existing structure.
+3. If you want a "Dual" case study (showing two projects in one modal), set `"isDual": true` and provide two objects in the `"projects"` array.
+4. Update `"tags"` to control how the project is filtered.
+
+### How to change site settings
+1. Open `data/config.json`.
+2. Update the fields like `portfolioTitle`, `role`, `description`, or `contact` info.
+3. The site branding, hero section, and contact links will update automatically.
+
+### How to update images
+1. Place your new image files in `assets/images/`.
+2. Update the image paths in `data/projects.json` (e.g., `"assets/images/my-new-project.jpg"`).
+
+### GitHub Pages Compatibility
+The site is purely static (HTML/JS/CSS/JSON). Simply push your changes to your GitHub repository and it will serve automatically via GitHub Pages.
+
+---
 © 2024 Marjoe M. Salto. Designed with intentionality and precision.

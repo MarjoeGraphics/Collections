@@ -1,383 +1,206 @@
-        // Lucide icons initialization
+document.addEventListener('DOMContentLoaded', () => {
+    let projectsData = [];
+    let configData = {};
+
+    // Fetch Config and Projects
+    async function loadData() {
+        try {
+            const [configRes, projectsRes] = await Promise.all([
+                fetch('data/config.json'),
+                fetch('data/projects.json')
+            ]);
+            configData = await configRes.json();
+            projectsData = await projectsRes.json();
+
+            initPortfolio();
+        } catch (error) {
+            console.error('Error loading data:', error);
+        }
+    }
+
+    function initPortfolio() {
+        populateConfig();
+        renderProjects('all');
+        initCommonUI();
+        initTheme();
+        initParticles();
+        initAnimations();
+        initCursor();
+    }
+
+    // Populate Config-based Content
+    function populateConfig() {
+        document.title = `${configData.portfolioTitle} - Portfolio`;
+        document.getElementById('site-branding').textContent = configData.portfolioTitle;
+        document.getElementById('hero-role').textContent = configData.role;
+        document.getElementById('hero-title').textContent = configData.portfolioTitle === 'Marjoe' ? 'Where Strategic Design Meets Technical Precision.' : configData.portfolioTitle;
+        document.getElementById('hero-description').textContent = configData.description;
+        document.getElementById('hero-location').textContent = configData.location;
+
+        document.getElementById('about-title').textContent = configData.about.title;
+        document.getElementById('about-lead').textContent = configData.about.lead;
+        document.getElementById('about-bio').textContent = configData.about.bio;
+        document.getElementById('about-philosophy').textContent = configData.about.philosophy;
+
+        document.getElementById('contact-email').textContent = configData.contact.email;
+        document.getElementById('contact-email').href = `mailto:${configData.contact.email}`;
+
+        document.getElementById('social-instagram').href = configData.contact.social.instagram;
+        document.getElementById('social-linkedin').href = configData.contact.social.linkedin;
+        document.getElementById('social-behance').href = configData.contact.social.behance;
+
+        document.getElementById('footer-name').textContent = configData.name;
+        document.getElementById('year').textContent = new Date().getFullYear();
+    }
+
+    // Render Projects Grid
+    function renderProjects(filter) {
+        const grid = document.getElementById('project-grid');
+        grid.innerHTML = '';
+
+        const filtered = filter === 'all'
+            ? projectsData
+            : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
+
+        filtered.forEach((project, index) => {
+            const card = document.createElement('div');
+            card.className = `project-card bento-item-${project.bentoSize}`;
+            card.setAttribute('data-project-id', project.id);
+
+            const num = (index + 1).toString().padStart(2, '0');
+
+            card.innerHTML = `
+                <div class="card-bg"></div>
+                ${project.isDual ? '<div class="card-split-indicator"></div>' : ''}
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">${project.tags.join(' & ')}</span>
+                        <span class="card-number">${num}</span>
+                    </div>
+                    <h2>${project.title}</h2>
+                    <p>${project.shortDesc}</p>
+                    <span class="card-link">Explore ${project.isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
+                </div>
+            `;
+
+            card.addEventListener('click', () => openModal(project.id));
+            grid.appendChild(card);
+        });
+
         lucide.createIcons();
 
-        // Theme Toggle Logic
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            body.setAttribute('data-theme', savedTheme);
-        }
-
-        themeToggle.addEventListener('click', () => {
-            const isDark = body.getAttribute('data-theme') === 'dark';
-            const newTheme = isDark ? 'light' : 'dark';
-
-            if (newTheme === 'dark') {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            }
-
-            // GSAP rotation animation for the toggle
-            gsap.to(themeToggle, {
-                rotation: "+=360",
-                duration: 0.5,
-                ease: "back.out(1.7)"
-            });
-
-            // Update cached color for particles after theme change
-            setTimeout(() => {
-                cachedParticleColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
-            }, 0);
-        });
-
-        // Mobile Menu Logic
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-menu-links a');
-
-        function toggleMobileMenu() {
-            const isOpen = mobileMenu.classList.toggle('active');
-            mobileMenuToggle.setAttribute('aria-expanded', isOpen);
-            mobileMenu.setAttribute('aria-hidden', !isOpen);
-            mobileMenuToggle.setAttribute('aria-label', isOpen ? 'Close Menu' : 'Open Menu');
-        }
-
-        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-
-        // Close mobile menu when a link is clicked
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (mobileMenu.classList.contains('active')) {
-                    toggleMobileMenu();
-                }
-            });
-        });
-
-        // Particles Animation
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let particlesArray = [];
-        let cachedParticleColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                if (this.x > canvas.width) this.x = 0;
-                else if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                else if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = cachedParticleColor;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particlesArray = [];
-            for (let i = 0; i < 100; i++) {
-                particlesArray.push(new Particle());
-            }
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-
-        // Mesh Gradient Movement
-        gsap.to(".mesh-gradient", {
-            duration: 10,
-            scale: 1.5,
-            x: "10%",
-            y: "10%",
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        // Creative Intro Animations
-        const tl = gsap.timeline({
-            defaults: { ease: "power4.out" },
-            onComplete: () => {
-                console.log("Animation complete");
-                document.body.classList.add("animation-done");
-            }
-        });
-
-        tl.from(".hero-tagline", {
-            y: 20,
-            opacity: 0,
-            duration: 0.8
-        })
-        .from(".hero-title", {
+        // Re-init reveal animations for new cards
+        gsap.from(".project-card", {
             y: 50,
             opacity: 0,
-            duration: 1
-        }, "-=0.4")
-        .from(".hero-subtitle", {
-            y: 20,
-            opacity: 0,
-            duration: 0.8
-        }, "-=0.6")
-        .from(".hero-location", {
-            y: 10,
-            opacity: 0,
-            duration: 0.8
-        }, "-=0.6")
-        .from(".scroll-down", {
-            y: 20,
-            opacity: 0,
-            duration: 0.8
-        }, "-=0.4")
-        .from(".navbar", {
-            y: -100,
-            opacity: 0,
-            duration: 1
-        }, "-=1");
-
-        // Scroll-Triggered Parallax
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Section Stacking + Text Overlap Parallax
-        const heroTimeline = gsap.timeline({
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
             scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-                pin: true,
-                pinSpacing: false
+                trigger: "#project-grid",
+                start: "top 80%"
+            }
+        });
+    }
+
+    // Filter Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProjects(btn.getAttribute('data-filter'));
+        });
+    });
+
+    // Modal Logic
+    const modal = document.getElementById('project-modal');
+    const modalClose = document.querySelector('.modal-close');
+
+    function openModal(projectId) {
+        const data = projectsData.find(p => p.id === projectId);
+        if (!data) return;
+
+        const modalBody = modal.querySelector('.modal-body');
+        modalBody.innerHTML = '';
+
+        data.projects.forEach((proj, i) => {
+            const section = document.createElement('div');
+            section.className = 'project-split-section';
+            section.innerHTML = `
+                <div class="modal-header">
+                    <span class="project-type">${proj.type}</span>
+                    <h2 class="project-name">${proj.name}</h2>
+                </div>
+                <section class="cs-intro">
+                    <h3>Overview</h3>
+                    <p>${proj.overview}</p>
+                </section>
+                <div class="cs-details-grid">
+                    <section class="cs-detail-item">
+                        <h3>Problem & Solution</h3>
+                        <p>${proj.details}</p>
+                    </section>
+                    <section class="cs-detail-item highlight">
+                        <h3>Impact</h3>
+                        <p>${proj.result}</p>
+                    </section>
+                </div>
+                <section class="cs-visuals">
+                    <div class="visual-placeholder">Visualizing: ${proj.name}</div>
+                    <div class="visual-grid">
+                        <div class="visual-placeholder">Mockup A</div>
+                        <div class="visual-placeholder">Mockup B</div>
+                    </div>
+                </section>
+            `;
+            modalBody.appendChild(section);
+
+            if (i < data.projects.length - 1) {
+                const sep = document.createElement('div');
+                sep.className = 'modal-separator';
+                modalBody.appendChild(sep);
             }
         });
 
-        // Title moves faster than Subtitle to create overlap
-        heroTimeline.to(".hero-title", {
-            y: 300,
-            ease: "none"
-        }, 0);
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
 
-        heroTimeline.to(".hero-subtitle", {
-            y: 100,
-            ease: "none"
-        }, 0);
+        gsap.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" });
+    }
 
-        heroTimeline.to(".hero-bg-container", {
-            opacity: 0.5,
-            scale: 1.1,
-            ease: "none"
-        }, 0);
+    function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
 
-        heroTimeline.to(".scroll-down", {
-            opacity: 0,
-            y: -20,
-            duration: 0.2
-        }, 0);
+    modalClose.addEventListener('click', closeModal);
+    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
 
-        // Modal Logic & Data
-        const projectPairs = {
-            "Visual Identity": [
-                {
-                    name: "Global Energy Rebrand",
-                    type: "Branding & Strategy",
-                    overview: "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
-                    details: "The existing brand was tethered to legacy perception and failed to reflect the company's shift towards innovative, renewable tech. Our solution was a modular visual identity system built for longevity, ensuring technical scalability across digital and large-format physical signage.",
-                    result: "30% increase in brand equity and a successful Series B funding round within six months."
-                },
-                {
-                    name: "Lumina Tech Assets",
-                    type: "Visual Communication",
-                    overview: "High-precision digital and print assets for a next-gen hardware startup.",
-                    details: "A focus on technical clarity and production-ready accuracy, ensuring that brand complexity didn't hinder manufacturing and technical documentation.",
-                    result: "Streamlined production workflows and consistent brand application across 15+ global vendors."
-                }
-            ],
-            "Digital Experience": [
-                {
-                    name: "Agency OS Platform",
-                    type: "UI/UX Design",
-                    overview: "Architecting a high-performance project management ecosystem for global creative agencies.",
-                    details: "Fragmented communication and redundant workflows were causing significant delays. We designed an intuitive platform that prioritizes deep-work states and contextual information management.",
-                    result: "45% improvement in operational efficiency across 50+ partner agencies."
-                },
-                {
-                    name: "Nexus Design System",
-                    type: "Product Strategy",
-                    overview: "A unified component library and governance model for a fintech giant.",
-                    details: "Ensuring cross-platform consistency while allowing for rapid iterative design cycles in high-stakes environments.",
-                    result: "Reduction in design-to-development handoff time by 60%."
-                }
-            ],
-            "Motion Design": [
-                {
-                    name: "EV SUV Launch",
-                    type: "Multimedia & Motion",
-                    overview: "A high-impact cinematic launch for a premium automotive brand's flagship electric SUV.",
-                    details: "Communicating 'luxury' and 'silent power' through a digital-first narrative using light, texture, and fluid motion.",
-                    result: "1.2M engagement across social platforms and record-breaking pre-order inquiries."
-                },
-                {
-                    name: "Quantum Reveal",
-                    type: "3D Motion",
-                    overview: "Abstract product reveal sequence for a leading semiconductor manufacturer.",
-                    details: "Visualizing the invisible through advanced fluid dynamics and light-path simulations.",
-                    result: "Featured in 3 international motion design festivals and won 'Best of Category'."
-                }
-            ],
-            "Brand Strategy": [
-                {
-                    name: "Heritage Pivot",
-                    type: "Strategic Planning",
-                    overview: "Repositioning a 50-year-old heritage retail brand for the Gen-Z market.",
-                    details: "The brand was losing market share due to an 'out-of-touch' identity. We pivoted to 'radical transparency' and community-driven co-creation.",
-                    result: "85% increase in Gen-Z audience engagement and a successful multi-city pop-up tour."
-                },
-                {
-                    name: "Vision 2030 Roadmap",
-                    type: "Brand Visioning",
-                    overview: "Long-term strategic narrative for a global manufacturing conglomerate.",
-                    details: "Defining the next decade of innovation and sustainability goals through visual storytelling and stakeholder alignment.",
-                    result: "Board-approved roadmap now guiding investment for 5 global business units."
-                }
-            ]
-        };
+    // --- RE-INTEGRATED COMMON UI LOGIC ---
 
-        const modal = document.getElementById('project-modal');
-        const modalClose = document.querySelector('.modal-close');
-
-        function openModal(pairKey) {
-            const pair = projectPairs[pairKey];
-            if (!pair || pair.length < 2) return;
-
-            // Map data to modal elements (Project One)
-            const p1 = pair[0];
-            document.querySelector('.modal-p1-name').textContent = p1.name;
-            document.querySelector('.modal-p1-type').textContent = p1.type;
-            document.querySelector('.modal-p1-overview').textContent = p1.overview;
-            document.querySelector('.modal-p1-details').textContent = p1.details;
-            document.querySelector('.modal-p1-result').textContent = p1.result;
-
-            // Map data to modal elements (Project Two)
-            const p2 = pair[1];
-            document.querySelector('.modal-p2-name').textContent = p2.name;
-            document.querySelector('.modal-p2-type').textContent = p2.type;
-            document.querySelector('.modal-p2-overview').textContent = p2.overview;
-            document.querySelector('.modal-p2-details').textContent = p2.details;
-            document.querySelector('.modal-p2-result').textContent = p2.result;
-
-            modal.classList.add('active');
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-
-            // Animation for modal contents
-            gsap.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" });
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
-
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const title = card.getAttribute('data-project');
-                openModal(title);
-            });
+    function initCommonUI() {
+        // Mobile Menu
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const menu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            const active = menu.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', active);
         });
 
-        modalClose.addEventListener('click', closeModal);
-        modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
-
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
-        });
-
-        // Custom Cursor Logic
-        const cursor = document.getElementById('custom-cursor');
-        const cursorDot = cursor.querySelector('.cursor-dot');
-        const cursorCircle = cursor.querySelector('.cursor-circle');
-
-        let mouseX = 0;
-        let mouseY = 0;
-        let dotX = 0;
-        let dotY = 0;
-        let circleX = 0;
-        let circleY = 0;
-
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animateCursor() {
-            // Smooth follow (lerp)
-            dotX += (mouseX - dotX) * 0.2;
-            dotY += (mouseY - dotY) * 0.2;
-            circleX += (mouseX - circleX) * 0.1;
-            circleY += (mouseY - circleY) * 0.1;
-
-            cursorDot.style.left = `${dotX}px`;
-            cursorDot.style.top = `${dotY}px`;
-            cursorCircle.style.left = `${circleX}px`;
-            cursorCircle.style.top = `${circleY}px`;
-
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // Cursor interactions
-        const interactables = document.querySelectorAll('a, button, .project-card');
-        interactables.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
-        });
-
-        // Magnetic Buttons Interaction (Limited to small elements)
-        const magneticElements = document.querySelectorAll('.footer-btn, .scroll-down, .nav-links a, #theme-toggle');
-        magneticElements.forEach(btn => {
+        // Magnetic Effect
+        const magnetic = document.querySelectorAll('.footer-btn, .scroll-down, .nav-links a, #theme-toggle, .filter-btn');
+        magnetic.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 const isCentered = btn.classList.contains('scroll-down');
-
                 gsap.to(btn, {
                     x: x * 0.4,
                     xPercent: isCentered ? -50 : 0,
@@ -386,7 +209,6 @@
                     ease: "power2.out"
                 });
             });
-
             btn.addEventListener('mouseleave', () => {
                 const isCentered = btn.classList.contains('scroll-down');
                 gsap.to(btn, {
@@ -399,7 +221,7 @@
             });
         });
 
-        // Scroll Progress Indicator
+        // Scroll Progress
         gsap.to("#scroll-progress", {
             width: "100%",
             ease: "none",
@@ -410,57 +232,110 @@
                 scrub: 0.3
             }
         });
+    }
 
-        // Reveal Animations for New Sections
-        gsap.from(".about-text", {
+    function initTheme() {
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') body.setAttribute('data-theme', 'dark');
+
+        themeBtn.addEventListener('click', () => {
+            const isDark = body.hasAttribute('data-theme');
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            gsap.to(themeBtn, { rotation: "+=360", duration: 0.5 });
+        });
+    }
+
+    function initParticles() {
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class P {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.vx = Math.random() * 0.5 - 0.25;
+                this.vy = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x > canvas.width) this.x = 0; else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0; else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(197, 160, 89, 0.2)';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
+            }
+        }
+
+        for(let i=0; i<80; i++) particles.push(new P());
+        function anim() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(anim);
+        }
+        anim();
+    }
+
+    function initAnimations() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Parallax
+        const heroTl = gsap.timeline({
             scrollTrigger: {
-                trigger: ".about-section",
-                start: "top 80%",
-            },
-            x: -50,
-            opacity: 0,
-            duration: 1,
-            ease: "power2.out"
+                trigger: ".hero", start: "top top", end: "bottom top", scrub: true, pin: true, pinSpacing: false
+            }
         });
+        heroTl.to("#hero-title", { y: 300, ease: "none" }, 0);
+        heroTl.to("#hero-description", { y: 100, ease: "none" }, 0);
+        heroTl.to(".hero-bg-container", { opacity: 0.5, scale: 1.1, ease: "none" }, 0);
 
-        gsap.from(".about-skills", {
-            scrollTrigger: {
-                trigger: ".about-section",
-                start: "top 80%",
-            },
-            x: 50,
-            opacity: 0,
-            duration: 1,
-            ease: "power2.out"
+        // Sections reveal
+        gsap.from(".about-text, .contact-content", {
+            scrollTrigger: { trigger: ".about-section", start: "top 80%" },
+            y: 30, opacity: 0, duration: 1, stagger: 0.2
         });
+    }
 
-        gsap.from(".contact-content > *", {
-            scrollTrigger: {
-                trigger: ".contact-section",
-                start: "top 80%",
-            },
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: "power2.out"
+    function initCursor() {
+        const cursor = document.getElementById('custom-cursor');
+        const dot = cursor.querySelector('.cursor-dot');
+        const circle = cursor.querySelector('.cursor-circle');
+        let mx=0, my=0, dx=0, dy=0, cx=0, cy=0;
+
+        window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        function loop() {
+            dx += (mx - dx) * 0.2; dy += (my - dy) * 0.2;
+            cx += (mx - cx) * 0.1; cy += (my - cy) * 0.1;
+            dot.style.transform = `translate(${dx}px, ${dy}px)`;
+            circle.style.transform = `translate(${cx}px, ${cy}px)`;
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+        document.addEventListener('mouseover', e => {
+            if (e.target.closest('a, button, .project-card')) cursor.classList.add('active');
         });
-
-        // Set Current Year in Footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Project Cards Reveal Animation
-        const cards = document.querySelectorAll('.project-card');
-        cards.forEach((card, index) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 95%", // Adjusted start
-                },
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out",
-                delay: index * 0.05 // Reduced stagger for better responsive feel
-            });
+        document.addEventListener('mouseout', e => {
+            if (e.target.closest('a, button, .project-card')) cursor.classList.remove('active');
         });
+    }
+
+    loadData();
+});
