@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initTheme();
         initParticles();
         initAnimations();
-        initCursor();
     }
 
     // Populate Config-based Content
@@ -416,31 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.from(".about-text, .contact-content", {
             scrollTrigger: { trigger: ".about-section", start: "top 80%" },
             y: 30, opacity: 0, duration: 1, stagger: 0.2
-        });
-    }
-
-    function initCursor() {
-        const cursor = document.getElementById('custom-cursor');
-        if (!cursor) return;
-        const dot = cursor.querySelector('.cursor-dot');
-        const circle = cursor.querySelector('.cursor-circle');
-        let mx=0, my=0, dx=0, dy=0, cx=0, cy=0;
-
-        window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-        function loop() {
-            dx += (mx - dx) * 0.2; dy += (my - dy) * 0.2;
-            cx += (mx - cx) * 0.1; cy += (my - cy) * 0.1;
-            dot.style.transform = `translate(${dx}px, ${dy}px)`;
-            circle.style.transform = `translate(${cx}px, ${cy}px)`;
-            requestAnimationFrame(loop);
-        }
-        loop();
-
-        document.addEventListener('mouseover', e => {
-            if (e.target.closest('a, button, .project-card')) cursor.classList.add('active');
-        });
-        document.addEventListener('mouseout', e => {
-            if (e.target.closest('a, button, .project-card')) cursor.classList.remove('active');
         });
     }
 
