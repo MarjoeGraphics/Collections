@@ -158,27 +158,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         filtered.forEach((project, index) => {
+            // Apply Card-Level Overrides from Active Profile
+            const cardOverride = activeProfile?.projectOverrides?.[project.id];
+            const displayCard = cardOverride ? { ...project, ...cardOverride } : project;
+
             const card = document.createElement('div');
-            card.className = `project-card bento-item-${project.bentoSize}`;
-            card.setAttribute('data-project-id', project.id);
+            card.className = `project-card bento-item-${displayCard.bentoSize}`;
+            card.setAttribute('data-project-id', displayCard.id);
 
             const num = (index + 1).toString().padStart(2, '0');
 
             card.innerHTML = `
                 <div class="card-bg"></div>
-                ${project.isDual ? '<div class="card-split-indicator"></div>' : ''}
+                ${displayCard.isDual ? '<div class="card-split-indicator"></div>' : ''}
                 <div class="card-content">
                     <div class="card-header">
-                        <span class="card-category">${project.tags.join(' & ')}</span>
+                        <span class="card-category">${displayCard.tags.join(' & ')}</span>
                         <span class="card-number">${num}</span>
                     </div>
-                    <h2>${project.title}</h2>
-                    <p>${project.shortDesc}</p>
-                    <span class="card-link">Explore ${project.isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
+                    <h2>${displayCard.title}</h2>
+                    <p>${displayCard.shortDesc}</p>
+                    <span class="card-link">Explore ${displayCard.isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
                 </div>
             `;
 
-            card.addEventListener('click', () => openModal(project.id));
+            card.addEventListener('click', () => openModal(displayCard.id));
             grid.appendChild(card);
         });
 
@@ -203,14 +207,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.querySelector('.modal-close');
 
     function openModal(projectId) {
-        const data = projectsData.find(p => p.id === projectId);
-        if (!data) return;
+        const originalData = projectsData.find(p => p.id === projectId);
+        if (!originalData) return;
+
+        // Apply Card-Level Overrides (which can replace the entire projects array)
+        const cardOverride = activeProfile?.projectOverrides?.[projectId];
+        const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
 
         const modalBody = modal.querySelector('.modal-body');
         modalBody.innerHTML = '';
 
         data.projects.forEach((proj, i) => {
-            // Apply Project Overrides from Active Profile
+            // Apply Inner Project Overrides from Active Profile (by inner project id)
             const override = activeProfile?.projectOverrides?.[proj.id];
             const displayData = override ? { ...proj, ...override } : proj;
 
