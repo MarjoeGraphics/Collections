@@ -47,7 +47,10 @@ Define overrides for `portfolioTitle`, `role`, `description`, `introLead`, `phil
 Set `featuredProjectIds` to reorder projects, and customize the `expertise` and `toolkit` arrays to match the job description.
 
 ### 3. Override Specific Projects (Ultimate Tailoring)
-Use the `projectOverrides` object within a profile to change the name or description of a specific case study just for that one company.
+Use the `projectOverrides` object within a profile to customize what is displayed for each project card.
+- **Card Overrides**: Change the `title`, `shortDesc`, and `tags` of the Bento grid cards.
+- **Modal Overrides**: Completely replace the `projects` array within a card to show entirely different case studies (e.g., "Brand Identity" instead of "Energy Rebrand") for a specific company.
+- **Inner Overrides**: Modify the `name`, `overview`, and `result` of specific sub-projects.
 
 ### 4. Apply Brand Styling
 In `css/styles.css`, add a theme class:
