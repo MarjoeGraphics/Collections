@@ -5,16 +5,45 @@
     "description": "Designing high-performance visual narratives and bold athletic experiences for the world's most iconic sports brand.",
     "introLead": "Pushing the boundaries of sports branding and apparel graphics through rhythmic motion and high-energy visual storytelling.",
     "philosophy": "Design is a sport. It's about movement, speed, and the relentless pursuit of human potential through intentional, performance-driven visuals.",
-    "featuredProjectIds": ["motion-design", "visual-identity"],
+    "featuredProjectIds": ["visual-identity", "illustration-animation"],
     "expertise": ["Sports Branding", "Apparel Graphics", "Campaign Visuals", "Motion Graphics", "Bold Athletic Design"],
     "toolkit": ["After Effects", "Premiere Pro", "Illustrator", "Photoshop", "AI-Assisted Workflow"],
     "cta": "Ready to design the future of sport together at Nike?",
     "themeClass": "theme-nike",
     "projectOverrides": {
-      "ev-launch": {
-        "name": "Nike Run: Motion Concept",
-        "overview": "A dynamic motion study for Nike's latest performance footwear launch.",
-        "result": "Unified visual language for retail motion displays."
+      "visual-identity": {
+        "title": "Nike Brand Identity & Assets",
+        "shortDesc": "Developing a high-performance visual language for Nike's inner departments.",
+        "projects": [
+          {
+            "id": "nike-identity",
+            "name": "Nike Brand Identity",
+            "type": "Branding & Strategy",
+            "overview": "A comprehensive branding project for Nike's new internal training division.",
+            "details": "Focused on creating a visual language that aligns with Nike's global heritage while offering something fresh for internal teams.",
+            "result": "Unified brand application across all training materials.",
+            "images": {
+              "main": "assets/images/energy-main.jpg",
+              "mockupA": "assets/images/energy-mockup-a.jpg",
+              "mockupB": "assets/images/energy-mockup-b.jpg",
+              "mockupC": "assets/images/energy-mockup-c.jpg"
+            }
+          },
+          {
+            "id": "nike-vector",
+            "name": "Logo Vectorize",
+            "type": "Visual Production",
+            "overview": "High-precision vectorization of hand-drawn sketches for the Nike Heritage collection.",
+            "details": "Ensuring perfect curves and production-ready files for screen printing and embroidery.",
+            "result": "Scalable assets delivered for the 2024 Heritage line.",
+            "images": {
+              "main": "assets/images/lumina-main.jpg",
+              "mockupA": "assets/images/lumina-mockup-a.jpg",
+              "mockupB": "assets/images/lumina-mockup-b.jpg",
+              "mockupC": "assets/images/lumina-mockup-c.jpg"
+            }
+          }
+        ]
       }
     }
   },
@@ -24,16 +53,45 @@
     "description": "Crafting intuitive, minimalist digital experiences with a focus on meticulous typography and holistic system thinking.",
     "introLead": "A decade of experience bridging the gap between sophisticated branding and high-precision product design for seamless user ecosystems.",
     "philosophy": "Design is invisible. It's the silent bridge between complex technology and human intuition, achieved through radical simplicity and relentless precision.",
-    "featuredProjectIds": ["digital-experience", "brand-strategy"],
+    "featuredProjectIds": ["digital-web", "visual-identity"],
     "expertise": ["Product UI Design", "System Thinking", "Meticulous Typography", "UX Architecture", "Minimalist Design"],
     "toolkit": ["Figma", "Design Systems", "Prototyping", "Adobe Creative Suite", "Technical Documentation"],
     "cta": "Let's build the next generation of intuitive products at Apple.",
     "themeClass": "theme-apple",
     "projectOverrides": {
-      "agency-os": {
-        "name": "Apple Design Ops Tooling",
-        "overview": "Exploring system-driven project management for high-output design teams.",
-        "details": "Focused on creating a tool that matches the aesthetic and functional standards of internal Apple software."
+      "digital-web": {
+        "title": "Apple Ecosystem Design",
+        "shortDesc": "Crafting seamless digital and physical touchpoints for the Apple ecosystem.",
+        "projects": [
+          {
+            "id": "apple-ui",
+            "name": "Apple UI/UX Design",
+            "type": "Product Design",
+            "overview": "Designing the next generation of internal productivity tools for Apple designers.",
+            "details": "A focus on meticulous typography and holistic system thinking to ensure tools feel native to the Apple OS.",
+            "result": "Streamlined internal workflows for 200+ designers.",
+            "images": {
+              "main": "assets/images/agency-main.jpg",
+              "mockupA": "assets/images/agency-mockup-a.jpg",
+              "mockupB": "assets/images/agency-mockup-b.jpg",
+              "mockupC": "assets/images/agency-mockup-c.jpg"
+            }
+          },
+          {
+            "id": "apple-print",
+            "name": "Printable Assets",
+            "type": "Print Production",
+            "overview": "Developing high-precision printable documentation for hardware prototype assembly.",
+            "details": "Ensuring technical clarity and production-ready accuracy for physical assembly guides.",
+            "result": "Zero-error assembly rate in initial prototype runs.",
+            "images": {
+              "main": "assets/images/nexus-main.jpg",
+              "mockupA": "assets/images/nexus-mockup-a.jpg",
+              "mockupB": "assets/images/nexus-mockup-b.jpg",
+              "mockupC": "assets/images/nexus-mockup-c.jpg"
+            }
+          }
+        ]
       }
     }
   },
