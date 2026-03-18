@@ -19,5 +19,6 @@
     "philosophy": "I believe design should be intentional, not just aesthetic. It's about bridging the gap between a brand's vision and its physical or digital reality through meticulous attention to detail and production-ready precision."
   },
   "defaultExpertise": ["Brand Identity & Strategy", "Signage & Large Format", "Print Production & Pre-press", "Marketing Visuals", "Creative Problem Solving"],
-  "defaultToolkit": ["Adobe Creative Suite", "After Effects & Premiere", "Figma", "Midjourney / Firefly"]
+  "defaultToolkit": ["Adobe Creative Suite", "After Effects & Premiere", "Figma", "Midjourney / Firefly"],
+  "featuredProjectIds": ["visual-identity", "corporate-marketing", "print-promotional", "digital-web", "illustration-animation"]
 }

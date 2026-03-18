@@ -133,17 +133,28 @@ document.addEventListener('DOMContentLoaded', () => {
             ? projectsData
             : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
 
-        // 2. If a profile is active, sort the filtered results to prioritize featured items
-        if (activeProfile?.featuredProjectIds) {
-            filtered.sort((a, b) => {
-                const indexA = activeProfile.featuredProjectIds.indexOf(a.id);
-                const indexB = activeProfile.featuredProjectIds.indexOf(b.id);
+        // 2. Determine which featured project list to use
+        const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
 
-                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-                if (indexA !== -1) return -1;
-                if (indexB !== -1) return 1;
-                return 0;
-            });
+        // 3. Sort or filter based on featured IDs if they exist
+        if (featuredIds) {
+            // If it's the 'all' view, we can use the list to define order and selection
+            if (filter === 'all') {
+                // Map the featured IDs back to project objects, filtering out any missing ones
+                filtered = featuredIds
+                    .map(id => projectsData.find(p => p.id === id))
+                    .filter(p => p !== undefined);
+            } else {
+                // For filtered views, just prioritize the featured items at the top
+                filtered.sort((a, b) => {
+                    const indexA = featuredIds.indexOf(a.id);
+                    const indexB = featuredIds.indexOf(b.id);
+                    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                    if (indexA !== -1) return -1;
+                    if (indexB !== -1) return 1;
+                    return 0;
+                });
+            }
         }
 
         filtered.forEach((project, index) => {
