@@ -8,9 +8,8 @@ This portfolio is built with a **"Minimalist + Technical Bento"** aesthetic, emp
 ## ✨ Key Features
 - **Dynamic Personalization Engine:** Tailor the entire site (Hero, Bio, Skills, Work) for specific job applications using simple URL identifiers.
 - **Modern Technical Bento Layout:** A responsive 12-column grid system that presents work as a curated editorial experience.
-- **Scroll-Triggered Parallax Overlap:** Sophisticated hero animations where text elements physically overlap on scroll, creating visual depth.
+- **Modular Profile System:** Fully separate project cards from project content to allow ultimate tailoring for different companies.
 - **Dual-Project Case Study Modals:** interaction pattern where a single card opens a shared modal featuring two distinct but related case studies.
-- **Maintainable Architecture:** Content (JSON) is decoupled from logic (JS) and layout (HTML/CSS).
 
 ---
 
@@ -24,49 +23,57 @@ Based on your URL: `https://marjoegraphics.github.io/Collections/`
 | :--- | :--- | :--- |
 | **Nike** | `.../Collections/#nike` | `.../Collections/?for=nike` |
 | **Apple** | `.../Collections/#apple` | `.../Collections/?for=apple` |
-| **Adobe** | `.../Collections/#adobe` | `.../Collections/?for=adobe` |
 
 ### Why use this?
 When a recruiter clicks a tailored link:
-1. The **Hero Title** changes to include their company name (e.g., "Marjoe + Apple").
+1. The **Hero Title** changes to include their company name (e.g., "Marjoe + Nike").
 2. The **Bio & Philosophy** update to reflect the specific values of that company.
-3. The **Skills & Toolkit** prioritize the software they actually use.
-4. The **Project Order** changes to show the most relevant work first.
-5. The **Contact CTA** mentions them directly (e.g., "Let's build the next generation of products at Apple").
+3. The **Featured Work** is completely customized—showing specific cards and specific projects that match their needs.
 
 ---
 
-## 🛠 Step-by-Step: Customizing for a Company
-Follow this guide to create a tailored experience for a new application.
+## 🛠 Modular Profile Customization
+Profiles are defined in `data/profiles.json`. Each profile now uses a modular structure to separate **Cards** (what you see on the home page) from **Projects** (what you see inside the modal).
 
-### 1. Define the Profile
-Open `data/profiles.json` and add a new entry (e.g., `"google": { ... }`).
-Define overrides for `portfolioTitle`, `role`, `description`, `introLead`, `philosophy`, and `cta`.
+### 1. The `cards` List
+Define which Bento cards appear for this profile. You can override the title, description, tags, and size.
+```json
+"cards": [
+  {
+    "id": "visual-identity",
+    "title": "Nike Brand Identity & Assets",
+    "shortDesc": "Tailored description for Nike...",
+    "tags": ["Branding", "Production"],
+    "bentoSize": "large"
+  }
+]
+```
 
-### 2. Tailor Skills & Work
-Set `featuredProjectIds` to reorder projects, and customize the `expertise` and `toolkit` arrays to match the job description.
-
-### 3. Override Specific Projects (Ultimate Tailoring)
-Use the `projectOverrides` object within a profile to customize what is displayed for each project card.
-- **Card Overrides**: Change the `title`, `shortDesc`, and `tags` of the Bento grid cards.
-- **Modal Overrides**: Completely replace the `projects` array within a card to show entirely different case studies (e.g., "Brand Identity" instead of "Energy Rebrand") for a specific company.
-- **Inner Overrides**: Modify the `name`, `overview`, and `result` of specific sub-projects.
-
-### 4. Apply Brand Styling
-In `css/styles.css`, add a theme class:
-```css
-.theme-companyname {
-  --accent-color: #YOURCOLOR;
+### 2. The `projects` Library
+Define the specific case studies that appear inside the modal when a card is clicked. Link them using the **Card ID**.
+```json
+"projects": {
+  "visual-identity": [
+    {
+      "id": "nike-identity",
+      "name": "Nike Brand Identity",
+      "overview": "Custom overview text...",
+      "result": "Success metrics for Nike...",
+      "images": { ... }
+    }
+  ]
 }
 ```
+
+### 3. Linking them together
+The system automatically links the `cards` to the `projects` list using the `id` field. If you define a card with `id: "visual-identity"`, the site will look for `projects["visual-identity"]` in the same profile to populate the modal.
 
 ---
 
 ## 🛠 General Maintenance
-### Adding Projects
+### Adding Global Projects
 1. Open `data/projects.json`.
-2. Add a new object to the array. Note the `id` for reordering in profiles.
-3. Update `assets/images/` and link the paths in the JSON.
+2. Add a new object to the array. This serves as the fallback if a profile doesn't have custom projects defined.
 
 ### Site Settings
 Edit `data/config.json` to change your global email, default skills, or site title.
