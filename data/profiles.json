@@ -19,7 +19,7 @@
     }
   },
   "apple": {
-    "portfolioTitle": "Marjoe + Apple",
+    "heroTitle": "Marjoe + Apple",
     "role": "Product & Systems Designer",
     "description": "Crafting intuitive, minimalist digital experiences with a focus on meticulous typography and holistic system thinking.",
     "introLead": "A decade of experience bridging the gap between sophisticated branding and high-precision product design for seamless user ecosystems.",
@@ -38,7 +38,7 @@
     }
   },
   "adobe": {
-    "portfolioTitle": "Marjoe + Adobe",
+    "heroTitle": "Marjoe + Adobe",
     "role": "Creative Workflow Strategist",
     "description": "Empowering creators through innovative design workflows, motion experiments, and strategic multimedia storytelling.",
     "introLead": "Exploring the intersection of creative tools and human expression through advanced motion graphics and AI-assisted design workflows.",
@@ -50,7 +50,7 @@
     "themeClass": "theme-adobe"
   },
   "spotify": {
-    "portfolioTitle": "Marjoe + Spotify",
+    "heroTitle": "Marjoe + Spotify",
     "role": "Experience & Brand Designer",
     "description": "Creating vibrant, culture-led visual experiences that synchronize brand identity with personal human moments.",
     "introLead": "Designing at the rhythm of culture, focused on data-driven branding and immersive multimedia campaigns for a global audio community.",
