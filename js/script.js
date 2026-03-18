@@ -51,10 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Personalization Overrides
     function applyProfileOverrides() {
-        console.log('Applying profile overrides for:', activeProfile.portfolioTitle);
+        console.log('Applying profile overrides for:', activeProfile.heroTitle);
 
         // Merge profile into config
-        configData.portfolioTitle = activeProfile.portfolioTitle;
+        configData.portfolioTitle = activeProfile.heroTitle;
         configData.role = activeProfile.role;
         configData.description = activeProfile.description;
         configData.about.lead = activeProfile.introLead || configData.about.lead;
@@ -88,13 +88,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Populate Config-based Content
     function populateConfig() {
-        document.title = `${configData.portfolioTitle} - Portfolio`;
-        document.getElementById('site-branding').textContent = configData.portfolioTitle;
+        // Browser tab title
+        document.title = activeProfile
+            ? `${activeProfile.heroTitle} - Portfolio`
+            : `${configData.portfolioTitle} - Portfolio`;
+
+        // Navbar branding - Always "Marjoe" or the name from config
+        document.getElementById('site-branding').textContent = configData.name;
         document.getElementById('hero-role').textContent = configData.role;
 
-        // Use custom title if profile exists, otherwise default
+        // Use custom hero headline if profile exists, otherwise default
         const heroTitleElem = document.getElementById('hero-title');
-        heroTitleElem.textContent = activeProfile ? activeProfile.portfolioTitle : "Where Strategic Design Meets Technical Precision.";
+        heroTitleElem.textContent = activeProfile
+            ? activeProfile.heroTitle
+            : "Where Strategic Design Meets Technical Precision.";
 
         document.getElementById('hero-description').textContent = configData.description;
         document.getElementById('hero-location').textContent = configData.location;
