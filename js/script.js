@@ -251,6 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
                             ${!displayData.images?.mockupB ? 'Mockup B' : ''}
                         </div>
+                        <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover;"` : ''}>
+                            ${!displayData.images?.mockupC ? 'Mockup C' : ''}
+                        </div>
                     </div>
                 </section>
             `;
