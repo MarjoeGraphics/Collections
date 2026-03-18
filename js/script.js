@@ -128,57 +128,66 @@ document.addEventListener('DOMContentLoaded', () => {
         const grid = document.getElementById('project-grid');
         grid.innerHTML = '';
 
-        // 1. Filter the data based on active category
-        let filtered = filter === 'all'
-            ? projectsData
-            : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
+        let filtered = [];
 
-        // 2. Determine which featured project list to use
-        const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
+        // 1. Check if the active profile has a modular "cards" definition
+        if (activeProfile?.cards && filter === 'all') {
+            filtered = activeProfile.cards;
+        } else {
+            // Fallback to original filtering logic
+            filtered = filter === 'all'
+                ? projectsData
+                : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
 
-        // 3. Sort or filter based on featured IDs if they exist
-        if (featuredIds) {
-            // If it's the 'all' view, we can use the list to define order and selection
-            if (filter === 'all') {
-                // Map the featured IDs back to project objects, filtering out any missing ones
-                filtered = featuredIds
-                    .map(id => projectsData.find(p => p.id === id))
-                    .filter(p => p !== undefined);
-            } else {
-                // For filtered views, just prioritize the featured items at the top
-                filtered.sort((a, b) => {
-                    const indexA = featuredIds.indexOf(a.id);
-                    const indexB = featuredIds.indexOf(b.id);
-                    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-                    if (indexA !== -1) return -1;
-                    if (indexB !== -1) return 1;
-                    return 0;
-                });
+            // Determine which featured project list to use
+            const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
+
+            // Sort or filter based on featured IDs if they exist
+            if (featuredIds) {
+                if (filter === 'all') {
+                    filtered = featuredIds
+                        .map(id => projectsData.find(p => p.id === id))
+                        .filter(p => p !== undefined);
+                } else {
+                    filtered.sort((a, b) => {
+                        const indexA = featuredIds.indexOf(a.id);
+                        const indexB = featuredIds.indexOf(b.id);
+                        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                        if (indexA !== -1) return -1;
+                        if (indexB !== -1) return 1;
+                        return 0;
+                    });
+                }
             }
         }
 
-        filtered.forEach((project, index) => {
-            // Apply Card-Level Overrides from Active Profile
-            const cardOverride = activeProfile?.projectOverrides?.[project.id];
-            const displayCard = cardOverride ? { ...project, ...cardOverride } : project;
+        filtered.forEach((cardData, index) => {
+            // Look for a match in projectsData for defaults, but prioritize cardData
+            const baseProject = projectsData.find(p => p.id === cardData.id) || {};
+            const displayCard = { ...baseProject, ...cardData };
 
             const card = document.createElement('div');
-            card.className = `project-card bento-item-${displayCard.bentoSize}`;
+            card.className = `project-card bento-item-${displayCard.bentoSize || 'medium'}`;
             card.setAttribute('data-project-id', displayCard.id);
 
             const num = (index + 1).toString().padStart(2, '0');
 
+            // Determine if it should show as a Dual Case Study
+            // If the profile has custom projects for this card, check that list.
+            const customProjects = activeProfile?.projects?.[displayCard.id];
+            const isDual = customProjects ? customProjects.length > 1 : displayCard.isDual;
+
             card.innerHTML = `
                 <div class="card-bg"></div>
-                ${displayCard.isDual ? '<div class="card-split-indicator"></div>' : ''}
+                ${isDual ? '<div class="card-split-indicator"></div>' : ''}
                 <div class="card-content">
                     <div class="card-header">
-                        <span class="card-category">${displayCard.tags.join(' & ')}</span>
+                        <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
                         <span class="card-number">${num}</span>
                     </div>
                     <h2>${displayCard.title}</h2>
                     <p>${displayCard.shortDesc}</p>
-                    <span class="card-link">Explore ${displayCard.isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
+                    <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
                 </div>
             `;
 
@@ -207,18 +216,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.querySelector('.modal-close');
 
     function openModal(projectId) {
-        const originalData = projectsData.find(p => p.id === projectId);
-        if (!originalData) return;
+        // 1. Check for custom project list in the new modular structure
+        let projectsList = activeProfile?.projects?.[projectId];
 
-        // Apply Card-Level Overrides (which can replace the entire projects array)
-        const cardOverride = activeProfile?.projectOverrides?.[projectId];
-        const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
+        // 2. Fallback to original project data
+        if (!projectsList) {
+            const originalData = projectsData.find(p => p.id === projectId);
+            if (!originalData) return;
+
+            // Apply legacy Card-Level Overrides if they exist
+            const cardOverride = activeProfile?.projectOverrides?.[projectId];
+            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
+            projectsList = data.projects;
+        }
 
         const modalBody = modal.querySelector('.modal-body');
         modalBody.innerHTML = '';
 
-        data.projects.forEach((proj, i) => {
-            // Apply Inner Project Overrides from Active Profile (by inner project id)
+        projectsList.forEach((proj, i) => {
+            // Apply legacy Inner Project Overrides from Active Profile (by inner project id)
             const override = activeProfile?.projectOverrides?.[proj.id];
             const displayData = override ? { ...proj, ...override } : proj;
 
@@ -262,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             modalBody.appendChild(section);
 
-            if (i < data.projects.length - 1) {
+            if (i < projectsList.length - 1) {
                 const sep = document.createElement('div');
                 sep.className = 'modal-separator';
                 modalBody.appendChild(sep);
