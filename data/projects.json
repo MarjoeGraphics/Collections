@@ -1,7 +1,7 @@
 [
   {
     "id": "visual-identity",
-    "title": "Visual Identity",
+    "title": "Visual Identity & Branding",
     "category": "Branding",
     "tags": ["Branding", "Strategy", "Print"],
     "bentoSize": "large",
@@ -18,7 +18,8 @@
         "images": {
           "main": "assets/images/energy-main.jpg",
           "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg"
+          "mockupB": "assets/images/energy-mockup-b.jpg",
+          "mockupC": "assets/images/energy-mockup-c.jpg"
         }
       },
       {
@@ -31,14 +32,79 @@
         "images": {
           "main": "assets/images/lumina-main.jpg",
           "mockupA": "assets/images/lumina-mockup-a.jpg",
-          "mockupB": "assets/images/lumina-mockup-b.jpg"
+          "mockupB": "assets/images/lumina-mockup-b.jpg",
+          "mockupC": "assets/images/lumina-mockup-c.jpg"
         }
       }
     ]
   },
   {
-    "id": "digital-experience",
-    "title": "Digital Experience",
+    "id": "corporate-marketing",
+    "title": "Corporate & Marketing Collateral",
+    "category": "Strategy",
+    "tags": ["Strategy", "Branding"],
+    "bentoSize": "medium",
+    "shortDesc": "Insight-driven roadmaps and collateral for sustainable brand growth.",
+    "isDual": true,
+    "projects": [
+      {
+        "id": "heritage-pivot",
+        "name": "Heritage Pivot",
+        "type": "Strategic Planning",
+        "overview": "Repositioning a 50-year-old heritage retail brand for the Gen-Z market.",
+        "details": "The brand was losing market share due to an 'out-of-touch' identity. We pivoted to 'radical transparency' and community-driven co-creation.",
+        "result": "85% increase in Gen-Z audience engagement and a successful multi-city pop-up tour.",
+        "images": {
+          "main": "assets/images/retail-main.jpg",
+          "mockupA": "assets/images/retail-mockup-a.jpg",
+          "mockupB": "assets/images/retail-mockup-b.jpg",
+          "mockupC": "assets/images/retail-mockup-c.jpg"
+        }
+      },
+      {
+        "id": "vision-roadmap",
+        "name": "Vision 2030 Roadmap",
+        "type": "Brand Visioning",
+        "overview": "Long-term strategic narrative for a global manufacturing conglomerate.",
+        "details": "Defining the next decade of innovation and sustainability goals through visual storytelling and stakeholder alignment.",
+        "result": "Board-approved roadmap now guiding investment for 5 global business units.",
+        "images": {
+          "main": "assets/images/vision-main.jpg",
+          "mockupA": "assets/images/vision-mockup-a.jpg",
+          "mockupB": "assets/images/vision-mockup-b.jpg",
+          "mockupC": "assets/images/vision-mockup-c.jpg"
+        }
+      }
+    ]
+  },
+  {
+    "id": "print-promotional",
+    "title": "Print & Promotional Materials",
+    "category": "Print",
+    "tags": ["Print", "Branding"],
+    "bentoSize": "small",
+    "shortDesc": "Tactile brand experiences and high-precision print production.",
+    "isDual": false,
+    "projects": [
+      {
+        "id": "print-study",
+        "name": "Promotional Material Suite",
+        "type": "Print Production",
+        "overview": "Designing and overseeing production for a premium physical brand rollout.",
+        "details": "Ensuring color accuracy and material tactility across various substrates, from large-format signage to specialized business stationery.",
+        "result": "Consistent brand application across 100% of physical touchpoints.",
+        "images": {
+          "main": "assets/images/print-main.jpg",
+          "mockupA": "assets/images/print-mockup-a.jpg",
+          "mockupB": "assets/images/print-mockup-b.jpg",
+          "mockupC": "assets/images/print-mockup-c.jpg"
+        }
+      }
+    ]
+  },
+  {
+    "id": "digital-web",
+    "title": "Digital & Web Design",
     "category": "UI/UX",
     "tags": ["UI/UX", "Product", "Print"],
     "bentoSize": "small",
@@ -55,7 +121,8 @@
         "images": {
           "main": "assets/images/agency-main.jpg",
           "mockupA": "assets/images/agency-mockup-a.jpg",
-          "mockupB": "assets/images/agency-mockup-b.jpg"
+          "mockupB": "assets/images/agency-mockup-b.jpg",
+          "mockupC": "assets/images/agency-mockup-c.jpg"
         }
       },
       {
@@ -68,18 +135,19 @@
         "images": {
           "main": "assets/images/nexus-main.jpg",
           "mockupA": "assets/images/nexus-mockup-a.jpg",
-          "mockupB": "assets/images/nexus-mockup-b.jpg"
+          "mockupB": "assets/images/nexus-mockup-b.jpg",
+          "mockupC": "assets/images/nexus-mockup-c.jpg"
         }
       }
     ]
   },
   {
-    "id": "motion-design",
-    "title": "Motion Design",
+    "id": "illustration-animation",
+    "title": "Illustration, Animation & Audio",
     "category": "Motion",
     "tags": ["Motion", "Multimedia"],
-    "bentoSize": "small",
-    "shortDesc": "Cinematic storytelling through digital movement.",
+    "bentoSize": "large",
+    "shortDesc": "Cinematic storytelling and rhythmic visual movement.",
     "isDual": true,
     "projects": [
       {
@@ -92,7 +160,8 @@
         "images": {
           "main": "assets/images/ev-main.jpg",
           "mockupA": "assets/images/ev-mockup-a.jpg",
-          "mockupB": "assets/images/ev-mockup-b.jpg"
+          "mockupB": "assets/images/ev-mockup-b.jpg",
+          "mockupC": "assets/images/ev-mockup-c.jpg"
         }
       },
       {
@@ -105,68 +174,8 @@
         "images": {
           "main": "assets/images/quantum-main.jpg",
           "mockupA": "assets/images/quantum-mockup-a.jpg",
-          "mockupB": "assets/images/quantum-mockup-b.jpg"
-        }
-      }
-    ]
-  },
-  {
-    "id": "brand-strategy",
-    "title": "Brand Strategy",
-    "category": "Strategy",
-    "tags": ["Strategy", "Branding"],
-    "bentoSize": "medium",
-    "shortDesc": "Insight-driven roadmaps for sustainable brand growth.",
-    "isDual": true,
-    "projects": [
-      {
-        "id": "heritage-pivot",
-        "name": "Heritage Pivot",
-        "type": "Strategic Planning",
-        "overview": "Repositioning a 50-year-old heritage retail brand for the Gen-Z market.",
-        "details": "The brand was losing market share due to an 'out-of-touch' identity. We pivoted to 'radical transparency' and community-driven co-creation.",
-        "result": "85% increase in Gen-Z audience engagement and a successful multi-city pop-up tour.",
-        "images": {
-          "main": "assets/images/retail-main.jpg",
-          "mockupA": "assets/images/retail-mockup-a.jpg",
-          "mockupB": "assets/images/retail-mockup-b.jpg"
-        }
-      },
-      {
-        "id": "vision-roadmap",
-        "name": "Vision 2030 Roadmap",
-        "type": "Brand Visioning",
-        "overview": "Long-term strategic narrative for a global manufacturing conglomerate.",
-        "details": "Defining the next decade of innovation and sustainability goals through visual storytelling and stakeholder alignment.",
-        "result": "Board-approved roadmap now guiding investment for 5 global business units.",
-        "images": {
-          "main": "assets/images/vision-main.jpg",
-          "mockupA": "assets/images/vision-mockup-a.jpg",
-          "mockupB": "assets/images/vision-mockup-b.jpg"
-        }
-      }
-    ]
-  },
-  {
-    "id": "selected-work-site",
-    "title": "Selected Work Website",
-    "category": "Multimedia",
-    "tags": ["Multimedia", "UI/UX", "Print"],
-    "bentoSize": "large",
-    "shortDesc": "A high-performance digital showcase for design leadership.",
-    "isDual": false,
-    "projects": [
-      {
-        "id": "portfolio-refactor",
-        "name": "Portfolio System Design",
-        "type": "Web & Product Design",
-        "overview": "Architecting a maintainable, data-driven portfolio system for senior creative professionals.",
-        "details": "The challenge was to create a site that feels premium and hand-crafted while being powered by a rigid JSON architecture for easy content updates and company-targeted personalization.",
-        "result": "A 95% reduction in content update time and zero-code personalization for new applications.",
-        "images": {
-          "main": "assets/images/portfolio-main.jpg",
-          "mockupA": "assets/images/portfolio-mockup-a.jpg",
-          "mockupB": "assets/images/portfolio-mockup-b.jpg"
+          "mockupB": "assets/images/quantum-mockup-b.jpg",
+          "mockupC": "assets/images/quantum-mockup-c.jpg"
         }
       }
     ]
