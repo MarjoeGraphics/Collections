@@ -66,20 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initPortfolio() {
         populateConfig();
-        const initialFilter = activeProfile?.featuredCategory ? activeProfile.featuredCategory : 'all';
-
-        // Update filter button state for initial filter
-        if (initialFilter !== 'all') {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                if (btn.getAttribute('data-filter') === initialFilter) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-        }
-
-        renderProjects(initialFilter);
+        // Since the filter bar is removed, we always render the main project set.
+        // Profiles still handle prioritization internally in renderProjects.
+        renderProjects('all');
         initCommonUI();
         initTheme();
         initParticles();
@@ -197,18 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Filter Logic
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            // When user manually filters, we reset activeProfile prioritization behavior
-            // but keep the profile content elsewhere.
-            renderProjects(btn.getAttribute('data-filter'));
-        });
-    });
 
     // Modal Logic
     const modal = document.getElementById('project-modal');
