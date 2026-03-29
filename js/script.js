@@ -177,8 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const customProjects = activeProfile?.projects?.[displayCard.id];
             const isDual = customProjects ? customProjects.length > 1 : displayCard.isDual;
 
+            // Thumbnail support: use displayCard.thumbnail or the first project's main image as fallback
+            // Prioritize custom profile projects, then base projectsData
+            const firstProject = customProjects?.[0] || baseProject.projects?.[0];
+            const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
+
             card.innerHTML = `
-                <div class="card-bg"></div>
+                <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
                 ${isDual ? '<div class="card-split-indicator"></div>' : ''}
                 <div class="card-content">
                     <div class="card-header">
