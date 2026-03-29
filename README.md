@@ -141,4 +141,15 @@ The system automatically links the `cards` to the `projects` list using the `id`
 Edit `data/config.json` to change your global email, default skills, or site title.
 
 ---
+
+## 🛠 Troubleshooting
+### Why are some images showing 404 errors?
+The current `data/projects.json` file contains placeholder paths like `assets/images/energy-main.jpg`. If you haven't uploaded your own images to the `assets/images/` folder with these exact names, the browser will report a 404 error. To fix this:
+1.  Add your images to `assets/images/`.
+2.  Update the `images` paths in `data/projects.json` or `data/profiles.json` to match your filenames.
+
+### Icons are not appearing
+The site uses the Lucide icon library via CDN. If icons are not loading, ensure you have an active internet connection. We have locked the version to `0.344.0` in `index.html` for stability.
+
+---
 © 2024 Marjoe. Designed with intentionality and precision.
