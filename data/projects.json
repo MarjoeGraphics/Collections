@@ -1,183 +1,149 @@
 [
   {
-    "id": "visual-identity",
-    "title": "Visual Identity & Branding",
-    "category": "Branding",
-    "tags": ["Branding", "Strategy", "Print"],
-    "bentoSize": "large",
-    "shortDesc": "Defining the essence of global brands through strategic design and art direction. Showcasing dual case studies.",
+    "category": "Brand Identity",
+    "id": "brand-identity-system-2026",
+    "title": "Strategic Enterprise Identity",
+    "tags": ["Agriculture", "Service Sector", "Market Positioning"],
+    "shortDesc": "Developing authoritative visual systems for emerging enterprises to ensure market differentiation and scalability.",
     "isDual": true,
     "projects": [
       {
-        {
-          "id": "entrefeeds-branding",
-          "name": "EntreFeeds Identity",
-          "type": "Agriculture & Aquaculture Branding",
-          "overview": "A holistic visual identity for an innovative feed producer specializing in poultry and aquaculture nutrition.",
-          "details": "The design centers on a fluid, organic mark that merges a chicken and a fish into a single continuous line, symbolizing the ecosystem of the brand. We developed a vibrant teal and mint color palette to distinguish the company from traditional earthy-toned competitors. The project involved creating a scalable system for large-format billboards, technical product brochures, and industrial-grade packaging that maintains legibility in rugged environments.",
-          "result": "Unified brand presence across regional distribution hubs and a 25% increase in retailer inquiries following the packaging redesign.",
-          "images": {
-            "main": "assets/images/BI01-M.jpg",
-            "mockupA": "assets/images/BI01-A.jpg",
-            "mockupB": "assets/images/BI01-B.jpg",
-            "mockupC": "assets/images/BI01-C.jpg"
-          }
-        },
-      {
-        "id": "lumina-assets",
-        "name": "Lumina Tech Assets",
-        "type": "Visual Communication",
-        "overview": "High-precision digital and print assets for a next-gen hardware startup.",
-        "details": "A focus on technical clarity and production-ready accuracy, ensuring that brand complexity didn't hinder manufacturing and technical documentation.",
-        "result": "Streamlined production workflows and consistent brand application across 15+ global vendors.",
-        "images": {
-          "main": "assets/images/lumina-main.jpg",
-          "mockupA": "assets/images/lumina-mockup-a.jpg",
-          "mockupB": "assets/images/lumina-mockup-b.jpg",
-          "mockupC": "assets/images/lumina-mockup-c.jpg"
-        }
-      }
-    ]
-  },
-  {
-    "id": "corporate-marketing",
-    "title": "Corporate & Marketing Collateral",
-    "category": "Strategy",
-    "tags": ["Strategy", "Branding"],
-    "bentoSize": "medium",
-    "shortDesc": "Insight-driven roadmaps and collateral for sustainable brand growth.",
-    "isDual": true,
-    "projects": [
-      {
-        "id": "heritage-pivot",
-        "name": "Heritage Pivot",
-        "type": "Strategic Planning",
-        "overview": "Repositioning a 50-year-old heritage retail brand for the Gen-Z market.",
-        "details": "The brand was losing market share due to an 'out-of-touch' identity. We pivoted to 'radical transparency' and community-driven co-creation.",
-        "result": "85% increase in Gen-Z audience engagement and a successful multi-city pop-up tour.",
-        "images": {
-          "main": "assets/images/retail-main.jpg",
-          "mockupA": "assets/images/retail-mockup-a.jpg",
-          "mockupB": "assets/images/retail-mockup-b.jpg",
-          "mockupC": "assets/images/retail-mockup-c.jpg"
-        }
+        "id": "BI01",
+        "name": "EntreFeeds",
+        "type": "Industrial Branding",
+        "overview": "Establishing a premium market position for an aquaculture and poultry feed producer.",
+        "details": "The identity features a minimalist, fluid mark and a teal/mint palette engineered for high visibility on industrial packaging and large-scale billboards.",
+        "images": { "main": "image_a4259f.jpg" }
       },
       {
-        "id": "vision-roadmap",
-        "name": "Vision 2030 Roadmap",
-        "type": "Brand Visioning",
-        "overview": "Long-term strategic narrative for a global manufacturing conglomerate.",
-        "details": "Defining the next decade of innovation and sustainability goals through visual storytelling and stakeholder alignment.",
-        "result": "Board-approved roadmap now guiding investment for 5 global business units.",
-        "images": {
-          "main": "assets/images/vision-main.jpg",
-          "mockupA": "assets/images/vision-mockup-a.jpg",
-          "mockupB": "assets/images/vision-mockup-b.jpg",
-          "mockupC": "assets/images/vision-mockup-c.jpg"
-        }
+        "id": "BI02",
+        "name": "WASHabor Laundry Services",
+        "type": "Commercial Service Branding",
+        "overview": "Elevating a service startup through a professional, character-driven persona.",
+        "details": "A bespoke mascot and custom-lettered wordmark paired with a sapphire and yellow palette to communicate cleanliness and franchise-ready efficiency.",
+        "images": { "main": "image_a48623.jpg" }
       }
     ]
   },
   {
-    "id": "print-promotional",
-    "title": "Print & Promotional Materials",
-    "category": "Print",
-    "tags": ["Print", "Branding"],
-    "bentoSize": "small",
-    "shortDesc": "Tactile brand experiences and high-precision print production.",
+    "category": "Logo",
+    "id": "logofolio-marks-2026",
+    "title": "Versatile Visual Marks & Seals",
+    "tags": ["Community", "E-sports", "Iconography"],
+    "shortDesc": "A collection of professional-grade seals and icons designed for diverse institutional and entertainment sectors.",
+    "isDual": true,
+    "projects": [
+      {
+        "id": "L002-A",
+        "name": "Subangan Farmer Association",
+        "type": "Institutional Identity",
+        "overview": "A heritage-focused official seal for a regional agricultural collective.",
+        "details": "Utilizes tribal patterns and organic elements to represent stability, growth, and community heritage.",
+        "images": { "main": "image_a48da0.png" }
+      },
+      {
+        "id": "L002-B",
+        "name": "E-sports & Athletic Marks",
+        "type": "Performance Iconography",
+        "overview": "High-impact visual marks for competitive gaming and sports organizations.",
+        "details": "Featuring aggressive mascot designs (Digibyte) and bold tournament typography (Vic De Villa) optimized for digital broadcasts.",
+        "images": { "main": "image_a48da0.png" }
+      }
+    ]
+  },
+  {
+    "category": "Illustration",
+    "id": "culture-illustration-2026",
+    "title": "Culture-Centric Illustration",
+    "tags": ["Mascot Design", "Streetwear", "Restoration"],
+    "shortDesc": "Bridging niche community services with streetwear aesthetics through character-driven art direction.",
+    "isDual": true,
+    "projects": [
+      {
+        "id": "IL01",
+        "name": "Dr. Ongskie",
+        "type": "Restoration Service Identity",
+        "overview": "A mascot blending medical precision with urban culture for a vintage cap restoration specialist.",
+        "details": "Bespoke character art highlighting the tools of the trade, creating a professional edge for a specialized niche service.",
+        "images": { "main": "image_a49906.jpg" }
+      },
+      {
+        "id": "IL02",
+        "name": "Incognito Vapeshop Anniversary",
+        "type": "Limited Edition Merchandise",
+        "overview": "A custom-illustrated capsule celebrating five years of brand community.",
+        "details": "A high-energy, neon-themed illustration engineered for premium screen-printed apparel and collector's items.",
+        "images": { "main": "image_a495a5.jpg" }
+      }
+    ]
+  },
+  {
+    "category": "Poster",
+    "id": "event-marketing-2026",
+    "title": "Integrated Event Promotions",
+    "tags": ["Gaming", "Visual Hierarchy", "Digital Assets"],
+    "shortDesc": "Promotional design systems focused on audience engagement and information clarity for digital communities.",
     "isDual": false,
     "projects": [
       {
-        "id": "print-study",
-        "name": "Promotional Material Suite",
-        "type": "Print Production",
-        "overview": "Designing and overseeing production for a premium physical brand rollout.",
-        "details": "Ensuring color accuracy and material tactility across various substrates, from large-format signage to specialized business stationery.",
-        "result": "Consistent brand application across 100% of physical touchpoints.",
-        "images": {
-          "main": "assets/images/print-main.jpg",
-          "mockupA": "assets/images/print-mockup-a.jpg",
-          "mockupB": "assets/images/print-mockup-b.jpg",
-          "mockupC": "assets/images/print-mockup-c.jpg"
-        }
+        "id": "PO02",
+        "name": "RagnaPH Promotions",
+        "type": "Gaming Marketing",
+        "overview": "Dynamic digital posters and announcement graphics for high-engagement gaming events.",
+        "details": "Careful management of visual hierarchy to ensure rewards and event mechanics are instantly legible amidst complex character art.",
+        "images": { "main": "image_a4a4c9.jpg" }
       }
     ]
   },
   {
-    "id": "digital-web",
-    "title": "Digital & Web Design",
-    "category": "UI/UX",
-    "tags": ["UI/UX", "Product", "Print"],
-    "bentoSize": "small",
-    "shortDesc": "Architecting high-performance digital ecosystems.",
+    "category": "Promotional",
+    "id": "digital-product-promo-2026",
+    "title": "Digital Promo & Product Ad Systems",
+    "tags": ["FinTech", "E-commerce", "Tech & Lifestyle"],
+    "shortDesc": "Conversion-focused promotional assets for high-growth digital marketplaces and consumer electronics.",
     "isDual": true,
     "projects": [
       {
-        "id": "agency-os",
-        "name": "Agency OS Platform",
-        "type": "UI/UX Design",
-        "overview": "Architecting a high-performance project management ecosystem for global creative agencies.",
-        "details": "Fragmented communication and redundant workflows were causing significant delays. We designed an intuitive platform that prioritizes deep-work states and contextual information management.",
-        "result": "45% improvement in operational efficiency across 50+ partner agencies.",
-        "images": {
-          "main": "assets/images/agency-main.jpg",
-          "mockupA": "assets/images/agency-mockup-a.jpg",
-          "mockupB": "assets/images/agency-mockup-b.jpg",
-          "mockupC": "assets/images/agency-mockup-c.jpg"
-        }
+        "id": "PO01",
+        "name": "SeaInsure (Shopee Ecosystem)",
+        "type": "FinTech Marketing",
+        "overview": "Optimizing visual trust for digital-first insurance products within major mobile marketplaces.",
+        "details": "Strategic use of the Shopee palette to maintain ecosystem consistency while ensuring complex coverage details are legible on mobile.",
+        "images": { "main": "image_a4a80b.jpg" }
       },
       {
-        "id": "nexus-design-system",
-        "name": "Nexus Design System",
-        "type": "Product Strategy",
-        "overview": "A unified component library and governance model for a fintech giant.",
-        "details": "Ensuring cross-platform consistency while allowing for rapid iterative design cycles in high-stakes environments.",
-        "result": "Reduction in design-to-development handoff time by 60%.",
-        "images": {
-          "main": "assets/images/nexus-main.jpg",
-          "mockupA": "assets/images/nexus-mockup-a.jpg",
-          "mockupB": "assets/images/nexus-mockup-b.jpg",
-          "mockupC": "assets/images/nexus-mockup-c.jpg"
-        }
+        "id": "PR01",
+        "name": "Consumer Electronics Series",
+        "type": "E-commerce Ad Assets",
+        "overview": "High-impact promotional layouts for tech hardware and performance lifestyle gear.",
+        "details": "Utilizes vibrant gradients and floating product photography to drive digital engagement and 'pop' on social feeds.",
+        "images": { "main": "image_a4fadb.jpg" }
       }
     ]
   },
   {
-    "id": "illustration-animation",
-    "title": "Illustration, Animation & Audio",
-    "category": "Motion",
-    "tags": ["Motion", "Multimedia"],
-    "bentoSize": "large",
-    "shortDesc": "Cinematic storytelling and rhythmic visual movement.",
+    "category": "Jersey",
+    "id": "performance-apparel-2026",
+    "title": "Technical Apparel & Sublimation",
+    "tags": ["Athletics", "Sublimation", "Cyber-Aesthetic"],
+    "shortDesc": "Merging identity with performance through custom sublimation and aggressive, tech-themed apparel systems.",
     "isDual": true,
     "projects": [
       {
-        "id": "ev-launch",
-        "name": "EV SUV Launch",
-        "type": "Multimedia & Motion",
-        "overview": "A high-impact cinematic launch for a premium automotive brand's flagship electric SUV.",
-        "details": "Communicating 'luxury' and 'silent power' through a digital-first narrative using light, texture, and fluid motion.",
-        "result": "1.2M engagement across social platforms and record-breaking pre-order inquiries.",
-        "images": {
-          "main": "assets/images/ev-main.jpg",
-          "mockupA": "assets/images/ev-mockup-a.jpg",
-          "mockupB": "assets/images/ev-mockup-b.jpg",
-          "mockupC": "assets/images/ev-mockup-c.jpg"
-        }
+        "id": "JE02",
+        "name": "DCS Phantoms",
+        "type": "Academic Sports Identity",
+        "overview": "A 'Tech-Athletic' identity for the Department of Computer Studies.",
+        "details": "A cyber-glitch theme featuring binary data streams and chromatic aberration typography, designed for full-sublimation jerseys.",
+        "images": { "main": "image_a499e4.jpg" }
       },
       {
-        "id": "quantum-reveal",
-        "name": "Quantum Reveal",
-        "type": "3D Motion",
-        "overview": "Abstract product reveal sequence for a leading semiconductor manufacturer.",
-        "details": "Visualizing the invisible through advanced fluid dynamics and light-path simulations.",
-        "result": "Featured in 3 international motion design festivals and won 'Best of Category'.",
-        "images": {
-          "main": "assets/images/quantum-main.jpg",
-          "mockupA": "assets/images/quantum-mockup-a.jpg",
-          "mockupB": "assets/images/quantum-mockup-b.jpg",
-          "mockupC": "assets/images/quantum-mockup-c.jpg"
-        }
+        "id": "JE01",
+        "name": "GNRCS Hood",
+        "type": "Street-Athletic Branding",
+        "overview": "Developing a powerful 'Vandalism-style' identity for community basketball tournaments.",
+        "details": "Custom graffiti wordmarks and intricate patterns on waistbands and trims, optimized for high-visibility during play.",
+        "images": { "main": "image_a49d22.jpg" }
       }
     ]
   }
