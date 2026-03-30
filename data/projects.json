@@ -9,19 +9,20 @@
     "isDual": true,
     "projects": [
       {
-        "id": "energy-rebrand",
-        "name": "Global Energy Rebrand",
-        "type": "Branding & Strategy",
-        "overview": "A comprehensive rebranding for a global energy firm transitioning towards sustainable power solutions.",
-        "details": "The existing brand was tethered to legacy perception and failed to reflect the company's shift towards innovative, renewable tech. Our solution was a modular visual identity system built for longevity, ensuring technical scalability across digital and large-format physical signage.",
-        "result": "30% increase in brand equity and a successful Series B funding round within six months.",
-        "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
-        }
-      },
+        {
+          "id": "entrefeeds-branding",
+          "name": "EntreFeeds Identity",
+          "type": "Agriculture & Aquaculture Branding",
+          "overview": "A holistic visual identity for an innovative feed producer specializing in poultry and aquaculture nutrition.",
+          "details": "The design centers on a fluid, organic mark that merges a chicken and a fish into a single continuous line, symbolizing the ecosystem of the brand. We developed a vibrant teal and mint color palette to distinguish the company from traditional earthy-toned competitors. The project involved creating a scalable system for large-format billboards, technical product brochures, and industrial-grade packaging that maintains legibility in rugged environments.",
+          "result": "Unified brand presence across regional distribution hubs and a 25% increase in retailer inquiries following the packaging redesign.",
+          "images": {
+            "main": "assets/images/BI01-M.jpg",
+            "mockupA": "assets/images/BI01-A.jpg",
+            "mockupB": "assets/images/BI01-B.jpg",
+            "mockupC": "assets/images/BI01-C.jpg"
+          }
+        },
       {
         "id": "lumina-assets",
         "name": "Lumina Tech Assets",
