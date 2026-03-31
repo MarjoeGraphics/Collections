@@ -11,64 +11,66 @@
     "themeClass": "theme-nike",
     "cards": [
       {
-        "id": "brand-identity-system-2026",
+        "id": "visual-identity",
         "title": "Nike Brand Identity & Assets",
         "shortDesc": "Developing a high-performance visual language for Nike's inner departments.",
         "tags": ["Branding", "Production"],
-        "bentoSize": "large"
+        "bentoSize": "large",
+        "thumbnail": "assets/images/BI.jpg"
       },
       {
-        "id": "illustration-animation",
+        "id": "performance-apparel-2026",
         "title": "Nike Motion & Audio",
         "shortDesc": "Cinematic storytelling for Nike's premium performance footwear.",
         "tags": ["Motion", "Multimedia"],
-        "bentoSize": "large"
+        "bentoSize": "large",
+        "thumbnail": "assets/images/JE.jpg"
       }
     ],
     "projects": {
       "visual-identity": [
         {
-          "id": "nike-identity",
+          "id": "BI01",
           "name": "Nike Brand Identity",
           "type": "Branding & Strategy",
           "overview": "A comprehensive branding project for Nike's new internal training division.",
           "details": "Focused on creating a visual language that aligns with Nike's global heritage while offering something fresh for internal teams.",
           "result": "Unified brand application across all training materials.",
           "images": {
-            "main": "assets/images/energy-main.jpg",
-            "mockupA": "assets/images/energy-mockup-a.jpg",
-            "mockupB": "assets/images/energy-mockup-b.jpg",
-            "mockupC": "assets/images/energy-mockup-c.jpg"
+            "main": "assets/images/BI01-M.jpg",
+            "mockupA": "assets/images/BI01-A.jpg",
+            "mockupB": "assets/images/BI01-B.jpg",
+            "mockupC": "assets/images/BI01-C.jpg"
           }
         },
         {
-          "id": "nike-vector",
+          "id": "LO01",
           "name": "Logo Vectorize",
           "type": "Visual Production",
           "overview": "High-precision vectorization of hand-drawn sketches for the Nike Heritage collection.",
           "details": "Ensuring perfect curves and production-ready files for screen printing and embroidery.",
           "result": "Scalable assets delivered for the 2024 Heritage line.",
           "images": {
-            "main": "assets/images/lumina-main.jpg",
-            "mockupA": "assets/images/lumina-mockup-a.jpg",
-            "mockupB": "assets/images/lumina-mockup-b.jpg",
-            "mockupC": "assets/images/lumina-mockup-c.jpg"
+            "main": "assets/images/LO01-M.jpg",
+            "mockupA": "assets/images/LO01-A.jpg",
+            "mockupB": "assets/images/LO01-B.jpg",
+            "mockupC": "assets/images/LO01-C.jpg"
           }
         }
       ],
-      "illustration-animation": [
+      "performance-apparel-2026": [
         {
-          "id": "nike-run-motion",
+          "id": "JE02",
           "name": "Nike Run: Motion Concept",
           "type": "Motion Graphics",
           "overview": "A dynamic motion study for Nike's latest performance footwear launch.",
           "details": "Communicating 'speed' and 'rhythm' through fluid motion and high-energy transitions.",
           "result": "Unified visual language for retail motion displays.",
           "images": {
-            "main": "assets/images/ev-main.jpg",
-            "mockupA": "assets/images/ev-mockup-a.jpg",
-            "mockupB": "assets/images/ev-mockup-b.jpg",
-            "mockupC": "assets/images/ev-mockup-c.jpg"
+            "main": "assets/images/JE02-M.jpg",
+            "mockupA": "assets/images/JE02-A.jpg",
+            "mockupB": "assets/images/JE02-B.jpg",
+            "mockupC": "assets/images/JE02-C.jpg"
           }
         }
       ]
@@ -86,48 +88,66 @@
     "themeClass": "theme-apple",
     "cards": [
       {
-        "id": "digital-web",
+        "id": "visual-identity",
         "title": "Apple Ecosystem Design",
         "shortDesc": "Crafting seamless digital and physical touchpoints for the Apple ecosystem.",
         "tags": ["UI/UX", "Product"],
-        "bentoSize": "small"
+        "bentoSize": "small",
+        "thumbnail": "assets/images/BI.jpg"
       },
       {
-        "id": "visual-identity",
+        "id": "corporate-marketing",
         "title": "Apple Brand Strategy",
         "shortDesc": "Defining high-precision visual systems for global hardware launches.",
         "tags": ["Branding", "Strategy"],
-        "bentoSize": "large"
+        "bentoSize": "large",
+        "thumbnail": "assets/images/LO.jpg"
       }
     ],
     "projects": {
-      "digital-web": [
+      "visual-identity": [
         {
-          "id": "apple-ui",
+          "id": "BI02",
           "name": "Apple UI/UX Design",
           "type": "Product Design",
           "overview": "Designing the next generation of internal productivity tools for Apple designers.",
           "details": "A focus on meticulous typography and holistic system thinking to ensure tools feel native to the Apple OS.",
           "result": "Streamlined internal workflows for 200+ designers.",
           "images": {
-            "main": "assets/images/agency-main.jpg",
-            "mockupA": "assets/images/agency-mockup-a.jpg",
-            "mockupB": "assets/images/agency-mockup-b.jpg",
-            "mockupC": "assets/images/agency-mockup-c.jpg"
+            "main": "assets/images/BI02-M.jpg",
+            "mockupA": "assets/images/BI02-A.jpg",
+            "mockupB": "assets/images/BI02-B.jpg",
+            "mockupC": "assets/images/BI02-C.jpg"
           }
         },
         {
-          "id": "apple-print",
+          "id": "LO02",
           "name": "Printable Assets",
           "type": "Print Production",
           "overview": "Developing high-precision printable documentation for hardware prototype assembly.",
           "details": "Ensuring technical clarity and production-ready accuracy for physical assembly guides.",
           "result": "Zero-error assembly rate in initial prototype runs.",
           "images": {
-            "main": "assets/images/nexus-main.jpg",
-            "mockupA": "assets/images/nexus-mockup-a.jpg",
-            "mockupB": "assets/images/nexus-mockup-b.jpg",
-            "mockupC": "assets/images/nexus-mockup-c.jpg"
+            "main": "assets/images/LO02-M.jpg",
+            "mockupA": "assets/images/LO02-A.jpg",
+            "mockupB": "assets/images/LO02-B.jpg",
+            "mockupC": "assets/images/LO02-C.jpg"
+          }
+        }
+      ],
+      "corporate-marketing": [
+        {
+          "id": "LO01",
+          "name": "Apple Seal Redesign",
+          "type": "Institutional Identity",
+          "overview": "A refined, heritage-focused seal for Apple's environmental initiatives.",
+          "details": "Simplifying complex forms to ensure legibility and visual weight consistency across all touchpoints.",
+          "result": "Standardized application on all 2025 environmental reporting.",
+          "images": {
+            "main": "assets/images/LO01-M.jpg",
+            "mockupA": "assets/images/LO01-A.jpg",
+            "mockupB": "assets/images/LO01-B.jpg",
+            "mockupC": "assets/images/LO01-C.jpg"
           }
         }
       ]

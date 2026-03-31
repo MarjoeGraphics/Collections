@@ -1,11 +1,12 @@
 [
   {
     "category": "Brand Identity",
-    "id": "brand-identity-system-2026",
+    "id": "visual-identity",
     "title": "Strategic Enterprise Identity",
     "tags": ["Agriculture", "Service Sector", "Market Positioning"],
     "shortDesc": "Developing authoritative visual systems for emerging enterprises to ensure market differentiation and scalability.",
     "isDual": true,
+    "thumbnail": "assets/images/BI.jpg",
     "projects": [
       {
         "id": "BI01",
@@ -13,11 +14,12 @@
         "type": "Industrial Branding",
         "overview": "Establishing a premium market position for an aquaculture and poultry feed producer.",
         "details": "The identity features a minimalist, fluid mark and a teal/mint palette engineered for high visibility on industrial packaging and large-scale billboards.",
+        "result": "Successfully launched with a cohesive visual language that secured immediate retail distribution.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/BI01-M.jpg",
+          "mockupA": "assets/images/BI01-A.jpg",
+          "mockupB": "assets/images/BI01-B.jpg",
+          "mockupC": "assets/images/BI01-C.jpg"
         }
       },
       {
@@ -26,58 +28,63 @@
         "type": "Commercial Service Branding",
         "overview": "Elevating a service startup through a professional, character-driven persona.",
         "details": "A bespoke mascot and custom-lettered wordmark paired with a sapphire and yellow palette to communicate cleanliness and franchise-ready efficiency.",
+        "result": "Brand recognition increased significantly in local markets, leading to two new franchise locations.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/BI02-M.jpg",
+          "mockupA": "assets/images/BI02-A.jpg",
+          "mockupB": "assets/images/BI02-B.jpg",
+          "mockupC": "assets/images/BI02-C.jpg"
         }
       }
     ]
   },
   {
     "category": "Logo",
-    "id": "logofolio-marks-2026",
+    "id": "corporate-marketing",
     "title": "Versatile Visual Marks & Seals",
     "tags": ["Community", "E-sports", "Iconography"],
     "shortDesc": "A collection of professional-grade seals and icons designed for diverse institutional and entertainment sectors.",
     "isDual": true,
+    "thumbnail": "assets/images/LO.jpg",
     "projects": [
       {
-        "id": "L002-A",
+        "id": "LO01",
         "name": "Subangan Farmer Association",
         "type": "Institutional Identity",
         "overview": "A heritage-focused official seal for a regional agricultural collective.",
         "details": "Utilizes tribal patterns and organic elements to represent stability, growth, and community heritage.",
+        "result": "Adopted as the official seal, providing a unified identity for over 500 member farmers.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/LO01-M.jpg",
+          "mockupA": "assets/images/LO01-A.jpg",
+          "mockupB": "assets/images/LO01-B.jpg",
+          "mockupC": "assets/images/LO01-C.jpg"
         }
       },
       {
-        "id": "L002-B",
+        "id": "LO02",
         "name": "E-sports & Athletic Marks",
         "type": "Performance Iconography",
         "overview": "High-impact visual marks for competitive gaming and sports organizations.",
         "details": "Featuring aggressive mascot designs (Digibyte) and bold tournament typography (Vic De Villa) optimized for digital broadcasts.",
+        "result": "Enhanced broadcast professionalism and viewer engagement during regional tournament finals.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/LO02-M.jpg",
+          "mockupA": "assets/images/LO02-A.jpg",
+          "mockupB": "assets/images/LO02-B.jpg",
+          "mockupC": "assets/images/LO02-C.jpg"
         }
       }
     ]
   },
   {
     "category": "Illustration",
-    "id": "culture-illustration-2026",
+    "id": "illustration-animation",
     "title": "Culture-Centric Illustration",
     "tags": ["Mascot Design", "Streetwear", "Restoration"],
     "shortDesc": "Bridging niche community services with streetwear aesthetics through character-driven art direction.",
     "isDual": true,
+    "thumbnail": "assets/images/IL.jpg",
     "projects": [
       {
         "id": "IL01",
@@ -85,11 +92,12 @@
         "type": "Restoration Service Identity",
         "overview": "A mascot blending medical precision with urban culture for a vintage cap restoration specialist.",
         "details": "Bespoke character art highlighting the tools of the trade, creating a professional edge for a specialized niche service.",
+        "result": "Established a unique brand persona that resonates with the streetwear community.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/IL01-M.jpg",
+          "mockupA": "assets/images/IL01-A.jpg",
+          "mockupB": "assets/images/IL01-B.jpg",
+          "mockupC": "assets/images/IL01-C.jpg"
         }
       },
       {
@@ -98,22 +106,24 @@
         "type": "Limited Edition Merchandise",
         "overview": "A custom-illustrated capsule celebrating five years of brand community.",
         "details": "A high-energy, neon-themed illustration engineered for premium screen-printed apparel and collector's items.",
+        "result": "Limited edition anniversary merchandise sold out within 48 hours of release.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/IL02-M.jpg",
+          "mockupA": "assets/images/IL02-A.jpg",
+          "mockupB": "assets/images/IL02-B.jpg",
+          "mockupC": "assets/images/IL02-C.jpg"
         }
       }
     ]
   },
   {
     "category": "Poster",
-    "id": "event-marketing-2026",
+    "id": "print-promotional",
     "title": "Integrated Event Promotions",
     "tags": ["Gaming", "Visual Hierarchy", "Digital Assets"],
     "shortDesc": "Promotional design systems focused on audience engagement and information clarity for digital communities.",
     "isDual": false,
+    "thumbnail": "assets/images/PO.jpg",
     "projects": [
       {
         "id": "PO02",
@@ -121,22 +131,24 @@
         "type": "Gaming Marketing",
         "overview": "Dynamic digital posters and announcement graphics for high-engagement gaming events.",
         "details": "Careful management of visual hierarchy to ensure rewards and event mechanics are instantly legible amidst complex character art.",
+        "result": "Achieved record-high player participation rates for seasonal server events.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/PO02-M.jpg",
+          "mockupA": "assets/images/PO02-A.jpg",
+          "mockupB": "assets/images/PO02-B.jpg",
+          "mockupC": "assets/images/PO02-C.jpg"
         }
       }
     ]
   },
   {
     "category": "Promotional",
-    "id": "digital-product-promo-2026",
+    "id": "digital-web",
     "title": "Digital Promo & Product Ad Systems",
     "tags": ["FinTech", "E-commerce", "Tech & Lifestyle"],
     "shortDesc": "Conversion-focused promotional assets for high-growth digital marketplaces and consumer electronics.",
     "isDual": true,
+    "thumbnail": "assets/images/PO.jpg",
     "projects": [
       {
         "id": "PO01",
@@ -144,24 +156,26 @@
         "type": "FinTech Marketing",
         "overview": "Optimizing visual trust for digital-first insurance products within major mobile marketplaces.",
         "details": "Strategic use of the Shopee palette to maintain ecosystem consistency while ensuring complex coverage details are legible on mobile.",
+        "result": "Contributed to a 25% increase in click-through rates for insurance product banners.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/PO01-M.jpg",
+          "mockupA": "assets/images/PO01-A.jpg",
+          "mockupB": "assets/images/PO01-B.jpg",
+          "mockupC": "assets/images/PO01-C.jpg"
         }
       },
       {
-        "id": "PR01",
+        "id": "PO02-B",
         "name": "Consumer Electronics Series",
         "type": "E-commerce Ad Assets",
         "overview": "High-impact promotional layouts for tech hardware and performance lifestyle gear.",
         "details": "Utilizes vibrant gradients and floating product photography to drive digital engagement and 'pop' on social feeds.",
+        "result": "Drove significant social media engagement and referral traffic to product landing pages.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/PO02-M.jpg",
+          "mockupA": "assets/images/PO02-A.jpg",
+          "mockupB": "assets/images/PO02-B.jpg",
+          "mockupC": "assets/images/PO02-C.jpg"
         }
       }
     ]
@@ -173,31 +187,34 @@
     "tags": ["Athletics", "Sublimation", "Cyber-Aesthetic"],
     "shortDesc": "Merging identity with performance through custom sublimation and aggressive, tech-themed apparel systems.",
     "isDual": true,
+    "thumbnail": "assets/images/JE.jpg",
     "projects": [
-      {
-        "id": "JE02",
-        "name": "DCS Phantoms",
-        "type": "Academic Sports Identity",
-        "overview": "A 'Tech-Athletic' identity for the Department of Computer Studies.",
-        "details": "A cyber-glitch theme featuring binary data streams and chromatic aberration typography, designed for full-sublimation jerseys.",
-        "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
-        }
-      },
       {
         "id": "JE01",
         "name": "GNRCS Hood",
         "type": "Street-Athletic Branding",
         "overview": "Developing a powerful 'Vandalism-style' identity for community basketball tournaments.",
         "details": "Custom graffiti wordmarks and intricate patterns on waistbands and trims, optimized for high-visibility during play.",
+        "result": "Created a highly desirable tournament identity that boosted local community pride.",
         "images": {
-          "main": "assets/images/energy-main.jpg",
-          "mockupA": "assets/images/energy-mockup-a.jpg",
-          "mockupB": "assets/images/energy-mockup-b.jpg",
-          "mockupC": "assets/images/energy-mockup-c.jpg"
+          "main": "assets/images/JE01-M.jpg",
+          "mockupA": "assets/images/JE01-A.jpg",
+          "mockupB": "assets/images/JE01-B.jpg",
+          "mockupC": "assets/images/JE01-C.jpg"
+        }
+      },
+      {
+        "id": "JE02",
+        "name": "DCS Phantoms",
+        "type": "Academic Sports Identity",
+        "overview": "A 'Tech-Athletic' identity for the Department of Computer Studies.",
+        "details": "A cyber-glitch theme featuring binary data streams and chromatic aberration typography, designed for full-sublimation jerseys.",
+        "result": "Unified the student body with a modern, technically-inspired athletic brand.",
+        "images": {
+          "main": "assets/images/JE02-M.jpg",
+          "mockupA": "assets/images/JE02-A.jpg",
+          "mockupB": "assets/images/JE02-B.jpg",
+          "mockupC": "assets/images/JE02-C.jpg"
         }
       }
     ]
