@@ -49,11 +49,11 @@
   "projects": [
     {
       "id": "LO01",
-      "name": "Industrial & Lifestyle Identity Suite",
-      "type": "Commercial Branding",
-      "overview": "A versatile collection of marks ranging from heavy industrial services to refined lifestyle retail.",
-      "details": "The set includes a dynamic automotive supply mark emphasizing speed and durability, a traditional circular athletic crest, a flame-inspired culinary mascot, and a minimalist script-based cosmetics monogram.",
-      "result": "Demonstrated the ability to adapt visual language across four distinct consumer markets through specialized typography and iconography.",
+      "name": "Commercial & Lifestyle Branding",
+      "type": "Identity Design",
+      "overview": "A strategic exploration of industry-specific visual languages, solving the challenge of brand differentiation in crowded commercial markets.",
+      "details": "The core problem was creating distinct identities for vastly different niches. The solution involved balancing heavy, slanted industrial typography for 'Malate' with fluid, high-contrast linework for 'JK Cosmetics,' ensuring each mark feels native to its industry while maintaining a premium look.",
+      "result": "The impact was an elevated visual perceived value for these brands, allowing them to stand out against larger, established competitors through polished, professional iconography.",
       "images": {
         "main": "assets/images/LO01-M.jpg",
         "mockupA": "assets/images/LO01-A.jpg",
@@ -63,11 +63,11 @@
     },
     {
       "id": "LO02",
-      "name": "Institutional Seals & Performance Marks",
-      "type": "Heritage & Competitive Identity",
-      "overview": "Focuses on high-detail seals for official organizations and aggressive iconography for competitive sectors.",
-      "details": "The primary seal utilizes symmetrical organic motifs and tribal patterns to represent regional heritage. This is contrasted by high-impact performance marks featuring a geometric mascot design and sharp, architectural tournament lettering.",
-      "result": "Created a balanced portfolio of official, stable institutional imagery alongside high-energy, modern competitive branding.",
+      "name": "Organization & Personal Brand ",
+      "type": "Institutional & E-sports",
+      "overview": "A showcase of high-impact iconography designed to bridge cultural heritage with modern competitive energy.",
+      "details": "For the Subangan seal, the problem was modernizing a traditional heritage look without losing its soul. The solution was merging tribal patterns with clean geometric symmetry. For the E-sports marks, the focus shifted to high-aggression vector styling to ensure the marks remain sharp and readable during high-speed digital broadcasts.",
+      "result": "The design impact strengthened community pride for the Farmer Association and provided E-sports teams with a 'pro-circuit' visual presence that commands respect in competitive arenas.",
       "images": {
         "main": "assets/images/LO02-M.jpg",
         "mockupA": "assets/images/LO02-A.jpg",
@@ -112,31 +112,6 @@
           "mockupA": "assets/images/IL02-A.jpg",
           "mockupB": "assets/images/IL02-B.jpg",
           "mockupC": "assets/images/IL02-C.jpg"
-        }
-      }
-    ]
-  },
-  {
-    "category": "Poster",
-    "id": "print-promotional",
-    "title": "Integrated Event Promotions",
-    "tags": ["Gaming", "Visual Hierarchy", "Digital Assets"],
-    "shortDesc": "Promotional design systems focused on audience engagement and information clarity for digital communities.",
-    "isDual": false,
-    "thumbnail": "assets/images/PO.jpg",
-    "projects": [
-      {
-        "id": "PO02",
-        "name": "RagnaPH Promotions",
-        "type": "Gaming Marketing",
-        "overview": "Dynamic digital posters and announcement graphics for high-engagement gaming events.",
-        "details": "Careful management of visual hierarchy to ensure rewards and event mechanics are instantly legible amidst complex character art.",
-        "result": "Achieved record-high player participation rates for seasonal server events.",
-        "images": {
-          "main": "assets/images/PO02-M.jpg",
-          "mockupA": "assets/images/PO02-A.jpg",
-          "mockupB": "assets/images/PO02-B.jpg",
-          "mockupC": "assets/images/PO02-C.jpg"
         }
       }
     ]
