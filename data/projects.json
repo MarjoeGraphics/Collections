@@ -38,45 +38,45 @@
       }
     ]
   },
-  {
-    "category": "Logo",
-    "id": "corporate-marketing",
-    "title": "Versatile Visual Marks & Seals",
-    "tags": ["Community", "E-sports", "Iconography"],
-    "shortDesc": "A collection of professional-grade seals and icons designed for diverse institutional and entertainment sectors.",
-    "isDual": true,
-    "thumbnail": "assets/images/LO.jpg",
-    "projects": [
-      {
-        "id": "LO01",
-        "name": "Subangan Farmer Association",
-        "type": "Institutional Identity",
-        "overview": "A heritage-focused official seal for a regional agricultural collective.",
-        "details": "Utilizes tribal patterns and organic elements to represent stability, growth, and community heritage.",
-        "result": "Adopted as the official seal, providing a unified identity for over 500 member farmers.",
-        "images": {
-          "main": "assets/images/LO01-M.jpg",
-          "mockupA": "assets/images/LO01-A.jpg",
-          "mockupB": "assets/images/LO01-B.jpg",
-          "mockupC": "assets/images/LO01-C.jpg"
-        }
-      },
-      {
-        "id": "LO02",
-        "name": "E-sports & Athletic Marks",
-        "type": "Performance Iconography",
-        "overview": "High-impact visual marks for competitive gaming and sports organizations.",
-        "details": "Featuring aggressive mascot designs (Digibyte) and bold tournament typography (Vic De Villa) optimized for digital broadcasts.",
-        "result": "Enhanced broadcast professionalism and viewer engagement during regional tournament finals.",
-        "images": {
-          "main": "assets/images/LO02-M.jpg",
-          "mockupA": "assets/images/LO02-A.jpg",
-          "mockupB": "assets/images/LO02-B.jpg",
-          "mockupC": "assets/images/LO02-C.jpg"
-        }
+{
+  "category": "Logo",
+  "id": "corporate-marketing",
+  "title": "Versatile Visual Marks & Seals",
+  "tags": ["Community", "E-sports", "Iconography"],
+  "shortDesc": "A collection of professional-grade seals and icons designed for diverse institutional and entertainment sectors.",
+  "isDual": true,
+  "thumbnail": "assets/images/LO.jpg",
+  "projects": [
+    {
+      "id": "LO01",
+      "name": "Industrial & Lifestyle Identity Suite",
+      "type": "Commercial Branding",
+      "overview": "A versatile collection of marks ranging from heavy industrial services to refined lifestyle retail.",
+      "details": "The set includes a dynamic automotive supply mark emphasizing speed and durability, a traditional circular athletic crest, a flame-inspired culinary mascot, and a minimalist script-based cosmetics monogram.",
+      "result": "Demonstrated the ability to adapt visual language across four distinct consumer markets through specialized typography and iconography.",
+      "images": {
+        "main": "assets/images/LO01-M.jpg",
+        "mockupA": "assets/images/LO01-A.jpg",
+        "mockupB": "assets/images/LO01-B.jpg",
+        "mockupC": "assets/images/LO01-C.jpg"
       }
-    ]
-  },
+    },
+    {
+      "id": "LO02",
+      "name": "Institutional Seals & Performance Marks",
+      "type": "Heritage & Competitive Identity",
+      "overview": "Focuses on high-detail seals for official organizations and aggressive iconography for competitive sectors.",
+      "details": "The primary seal utilizes symmetrical organic motifs and tribal patterns to represent regional heritage. This is contrasted by high-impact performance marks featuring a geometric mascot design and sharp, architectural tournament lettering.",
+      "result": "Created a balanced portfolio of official, stable institutional imagery alongside high-energy, modern competitive branding.",
+      "images": {
+        "main": "assets/images/LO02-M.jpg",
+        "mockupA": "assets/images/LO02-A.jpg",
+        "mockupB": "assets/images/LO02-B.jpg",
+        "mockupC": "assets/images/LO02-C.jpg"
+      }
+    }
+  ]
+},
   {
     "category": "Illustration",
     "id": "illustration-animation",
