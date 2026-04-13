@@ -175,7 +175,7 @@
     "cta": "Let's amplify the world's audio experience at Spotify.",
     "themeClass": "theme-spotify"
   },
-  "synchrony": {
+"synchrony": {
     "heroTitle": "Marjoe + Synchrony",
     "role": "Digital Production Designer",
     "description": "Driving world-class retail and payment experiences through high-precision digital production and scalable creative execution.",
@@ -209,10 +209,18 @@
       {
         "id": "visual-identity",
         "title": "Enterprise Brand Standards",
-        "shortDesc": "Meticulous application of brand guidelines across diverse financial and retail platforms.",
+        "shortDesc": "Meticulous application of brand guidelines across diverse platforms.",
         "tags": ["Systems", "Consistency"],
         "bentoSize": "small",
         "thumbnail": "assets/images/BI.jpg"
+      },
+      {
+        "id": "corporate-marketing",
+        "title": "Precision Visual Marks",
+        "shortDesc": "Technical execution of seals and icons for institutional and commercial use.",
+        "tags": ["Iconography", "Technical"],
+        "bentoSize": "small",
+        "thumbnail": "assets/images/LO.jpg"
       }
     ],
     "projects": {
@@ -221,30 +229,60 @@
           "id": "PO01",
           "name": "Ecosystem Asset Optimization",
           "type": "Digital Production",
-          "overview": "Developing high-volume promotional assets for major digital marketplaces.",
-          "details": "Focusing on legibility and performance constraints of mobile-first environments while maintaining strict color and typography standards.",
-          "result": "Improved click-through rates and seamless integration within complex partner ecosystems.",
+          "overview": "Optimizing visual trust for digital-first products within major mobile marketplaces.",
+          "details": "Strategic use of specific color palettes to maintain consistency while ensuring complex details remain legible on mobile displays.",
+          "result": "Contributed to a 25% increase in click-through rates through optimized banner designs.",
           "images": {
             "main": "assets/images/PO01-M.jpg",
             "mockupA": "assets/images/PO01-A.jpg",
             "mockupB": "assets/images/PO01-B.jpg",
             "mockupC": "assets/images/PO01-C.jpg"
           }
+        },
+        {
+          "id": "PO02-B",
+          "name": "Dynamic Seasonal Assets",
+          "type": "Marketing Production",
+          "overview": "A dynamic suite of promotional layouts designed to amplify engagement for seasonal events.",
+          "details": "Solving the challenge of cutting through digital noise using high-energy compositions and impact typography across multiple formats.",
+          "result": "Significant boost in event visibility and community participation.",
+          "images": {
+            "main": "assets/images/PO02-M.jpg",
+            "mockupA": "assets/images/PO02-A.jpg",
+            "mockupB": "assets/images/PO02-B.jpg",
+            "mockupC": "assets/images/PO02-C.jpg"
+          }
         }
       ],
       "visual-identity": [
         {
           "id": "BI01",
-          "name": "Strategic Brand Application",
+          "name": "EntreFeeds Industrial Branding",
           "type": "Systems Design",
-          "overview": "Taking core design concepts and applying them across scalable industrial and service platforms.",
-          "details": "Ensuring technical accuracy in file preparation for both large-scale print and high-fidelity digital displays.",
-          "result": "Cohesive visual identity maintained across all physical and digital touchpoints.",
+          "overview": "Establishing a premium market position for an aquaculture and poultry feed producer.",
+          "details": "Engineered a minimalist mark and palette specifically for high visibility on large-scale industrial packaging.",
+          "result": "Successfully launched with a cohesive visual language that secured immediate distribution.",
           "images": {
             "main": "assets/images/BI01-M.jpg",
             "mockupA": "assets/images/BI01-A.jpg",
             "mockupB": "assets/images/BI01-B.jpg",
             "mockupC": "assets/images/BI01-C.jpg"
+          }
+        }
+      ],
+      "corporate-marketing": [
+        {
+          "id": "LO01",
+          "name": "Commercial Identity Systems",
+          "type": "Identity Production",
+          "overview": "Strategic exploration of industry-specific visual languages for diverse commercial markets.",
+          "details": "Balancing heavy industrial typography with fluid linework to ensure each mark is distinct and professionally polished.",
+          "result": "Elevated perceived value for brands, allowing them to stand out against established competitors.",
+          "images": {
+            "main": "assets/images/LO01-M.jpg",
+            "mockupA": "assets/images/LO01-A.jpg",
+            "mockupB": "assets/images/LO01-B.jpg",
+            "mockupC": "assets/images/LO01-C.jpg"
           }
         }
       ]
