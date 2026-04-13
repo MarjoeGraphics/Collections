@@ -174,5 +174,80 @@
     "toolkit": ["Photoshop", "Illustrator", "After Effects", "Figma", "Creative Suite"],
     "cta": "Let's amplify the world's audio experience at Spotify.",
     "themeClass": "theme-spotify"
+  },
+  "synchrony": {
+    "heroTitle": "Marjoe + Synchrony",
+    "role": "Digital Production Designer",
+    "description": "Driving world-class retail and payment experiences through high-precision digital production and scalable creative execution.",
+    "introLead": "Bridging the gap between conceptual design and technical delivery, specializing in multi-format digital assets, interactive banners, and meticulous brand adherence.",
+    "philosophy": "Design is a system of precision. It’s about ensuring every pixel serves the user experience while maintaining the absolute integrity of the brand across every digital touchpoint.",
+    "expertise": [
+      "Digital Production",
+      "Interactive Banners",
+      "Brand Systems",
+      "Multi-Format Execution",
+      "Email & Social Assets"
+    ],
+    "toolkit": [
+      "Adobe Creative Suite",
+      "Figma",
+      "After Effects",
+      "HTML/CSS",
+      "Technical Asset Prep"
+    ],
+    "cta": "Ready to scale world-class creative solutions at Synchrony?",
+    "themeClass": "theme-synchrony",
+    "cards": [
+      {
+        "id": "digital-web",
+        "title": "Digital Asset Systems",
+        "shortDesc": "Scaling complex design concepts into production-ready digital marketing assets.",
+        "tags": ["Production", "Execution"],
+        "bentoSize": "large",
+        "thumbnail": "assets/images/PO.jpg"
+      },
+      {
+        "id": "visual-identity",
+        "title": "Enterprise Brand Standards",
+        "shortDesc": "Meticulous application of brand guidelines across diverse financial and retail platforms.",
+        "tags": ["Systems", "Consistency"],
+        "bentoSize": "small",
+        "thumbnail": "assets/images/BI.jpg"
+      }
+    ],
+    "projects": {
+      "digital-web": [
+        {
+          "id": "PO01",
+          "name": "Ecosystem Asset Optimization",
+          "type": "Digital Production",
+          "overview": "Developing high-volume promotional assets for major digital marketplaces.",
+          "details": "Focusing on legibility and performance constraints of mobile-first environments while maintaining strict color and typography standards.",
+          "result": "Improved click-through rates and seamless integration within complex partner ecosystems.",
+          "images": {
+            "main": "assets/images/PO01-M.jpg",
+            "mockupA": "assets/images/PO01-A.jpg",
+            "mockupB": "assets/images/PO01-B.jpg",
+            "mockupC": "assets/images/PO01-C.jpg"
+          }
+        }
+      ],
+      "visual-identity": [
+        {
+          "id": "BI01",
+          "name": "Strategic Brand Application",
+          "type": "Systems Design",
+          "overview": "Taking core design concepts and applying them across scalable industrial and service platforms.",
+          "details": "Ensuring technical accuracy in file preparation for both large-scale print and high-fidelity digital displays.",
+          "result": "Cohesive visual identity maintained across all physical and digital touchpoints.",
+          "images": {
+            "main": "assets/images/BI01-M.jpg",
+            "mockupA": "assets/images/BI01-A.jpg",
+            "mockupB": "assets/images/BI01-B.jpg",
+            "mockupC": "assets/images/BI01-C.jpg"
+          }
+        }
+      ]
+    }
   }
 }
