@@ -175,93 +175,71 @@
     "cta": "Let's amplify the world's audio experience at Spotify.",
     "themeClass": "theme-spotify"
   },
-"synchrony": {
-    "heroTitle": "Scaling Vision into Pixel-Perfect Reality",
-    "role": "Digital Production Designer",
-    "description": "Driving world-class retail and payment experiences through high-precision digital production and scalable creative execution.",
-    "introLead": "Bridging the gap between conceptual design and technical delivery, specializing in multi-format digital assets, interactive banners, and meticulous brand adherence.",
-    "philosophy": "Design is a system of precision. It’s about ensuring every pixel serves the user experience while maintaining the absolute integrity of the brand across every digital touchpoint.",
+  "norque": {
+    "heroTitle": "Marjoe + Norque Engineering",
+    "role": "Graphic Artist & Print Production Specialist",
+    "description": "Turning design concepts into perfect physical layouts, high-visibility site signage, and clear corporate visuals for large-scale construction and engineering projects.",
+    "introLead": "Over 10 years of experience in graphic layout, large-format printing, and fabrication setup, ensuring designs are 100% ready for real-world production.",
+    "philosophy": "Design is a blueprint. It's about combining clean layouts with exact measurements so that what is built in the real world perfectly matches the design on the screen.",
     "expertise": [
-      "Digital Production",
-      "Interactive Banners",
-      "Brand Systems",
-      "Multi-Format Execution",
-      "Email & Social Assets"
+      "Large-Format Signage",
+      "Print Production & Layouts",
+      "Pre-Press & Quality Control",
+      "Corporate Proposal Formats",
+      "AI-Assisted Concept Design"
     ],
     "toolkit": [
-      "Adobe Creative Suite",
-      "Figma",
-      "After Effects",
-      "HTML/CSS",
-      "Technical Asset Prep"
+      "Photoshop",
+      "Illustrator",
+      "DaVinci Resolve",
+      "AI Image Generation",
+      "Industrial Print Equipment"
     ],
-    "cta": "Ready to scale world-class creative solutions at Synchrony?",
-    "themeClass": "theme-synchrony",
+    "cta": "Ready to build professional, precise visual systems together at Norque Engineering?",
+    "themeClass": "theme-norque",
     "cards": [
       {
-        "id": "digital-web",
-        "title": "Digital Asset Systems",
-        "shortDesc": "Scaling complex design concepts into production-ready digital marketing assets.",
-        "tags": ["Production", "Execution"],
-        "bentoSize": "large",
-        "thumbnail": "assets/images/PO.jpg"
-      },
-      {
         "id": "visual-identity",
-        "title": "Enterprise Brand Standards",
-        "shortDesc": "Meticulous application of brand guidelines across diverse platforms.",
-        "tags": ["Systems", "Consistency"],
-        "bentoSize": "small",
+        "title": "Industrial Formats & Signage",
+        "shortDesc": "Designing clean, highly visible layouts for massive packaging and outdoor billboards.",
+        "tags": ["Large-Format", "Production"],
+        "bentoSize": "large",
         "thumbnail": "assets/images/BI.jpg"
       },
       {
         "id": "corporate-marketing",
-        "title": "Precision Visual Marks",
-        "shortDesc": "Technical execution of seals and icons for institutional and commercial use.",
-        "tags": ["Iconography", "Technical"],
+        "title": "Geometric Layouts & Seals",
+        "shortDesc": "Creating clean, balanced corporate symbols and high-precision blueprints for diverse industries.",
+        "tags": ["Precision", "Iconography"],
         "bentoSize": "small",
         "thumbnail": "assets/images/LO.jpg"
+      },
+      {
+        "id": "digital-web",
+        "title": "Information Layout Systems",
+        "shortDesc": "Organizing complex information into clean, easy-to-read mobile and print formats.",
+        "tags": ["Data Layout", "Marketing"],
+        "bentoSize": "large",
+        "thumbnail": "assets/images/PO.jpg"
+      },
+      {
+        "id": "performance-apparel-2026",
+        "title": "Technical Print Alignment",
+        "shortDesc": "Setting up complex graphics for full-print manufacturing with perfect alignment.",
+        "tags": ["Fabrication", "Apparel"],
+        "bentoSize": "small",
+        "thumbnail": "assets/images/JE.jpg"
       }
     ],
     "projects": {
-      "digital-web": [
-        {
-          "id": "PO01",
-          "name": "Ecosystem Asset Optimization",
-          "type": "Digital Production",
-          "overview": "Optimizing visual trust for digital-first products within major mobile marketplaces.",
-          "details": "Strategic use of specific color palettes to maintain consistency while ensuring complex details remain legible on mobile displays.",
-          "result": "Contributed to a 25% increase in click-through rates through optimized banner designs.",
-          "images": {
-            "main": "assets/images/PO01-M.jpg",
-            "mockupA": "assets/images/PO01-A.jpg",
-            "mockupB": "assets/images/PO01-B.jpg",
-            "mockupC": "assets/images/PO01-C.jpg"
-          }
-        },
-        {
-          "id": "PO02-B",
-          "name": "Dynamic Seasonal Assets",
-          "type": "Marketing Production",
-          "overview": "A dynamic suite of promotional layouts designed to amplify engagement for seasonal events.",
-          "details": "Solving the challenge of cutting through digital noise using high-energy compositions and impact typography across multiple formats.",
-          "result": "Significant boost in event visibility and community participation.",
-          "images": {
-            "main": "assets/images/PO02-M.jpg",
-            "mockupA": "assets/images/PO02-A.jpg",
-            "mockupB": "assets/images/PO02-B.jpg",
-            "mockupC": "assets/images/PO02-C.jpg"
-          }
-        }
-      ],
       "visual-identity": [
         {
           "id": "BI01",
-          "name": "EntreFeeds Industrial Branding",
-          "type": "Systems Design",
-          "overview": "Establishing a premium market position for an aquaculture and poultry feed producer.",
-          "details": "Engineered a minimalist mark and palette specifically for high visibility on large-scale industrial packaging.",
-          "result": "Successfully launched with a cohesive visual language that secured immediate distribution.",
+          "name": "EntreFeeds Industrial Layout",
+          "type": "Large-Format & Branding",
+          "overview": "Designing a brand identity engineered to look clean and highly visible on massive outdoor billboards and industrial packaging.",
+          "details": "Focused on clear typography and bright colors to make sure the brand can be easily recognized from far away on physical job sites.",
+          "result": "Delivered a scalable, production-ready design system used successfully across large physical formats.",
           "images": {
             "main": "assets/images/BI01-M.jpg",
             "mockupA": "assets/images/BI01-A.jpg",
@@ -273,16 +251,48 @@
       "corporate-marketing": [
         {
           "id": "LO01",
-          "name": "Commercial Identity Systems",
-          "type": "Identity Production",
-          "overview": "Strategic exploration of industry-specific visual languages for diverse commercial markets.",
-          "details": "Balancing heavy industrial typography with fluid linework to ensure each mark is distinct and professionally polished.",
-          "result": "Elevated perceived value for brands, allowing them to stand out against established competitors.",
+          "name": "Geometric Marks & Seals",
+          "type": "Identity Layout",
+          "overview": "Designing custom corporate seals and marks using strict geometric layouts.",
+          "details": "Balancing solid industrial fonts with clean line symmetry to ensure the logo files are 100% sharp and printable at any scale.",
+          "result": "Created polished corporate symbols that can be easily etched, printed, or manufactured.",
           "images": {
             "main": "assets/images/LO01-M.jpg",
             "mockupA": "assets/images/LO01-A.jpg",
             "mockupB": "assets/images/LO01-B.jpg",
             "mockupC": "assets/images/LO01-C.jpg"
+          }
+        }
+      ],
+      "digital-web": [
+        {
+          "id": "PO01",
+          "name": "SeaInsure Technical Data Display",
+          "type": "Information Layout",
+          "overview": "Taking complex digital insurance details and making them clean and easy to read on mobile screens.",
+          "details": "Organized dense text and rules into straightforward graphics while following precise corporate brand books.",
+          "result": "Increased information clarity and user trust, helping improve customer click rates by 25%.",
+          "images": {
+            "main": "assets/images/PO01-M.jpg",
+            "mockupA": "assets/images/PO01-A.jpg",
+            "mockupB": "assets/images/PO01-B.jpg",
+            "mockupC": "assets/images/PO01-C.jpg"
+          }
+        }
+      ],
+      "performance-apparel-2026": [
+        {
+          "id": "JE02",
+          "name": "Phantoms Fabric Alignment",
+          "type": "Technical Print Production",
+          "overview": "Designing complex layouts for full-print custom apparel requiring exact physical alignment.",
+          "details": "Ensured intricate graphics and patterns lined up perfectly across physical seams and edges during the manufacturing process.",
+          "result": "Zero-error final physical products that perfectly matched the digital screens.",
+          "images": {
+            "main": "assets/images/JE02-M.jpg",
+            "mockupA": "assets/images/JE02-A.jpg",
+            "mockupB": "assets/images/JE02-B.jpg",
+            "mockupC": "assets/images/JE02-C.jpg"
           }
         }
       ]
