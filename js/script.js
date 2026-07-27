@@ -4,6 +4,144 @@ document.addEventListener('DOMContentLoaded', () => {
     let profilesData = {};
     let activeProfile = null;
 
+    // --- Error Reporting ---
+
+    function logError(context, error) {
+        console.error(`[portfolio] ${context}`, error);
+    }
+
+    function logWarning(context) {
+        console.warn(`[portfolio] ${context}`);
+    }
+
+    function showErrorBanner(message) {
+        let banner = document.getElementById('site-error');
+        if (!banner) {
+            banner = document.createElement('div');
+            banner.id = 'site-error';
+            banner.className = 'site-error';
+            banner.setAttribute('role', 'alert');
+
+            const text = document.createElement('span');
+            text.className = 'site-error-text';
+            banner.appendChild(text);
+
+            const dismiss = document.createElement('button');
+            dismiss.type = 'button';
+            dismiss.className = 'site-error-dismiss';
+            dismiss.setAttribute('aria-label', 'Dismiss message');
+            dismiss.textContent = '\u00d7';
+            dismiss.addEventListener('click', () => banner.remove());
+            banner.appendChild(dismiss);
+
+            document.body.appendChild(banner);
+        }
+        banner.querySelector('.site-error-text').textContent = message;
+    }
+
+    // Runs an initialization step in isolation so one failure cannot abort the rest.
+    function runStep(name, step) {
+        try {
+            step();
+            return true;
+        } catch (error) {
+            logError(`Step "${name}" failed:`, error);
+            return false;
+        }
+    }
+
+    window.addEventListener('error', (event) => {
+        logError('Uncaught error:', event.error || event.message);
+    });
+
+    window.addEventListener('unhandledrejection', (event) => {
+        logError('Unhandled promise rejection:', event.reason);
+    });
+
+    // --- Third-party Library Guards ---
+
+    function withLucide(action) {
+        if (typeof lucide === 'undefined' || typeof lucide.createIcons !== 'function') {
+            logWarning('Lucide is unavailable (CDN blocked or failed); icons will not render.');
+            return;
+        }
+        try {
+            action(lucide);
+        } catch (error) {
+            logError('Lucide call failed:', error);
+        }
+    }
+
+    function withGsap(action) {
+        if (typeof gsap === 'undefined') {
+            logWarning('GSAP is unavailable (CDN blocked or failed); animations are disabled.');
+            return;
+        }
+        try {
+            action(gsap);
+        } catch (error) {
+            logError('GSAP call failed:', error);
+        }
+    }
+
+    // --- Safe DOM Helpers ---
+
+    function getElement(id) {
+        const element = document.getElementById(id);
+        if (!element) logWarning(`Expected element #${id} is missing from the document.`);
+        return element;
+    }
+
+    function setText(id, value) {
+        const element = getElement(id);
+        if (!element) return;
+        if (value === undefined || value === null) {
+            logWarning(`No content available for #${id}; keeping the markup default.`);
+            return;
+        }
+        element.textContent = value;
+    }
+
+    function setAttribute(id, name, value) {
+        const element = getElement(id);
+        if (!element) return;
+        if (value === undefined || value === null) {
+            logWarning(`No "${name}" value available for #${id}; keeping the markup default.`);
+            return;
+        }
+        element.setAttribute(name, value);
+    }
+
+    function setList(id, items, label) {
+        const element = getElement(id);
+        if (!element) return;
+        if (!Array.isArray(items)) {
+            logWarning(`${label} is missing or not a list; keeping the markup default.`);
+            return;
+        }
+        element.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+    }
+
+    // --- Storage Helpers ---
+    // localStorage throws in private browsing modes and when storage is disabled.
+
+    function readStoredValue(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (error) {
+            logError(`Unable to read "${key}" from localStorage:`, error);
+            return null;
+        }
+    }
+
+    function writeStoredValue(key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch (error) {
+            logError(`Unable to persist "${key}" to localStorage:`, error);
+        }
+    }
+
     // URL Parsing for Company Detection
     function getCompanyFromURL() {
         // Prioritize query parameter "?for=company" as it is most reliable for GitHub Pages
@@ -18,114 +156,166 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const company = search || hash || (pathMatch ? pathMatch[1] : null);
 
-        console.log('Detected Company Identifier:', company);
         return company?.toLowerCase();
     }
 
-    // Fetch All Data
-    async function loadData() {
+    // --- Data Loading ---
+
+    async function fetchJSON(url) {
+        let response;
         try {
-            const [configRes, projectsRes, profilesRes] = await Promise.all([
-                fetch('data/config.json'),
-                fetch('data/projects.json'),
-                fetch('data/profiles.json')
-            ]);
-
-            configData = await configRes.json();
-            projectsData = await projectsRes.json();
-            profilesData = await profilesRes.json();
-
-            const company = getCompanyFromURL();
-            if (company && profilesData[company]) {
-                activeProfile = profilesData[company];
-                applyProfileOverrides();
-            }
-
-            initPortfolio();
+            response = await fetch(url);
         } catch (error) {
-            console.error('Error loading data:', error);
-            // Fallback to basic init if any data fails
-            initPortfolio();
+            throw new Error(`Network request for ${url} failed: ${error.message}`, { cause: error });
         }
+
+        if (!response.ok) {
+            throw new Error(`Request for ${url} failed with HTTP ${response.status} ${response.statusText}`);
+        }
+
+        try {
+            return await response.json();
+        } catch (error) {
+            // A 200 response serving HTML (e.g. a SPA fallback page) lands here.
+            throw new Error(`Response for ${url} is not valid JSON: ${error.message}`, { cause: error });
+        }
+    }
+
+    // Resolves to the parsed value, or null after reporting why the source is unusable.
+    async function loadSource(promise, url, validate, describe) {
+        try {
+            const value = await promise;
+            if (!validate(value)) {
+                throw new Error(`${url} did not contain ${describe}.`);
+            }
+            return value;
+        } catch (error) {
+            logError(`Unable to load ${url}:`, error);
+            return null;
+        }
+    }
+
+    const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+
+    async function loadData() {
+        const requests = [
+            fetchJSON('data/config.json'),
+            fetchJSON('data/projects.json'),
+            fetchJSON('data/profiles.json')
+        ];
+        // Prevent an early rejection from surfacing as an unhandled rejection while
+        // the other requests are still in flight.
+        requests.forEach(request => request.catch(() => {}));
+
+        const [config, projects, profiles] = await Promise.all([
+            loadSource(requests[0], 'data/config.json', isObject, 'a configuration object'),
+            loadSource(requests[1], 'data/projects.json', Array.isArray, 'an array of projects'),
+            loadSource(requests[2], 'data/profiles.json', isObject, 'a map of profiles')
+        ]);
+
+        configData = config || {};
+        projectsData = projects || [];
+        profilesData = profiles || {};
+
+        const failed = [
+            config ? null : 'site settings',
+            projects ? null : 'projects',
+            profiles ? null : 'tailored profiles'
+        ].filter(Boolean);
+
+        if (failed.length) {
+            showErrorBanner(`Some content could not be loaded (${failed.join(', ')}). Showing what is available — please refresh or check your connection.`);
+        }
+
+        const company = getCompanyFromURL();
+        if (company) {
+            if (profilesData[company]) {
+                activeProfile = profilesData[company];
+                runStep('applyProfileOverrides', applyProfileOverrides);
+            } else {
+                logWarning(`No profile named "${company}" exists in data/profiles.json; falling back to the default portfolio.`);
+            }
+        }
+
+        initPortfolio();
     }
 
     // Personalization Overrides
     function applyProfileOverrides() {
-        console.log('Applying profile overrides for:', activeProfile.heroTitle);
-
         // Merge profile into config
-        configData.portfolioTitle = activeProfile.heroTitle;
-        configData.role = activeProfile.role;
-        configData.description = activeProfile.description;
-        configData.about.lead = activeProfile.introLead || configData.about.lead;
-        configData.about.philosophy = activeProfile.philosophy || configData.about.philosophy;
+        configData.portfolioTitle = activeProfile.heroTitle ?? configData.portfolioTitle;
+        configData.role = activeProfile.role ?? configData.role;
+        configData.description = activeProfile.description ?? configData.description;
+
+        if (activeProfile.introLead || activeProfile.philosophy) {
+            configData.about = { ...configData.about };
+            configData.about.lead = activeProfile.introLead || configData.about.lead;
+            configData.about.philosophy = activeProfile.philosophy || configData.about.philosophy;
+        }
 
         // Add specific theme class to body
         if (activeProfile.themeClass) document.body.classList.add(activeProfile.themeClass);
     }
 
     function initPortfolio() {
-        populateConfig();
+        runStep('populateConfig', populateConfig);
         // Since the filter bar is removed, we always render the main project set.
         // Profiles still handle prioritization internally in renderProjects.
-        renderProjects('all');
-        initCommonUI();
-        initTheme();
-        initParticles();
-        initAnimations();
+        runStep('renderProjects', () => renderProjects('all'));
+        runStep('initCommonUI', initCommonUI);
+        runStep('initTheme', initTheme);
+        runStep('initParticles', initParticles);
+        runStep('initAnimations', initAnimations);
     }
 
     // Populate Config-based Content
     function populateConfig() {
+        const about = configData.about || {};
+        const contact = configData.contact || {};
+        const social = contact.social || {};
+
         // Browser tab title
-        document.title = activeProfile
-            ? `${activeProfile.heroTitle} - Portfolio`
-            : `${configData.portfolioTitle} - Portfolio`;
+        const title = activeProfile?.heroTitle || configData.portfolioTitle;
+        if (title) document.title = `${title} - Portfolio`;
 
         // Navbar branding - Always "Marjoe" or the name from config
-        document.getElementById('site-branding').textContent = configData.name;
-        document.getElementById('hero-role').textContent = configData.role;
+        setText('site-branding', configData.name);
+        setText('hero-role', configData.role);
 
         // Use custom hero headline if profile exists, otherwise default
-        const heroTitleElem = document.getElementById('hero-title');
-        heroTitleElem.textContent = activeProfile
+        setText('hero-title', activeProfile
             ? activeProfile.heroTitle
-            : "Where Strategic Design Meets Technical Precision.";
+            : "Where Strategic Design Meets Technical Precision.");
 
-        document.getElementById('hero-description').textContent = configData.description;
-        document.getElementById('hero-location').textContent = configData.location;
+        setText('hero-description', configData.description);
+        setText('hero-location', configData.location);
 
-        document.getElementById('about-title').textContent = configData.about.title;
-        document.getElementById('about-lead').textContent = configData.about.lead;
-        document.getElementById('about-bio').textContent = configData.about.bio;
-        document.getElementById('about-philosophy').textContent = configData.about.philosophy;
+        setText('about-title', about.title);
+        setText('about-lead', about.lead);
+        setText('about-bio', about.bio);
+        setText('about-philosophy', about.philosophy);
 
         // Populate Skills
-        const expertiseList = document.getElementById('expertise-list');
-        const toolkitList = document.getElementById('toolkit-list');
-        const expertiseData = activeProfile?.expertise || configData.defaultExpertise;
-        const toolkitData = activeProfile?.toolkit || configData.defaultToolkit;
+        setList('expertise-list', activeProfile?.expertise || configData.defaultExpertise, 'Expertise list');
+        setList('toolkit-list', activeProfile?.toolkit || configData.defaultToolkit, 'Toolkit list');
 
-        expertiseList.innerHTML = expertiseData.map(item => `<li>${item}</li>`).join('');
-        toolkitList.innerHTML = toolkitData.map(item => `<li>${item}</li>`).join('');
+        setText('contact-description', activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.");
 
-        const contactDescElem = document.getElementById('contact-description');
-        contactDescElem.textContent = activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.";
+        setText('contact-email', contact.email);
+        if (contact.email) setAttribute('contact-email', 'href', `mailto:${contact.email}`);
 
-        document.getElementById('contact-email').textContent = configData.contact.email;
-        document.getElementById('contact-email').href = `mailto:${configData.contact.email}`;
+        setAttribute('social-instagram', 'href', social.instagram);
+        setAttribute('social-linkedin', 'href', social.linkedin);
+        setAttribute('social-behance', 'href', social.behance);
 
-        document.getElementById('social-instagram').href = configData.contact.social.instagram;
-        document.getElementById('social-linkedin').href = configData.contact.social.linkedin;
-        document.getElementById('social-behance').href = configData.contact.social.behance;
-
-        document.getElementById('footer-name').textContent = configData.name;
-        document.getElementById('year').textContent = new Date().getFullYear();
+        setText('footer-name', configData.name);
+        setText('year', new Date().getFullYear());
     }
 
     // Render Projects Grid
     function renderProjects(filter) {
-        const grid = document.getElementById('project-grid');
+        const grid = getElement('project-grid');
+        if (!grid) return;
         grid.innerHTML = '';
 
         let filtered = [];
@@ -137,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fallback to original filtering logic
             filtered = filter === 'all'
                 ? projectsData
-                : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
+                : projectsData.filter(p => p.category === filter || p.tags?.includes(filter));
 
             // Determine which featured project list to use
             const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
@@ -146,7 +336,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (featuredIds) {
                 if (filter === 'all') {
                     filtered = featuredIds
-                        .map(id => projectsData.find(p => p.id === id))
+                        .map(id => {
+                            const project = projectsData.find(p => p.id === id);
+                            if (!project) logWarning(`Featured project id "${id}" has no entry in data/projects.json.`);
+                            return project;
+                        })
                         .filter(p => p !== undefined);
                 } else {
                     filtered.sort((a, b) => {
@@ -159,6 +353,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             }
+        }
+
+        if (!filtered.length) {
+            logWarning('No project cards are available to render.');
+            const empty = document.createElement('p');
+            empty.className = 'grid-empty-state';
+            empty.textContent = 'Selected work is unavailable right now. Please refresh the page or get in touch directly.';
+            grid.appendChild(empty);
+            return;
         }
 
         filtered.forEach((cardData, index) => {
@@ -190,8 +393,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
                         <span class="card-number">${num}</span>
                     </div>
-                    <h2>${displayCard.title}</h2>
-                    <p>${displayCard.shortDesc}</p>
+                    <h2>${displayCard.title || 'Untitled project'}</h2>
+                    <p>${displayCard.shortDesc || ''}</p>
                     <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
                 </div>
             `;
@@ -200,10 +403,10 @@ document.addEventListener('DOMContentLoaded', () => {
             grid.appendChild(card);
         });
 
-        lucide.createIcons();
+        withLucide(icons => icons.createIcons());
 
         // Reveal animations
-        gsap.from(".project-card", {
+        withGsap(animation => animation.from(".project-card", {
             y: 50,
             opacity: 0,
             duration: 0.8,
@@ -213,29 +416,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 trigger: "#project-grid",
                 start: "top 80%"
             }
-        });
+        }));
     }
 
     // Modal Logic
     const modal = document.getElementById('project-modal');
     const modalClose = document.querySelector('.modal-close');
+    const modalOverlay = modal?.querySelector('.modal-overlay');
+    const modalBody = modal?.querySelector('.modal-body');
 
-    function openModal(projectId) {
+    if (!modal || !modalBody) {
+        logError('Modal markup is missing:', new Error('#project-modal or .modal-body was not found; case studies cannot open.'));
+    }
+
+    // Returns the case studies for a card, or null when none can be resolved.
+    function resolveProjectsList(projectId) {
         // 1. Check for custom project list in the new modular structure
-        let projectsList = activeProfile?.projects?.[projectId];
+        const customList = activeProfile?.projects?.[projectId];
+        if (Array.isArray(customList) && customList.length) return customList;
 
         // 2. Fallback to original project data
-        if (!projectsList) {
-            const originalData = projectsData.find(p => p.id === projectId);
-            if (!originalData) return;
-
-            // Apply legacy Card-Level Overrides if they exist
-            const cardOverride = activeProfile?.projectOverrides?.[projectId];
-            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
-            projectsList = data.projects;
+        const originalData = projectsData.find(p => p.id === projectId);
+        if (!originalData) {
+            logError('Cannot open case study:', new Error(`No project with id "${projectId}" exists in the active profile or data/projects.json.`));
+            return null;
         }
 
-        const modalBody = modal.querySelector('.modal-body');
+        // Apply legacy Card-Level Overrides if they exist
+        const cardOverride = activeProfile?.projectOverrides?.[projectId];
+        const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
+
+        if (!Array.isArray(data.projects) || !data.projects.length) {
+            logError('Cannot open case study:', new Error(`Project "${projectId}" has no case studies defined.`));
+            return null;
+        }
+
+        return data.projects;
+    }
+
+    function openModal(projectId) {
+        if (!modal || !modalBody) {
+            showErrorBanner('This case study cannot be opened right now. Please refresh the page.');
+            return;
+        }
+
+        const projectsList = resolveProjectsList(projectId);
+        if (!projectsList) {
+            showErrorBanner('This case study is unavailable right now. Please refresh the page or get in touch directly.');
+            return;
+        }
+
         modalBody.innerHTML = '';
 
         projectsList.forEach((proj, i) => {
@@ -247,26 +477,26 @@ document.addEventListener('DOMContentLoaded', () => {
             section.className = 'project-split-section';
             section.innerHTML = `
                 <div class="modal-header">
-                    <span class="project-type">${displayData.type}</span>
-                    <h2 class="project-name">${displayData.name}</h2>
+                    <span class="project-type">${displayData.type || ''}</span>
+                    <h2 class="project-name">${displayData.name || 'Untitled case study'}</h2>
                 </div>
                 <section class="cs-intro">
                     <h3>Overview</h3>
-                    <p>${displayData.overview}</p>
+                    <p>${displayData.overview || ''}</p>
                 </section>
                 <div class="cs-details-grid">
                     <section class="cs-detail-item">
                         <h3>Problem & Solution</h3>
-                        <p>${displayData.details}</p>
+                        <p>${displayData.details || ''}</p>
                     </section>
                     <section class="cs-detail-item highlight">
                         <h3>Impact</h3>
-                        <p>${displayData.result}</p>
+                        <p>${displayData.result || ''}</p>
                     </section>
                 </div>
                 <section class="cs-visuals">
                     <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
-                        ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
+                        ${!displayData.images?.main ? `Visualizing: ${displayData.name || 'case study'}` : ''}
                     </div>
                     <div class="visual-grid">
                         <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
@@ -294,19 +524,30 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
 
-        gsap.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" });
+        withGsap(animation => animation.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" }));
     }
 
     function closeModal() {
+        if (!modal) return;
         modal.classList.remove('active');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
     }
 
-    modalClose.addEventListener('click', closeModal);
-    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    } else {
+        logWarning('.modal-close is missing; the modal cannot be closed with the button.');
+    }
+
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', closeModal);
+    } else {
+        logWarning('.modal-overlay is missing; clicking outside the modal will not close it.');
+    }
+
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        if (e.key === 'Escape' && modal?.classList.contains('active')) closeModal();
     });
 
     // --- RE-INTEGRATED COMMON UI LOGIC ---
@@ -320,6 +561,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const active = menu.classList.toggle('active');
                 menuToggle.setAttribute('aria-expanded', active);
             });
+        } else {
+            logWarning('Mobile menu markup is incomplete; the menu toggle is inactive.');
         }
 
         // Magnetic Effect
@@ -330,28 +573,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 const isCentered = btn.classList.contains('scroll-down');
-                gsap.to(btn, {
+                withGsap(animation => animation.to(btn, {
                     x: x * 0.4,
                     xPercent: isCentered ? -50 : 0,
                     y: y * 0.4,
                     duration: 0.4,
                     ease: "power2.out"
-                });
+                }));
             });
             btn.addEventListener('mouseleave', () => {
                 const isCentered = btn.classList.contains('scroll-down');
-                gsap.to(btn, {
+                withGsap(animation => animation.to(btn, {
                     x: 0,
                     xPercent: isCentered ? -50 : 0,
                     y: 0,
                     duration: 0.6,
                     ease: "elastic.out(1, 0.5)"
-                });
+                }));
             });
         });
 
         // Scroll Progress
-        gsap.to("#scroll-progress", {
+        withGsap(animation => animation.to("#scroll-progress", {
             width: "100%",
             ease: "none",
             scrollTrigger: {
@@ -360,34 +603,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 end: "bottom bottom",
                 scrub: 0.3
             }
-        });
+        }));
     }
 
     function initTheme() {
         const themeBtn = document.getElementById('theme-toggle');
         const body = document.body;
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') body.setAttribute('data-theme', 'dark');
+        if (readStoredValue('theme') === 'dark') body.setAttribute('data-theme', 'dark');
 
-        if (themeBtn) {
-            themeBtn.addEventListener('click', () => {
-                const isDark = body.hasAttribute('data-theme');
-                if (isDark) {
-                    body.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    body.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-                gsap.to(themeBtn, { rotation: "+=360", duration: 0.5 });
-            });
+        if (!themeBtn) {
+            logWarning('#theme-toggle is missing; theme switching is unavailable.');
+            return;
         }
+
+        themeBtn.addEventListener('click', () => {
+            const isDark = body.hasAttribute('data-theme');
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                writeStoredValue('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                writeStoredValue('theme', 'dark');
+            }
+            withGsap(animation => animation.to(themeBtn, { rotation: "+=360", duration: 0.5 }));
+        });
     }
 
     function initParticles() {
         const canvas = document.getElementById('particles');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            logWarning('2D canvas context is unavailable; the particle background is disabled.');
+            return;
+        }
         let particles = [];
 
         function resize() {
@@ -418,14 +667,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for(let i=0; i<80; i++) particles.push(new P());
         function anim() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
+            try {
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+            } catch (error) {
+                // Stop the loop instead of throwing on every animation frame.
+                logError('Particle animation stopped after an error:', error);
+                return;
+            }
             requestAnimationFrame(anim);
         }
         anim();
     }
 
     function initAnimations() {
+        if (typeof gsap === 'undefined') {
+            logWarning('GSAP is unavailable (CDN blocked or failed); scroll animations are disabled.');
+            return;
+        }
+
+        if (typeof ScrollTrigger === 'undefined') {
+            logWarning('The GSAP ScrollTrigger plugin is unavailable; scroll animations are disabled.');
+            return;
+        }
+
         gsap.registerPlugin(ScrollTrigger);
 
         // Hero Parallax
@@ -445,5 +710,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    loadData();
+    loadData().catch(error => {
+        logError('Portfolio failed to initialize:', error);
+        showErrorBanner('Something went wrong while loading this portfolio. Please refresh the page.');
+    });
 });
