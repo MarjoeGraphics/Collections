@@ -4,6 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let profilesData = {};
     let activeProfile = null;
 
+    // Escape text before interpolating into innerHTML to prevent HTML/script injection.
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // Neutralize characters that could break out of a CSS url('...') context.
+    function safeImageUrl(value) {
+        return String(value ?? '').replace(/["'()\\<>\s]/g, encodeURIComponent);
+    }
+
     // URL Parsing for Company Detection
     function getCompanyFromURL() {
         // Prioritize query parameter "?for=company" as it is most reliable for GitHub Pages
@@ -106,8 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const expertiseData = activeProfile?.expertise || configData.defaultExpertise;
         const toolkitData = activeProfile?.toolkit || configData.defaultToolkit;
 
-        expertiseList.innerHTML = expertiseData.map(item => `<li>${item}</li>`).join('');
-        toolkitList.innerHTML = toolkitData.map(item => `<li>${item}</li>`).join('');
+        expertiseList.innerHTML = expertiseData.map(item => `<li>${escapeHtml(item)}</li>`).join('');
+        toolkitList.innerHTML = toolkitData.map(item => `<li>${escapeHtml(item)}</li>`).join('');
 
         const contactDescElem = document.getElementById('contact-description');
         contactDescElem.textContent = activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.";
@@ -183,15 +198,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
 
             card.innerHTML = `
-                <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
+                <div class="card-bg" ${thumbnail ? `style="background-image: url('${safeImageUrl(thumbnail)}'); background-size: cover;"` : ''}></div>
                 ${isDual ? '<div class="card-split-indicator"></div>' : ''}
                 <div class="card-content">
                     <div class="card-header">
-                        <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
-                        <span class="card-number">${num}</span>
+                        <span class="card-category">${displayCard.tags ? escapeHtml(displayCard.tags.join(' & ')) : ''}</span>
+                        <span class="card-number">${escapeHtml(num)}</span>
                     </div>
-                    <h2>${displayCard.title}</h2>
-                    <p>${displayCard.shortDesc}</p>
+                    <h2>${escapeHtml(displayCard.title)}</h2>
+                    <p>${escapeHtml(displayCard.shortDesc)}</p>
                     <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
                 </div>
             `;
@@ -247,35 +262,35 @@ document.addEventListener('DOMContentLoaded', () => {
             section.className = 'project-split-section';
             section.innerHTML = `
                 <div class="modal-header">
-                    <span class="project-type">${displayData.type}</span>
-                    <h2 class="project-name">${displayData.name}</h2>
+                    <span class="project-type">${escapeHtml(displayData.type)}</span>
+                    <h2 class="project-name">${escapeHtml(displayData.name)}</h2>
                 </div>
                 <section class="cs-intro">
                     <h3>Overview</h3>
-                    <p>${displayData.overview}</p>
+                    <p>${escapeHtml(displayData.overview)}</p>
                 </section>
                 <div class="cs-details-grid">
                     <section class="cs-detail-item">
                         <h3>Problem & Solution</h3>
-                        <p>${displayData.details}</p>
+                        <p>${escapeHtml(displayData.details)}</p>
                     </section>
                     <section class="cs-detail-item highlight">
                         <h3>Impact</h3>
-                        <p>${displayData.result}</p>
+                        <p>${escapeHtml(displayData.result)}</p>
                     </section>
                 </div>
                 <section class="cs-visuals">
-                    <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
-                        ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
+                    <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${safeImageUrl(displayData.images.main)}'); background-size: cover;"` : ''}>
+                        ${!displayData.images?.main ? `Visualizing: ${escapeHtml(displayData.name)}` : ''}
                     </div>
                     <div class="visual-grid">
-                        <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
+                        <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${safeImageUrl(displayData.images.mockupA)}'); background-size: cover;"` : ''}>
                             ${!displayData.images?.mockupA ? 'Mockup A' : ''}
                         </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
+                        <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${safeImageUrl(displayData.images.mockupB)}'); background-size: cover;"` : ''}>
                             ${!displayData.images?.mockupB ? 'Mockup B' : ''}
                         </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover;"` : ''}>
+                        <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${safeImageUrl(displayData.images.mockupC)}'); background-size: cover;"` : ''}>
                             ${!displayData.images?.mockupC ? 'Mockup C' : ''}
                         </div>
                     </div>
