@@ -48,6 +48,10 @@
                 <div class="hero-tagline" id="hero-role">10+ YEARS OF DESIGN LEADERSHIP</div>
                 <h1 class="hero-title" id="hero-title">Where Strategic Design Meets Technical Precision.</h1>
                 <p class="hero-subtitle" id="hero-description">A Senior Multidisciplinary Designer bridging the gap between bold branding and real-world production through intentional visual communication.</p>
+                <div class="hero-ctas">
+                    <a href="#work" class="cta-button primary">View Selected Work</a>
+                    <a href="#contact" class="cta-button secondary">Get in Touch</a>
+                </div>
                 <div class="hero-location" id="hero-location">Based in Philippines • Serving Global Brands</div>
             </div>
             <a href="#work" class="scroll-down" aria-label="Scroll to work">
@@ -64,7 +68,7 @@
             </div>
 
 
-            <div class="bento-grid" id="project-grid">
+            <div id="project-grid" class="projects-container">
                 <!-- Projects injected via JavaScript -->
             </div>
         </section>
@@ -101,15 +105,15 @@
                     <div class="about-skills">
                         <div class="skill-category">
                             <h3 id="expertise-title">Core Expertise</h3>
-                            <ul class="skill-list" id="expertise-list">
+                            <div class="skill-grid" id="expertise-list">
                                 <!-- Dynamic List -->
-                            </ul>
+                            </div>
                         </div>
                         <div class="skill-category">
                             <h3 id="toolkit-title">Toolkit</h3>
-                            <ul class="software-list" id="toolkit-list">
+                            <div class="skill-grid" id="toolkit-list">
                                 <!-- Dynamic List -->
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,7 +124,29 @@
                 <div class="contact-content">
                     <h2 class="section-title">Let's Work Together</h2>
                     <p id="contact-description">Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.</p>
-                    <a href="mailto:marjoegraphics@gmail.com" class="email-link" id="contact-email">marjoegraphics@gmail.com</a>
+
+                    <div class="email-wrapper">
+                        <a href="mailto:marjoegraphics@gmail.com" class="email-link" id="contact-email">marjoegraphics@gmail.com</a>
+                        <button id="copy-email-btn" aria-label="Copy Email to Clipboard" class="copy-btn">
+                            <i data-lucide="copy" class="copy-icon-elem"></i>
+                            <span class="tooltip" id="copy-tooltip">Copy email</span>
+                        </button>
+                    </div>
+
+                    <!-- Minimal Contact Form -->
+                    <form id="contact-form" class="minimal-contact-form">
+                        <div class="form-group">
+                            <input type="text" id="form-name" placeholder="Your Name" required autocomplete="name" />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="form-email" placeholder="Your Email" required autocomplete="email" />
+                        </div>
+                        <div class="form-group">
+                            <textarea id="form-message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="cta-button primary submit-btn">Send a Message</button>
+                    </form>
+
                     <div class="social-links" id="social-links">
                         <a href="#" aria-label="Instagram" id="social-instagram"><i data-lucide="instagram"></i></a>
                         <a href="#" aria-label="LinkedIn" id="social-linkedin"><i data-lucide="linkedin"></i></a>
