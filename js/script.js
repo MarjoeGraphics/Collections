@@ -22,6 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return company?.toLowerCase();
     }
 
+    // Free-form company query param detection (?company=Acme)
+    function getFreeFormCompanyFromURL() {
+        const companyParam = new URLSearchParams(window.location.search).get('company');
+        if (companyParam) {
+            // Capitalize each word of the company name
+            return companyParam
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+        return null;
+    }
+
     // Fetch All Data
     async function loadData() {
         try {
@@ -86,13 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('site-branding').textContent = configData.name;
         document.getElementById('hero-role').textContent = configData.role;
 
-        // Use custom hero headline if profile exists, otherwise default
+        // Use custom hero headline if profile exists, otherwise check free-form company param
         const heroTitleElem = document.getElementById('hero-title');
-        heroTitleElem.textContent = activeProfile
-            ? activeProfile.heroTitle
-            : "Where Strategic Design Meets Technical Precision.";
+        const heroDescElem = document.getElementById('hero-description');
+        const freeFormCompany = getFreeFormCompanyFromURL();
 
-        document.getElementById('hero-description').textContent = configData.description;
+        if (activeProfile) {
+            heroTitleElem.textContent = activeProfile.heroTitle;
+            heroDescElem.textContent = configData.description;
+        } else if (freeFormCompany) {
+            heroTitleElem.textContent = `Hey ${freeFormCompany} Team, I'm ${configData.name}`;
+            heroDescElem.textContent = `Let's collaborate to bring ${freeFormCompany}'s vision to life with strategic, production-ready design.`;
+        } else {
+            heroTitleElem.textContent = "Where Strategic Design Meets Technical Precision.";
+            heroDescElem.textContent = configData.description;
+        }
         document.getElementById('hero-location').textContent = configData.location;
 
         document.getElementById('about-title').textContent = configData.about.title;
@@ -100,14 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('about-bio').textContent = configData.about.bio;
         document.getElementById('about-philosophy').textContent = configData.about.philosophy;
 
-        // Populate Skills
+        // Populate Skills as glass cards (divs) instead of <li> pills
         const expertiseList = document.getElementById('expertise-list');
         const toolkitList = document.getElementById('toolkit-list');
         const expertiseData = activeProfile?.expertise || configData.defaultExpertise;
         const toolkitData = activeProfile?.toolkit || configData.defaultToolkit;
 
-        expertiseList.innerHTML = expertiseData.map(item => `<li>${item}</li>`).join('');
-        toolkitList.innerHTML = toolkitData.map(item => `<li>${item}</li>`).join('');
+        expertiseList.innerHTML = expertiseData.map(item => `<div class="skill-card">${item}</div>`).join('');
+        toolkitList.innerHTML = toolkitData.map(item => `<div class="skill-card">${item}</div>`).join('');
 
         const contactDescElem = document.getElementById('contact-description');
         contactDescElem.textContent = activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.";
@@ -121,88 +142,171 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('footer-name').textContent = configData.name;
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        initContactFormAndCopy();
     }
 
-    // Render Projects Grid
+    // Initialize Copy Email & Contact Form Handler
+    function initContactFormAndCopy() {
+        const copyBtn = document.getElementById('copy-email-btn');
+        const tooltip = document.getElementById('copy-tooltip');
+
+        if (copyBtn && !copyBtn.dataset.listenerAdded) {
+            copyBtn.dataset.listenerAdded = 'true';
+            copyBtn.addEventListener('click', () => {
+                const emailText = configData.contact?.email || 'marjoegraphics@gmail.com';
+                navigator.clipboard.writeText(emailText).then(() => {
+                    // Visual feedback
+                    const iconElem = copyBtn.querySelector('[data-lucide]') || copyBtn.querySelector('svg');
+                    if (iconElem) {
+                        iconElem.setAttribute('data-lucide', 'check');
+                        lucide.createIcons();
+                    }
+                    if (tooltip) {
+                        tooltip.textContent = 'Copied!';
+                        tooltip.classList.add('visible');
+                    }
+
+                    setTimeout(() => {
+                        const activeIcon = copyBtn.querySelector('[data-lucide]') || copyBtn.querySelector('svg');
+                        if (activeIcon) {
+                            activeIcon.setAttribute('data-lucide', 'copy');
+                            lucide.createIcons();
+                        }
+                        if (tooltip) {
+                            tooltip.textContent = 'Copy email';
+                            tooltip.classList.remove('visible');
+                        }
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Could not copy email: ', err);
+                });
+            });
+        }
+
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm && !contactForm.dataset.listenerAdded) {
+            contactForm.dataset.listenerAdded = 'true';
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('form-name').value;
+                const email = document.getElementById('form-email').value;
+                const message = document.getElementById('form-message').value;
+                const targetEmail = configData.contact?.email || 'marjoegraphics@gmail.com';
+
+                const subject = encodeURIComponent(`Inquiry from ${name}`);
+                const body = encodeURIComponent(
+                    `Name: ${name}\n` +
+                    `Email: ${email}\n\n` +
+                    `Message:\n${message}`
+                );
+
+                window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+            });
+        }
+    }
+
+    // Render Projects with category groupings and horizontal scrolling tracks
     function renderProjects(filter) {
-        const grid = document.getElementById('project-grid');
-        grid.innerHTML = '';
+        const container = document.getElementById('project-grid');
+        container.innerHTML = '';
 
-        let filtered = [];
+        // We group into categories:
+        // Key is category name, Value is list of card display objects
+        const groupedCategories = {};
 
-        // 1. Check if the active profile has a modular "cards" definition
         if (activeProfile?.cards && filter === 'all') {
-            filtered = activeProfile.cards;
+            // Under active profile, all cards go under a single "Featured Work" category
+            const categoryName = "Featured Work";
+            groupedCategories[categoryName] = [];
+            activeProfile.cards.forEach(cardData => {
+                const baseProject = projectsData.find(p => p.id === cardData.id) || {};
+                groupedCategories[categoryName].push({ ...baseProject, ...cardData });
+            });
         } else {
-            // Fallback to original filtering logic
-            filtered = filter === 'all'
-                ? projectsData
-                : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
-
-            // Determine which featured project list to use
-            const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
-
-            // Sort or filter based on featured IDs if they exist
-            if (featuredIds) {
-                if (filter === 'all') {
+            // Default (or backup) filtering/rendering
+            let filtered = [];
+            if (filter === 'all') {
+                // Respect featuredProjectIds ordering if exists
+                const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
+                if (featuredIds) {
                     filtered = featuredIds
                         .map(id => projectsData.find(p => p.id === id))
                         .filter(p => p !== undefined);
                 } else {
-                    filtered.sort((a, b) => {
-                        const indexA = featuredIds.indexOf(a.id);
-                        const indexB = featuredIds.indexOf(b.id);
-                        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-                        if (indexA !== -1) return -1;
-                        if (indexB !== -1) return 1;
-                        return 0;
-                    });
+                    filtered = [...projectsData];
                 }
+            } else {
+                filtered = projectsData.filter(p => p.category === filter || p.tags.includes(filter));
             }
+
+            // Group by category field
+            filtered.forEach(proj => {
+                const cat = proj.category || "Uncategorized";
+                if (!groupedCategories[cat]) {
+                    groupedCategories[cat] = [];
+                }
+                groupedCategories[cat].push(proj);
+            });
         }
 
-        filtered.forEach((cardData, index) => {
-            // Look for a match in projectsData for defaults, but prioritize cardData
-            const baseProject = projectsData.find(p => p.id === cardData.id) || {};
-            const displayCard = { ...baseProject, ...cardData };
+        // Now render each category
+        Object.entries(groupedCategories).forEach(([categoryName, cards]) => {
+            if (cards.length === 0) return;
 
-            const card = document.createElement('div');
-            card.className = `project-card bento-item-${displayCard.bentoSize || 'medium'}`;
-            card.setAttribute('data-project-id', displayCard.id);
+            // Create Category Section Block
+            const catSection = document.createElement('div');
+            catSection.className = 'project-category-section';
 
-            const num = (index + 1).toString().padStart(2, '0');
+            // Create Category Header
+            const catHeader = document.createElement('div');
+            catHeader.className = 'project-category-header';
+            catHeader.innerHTML = `<h3>${categoryName}</h3><div class="category-line"></div>`;
+            catSection.appendChild(catHeader);
 
-            // Determine if it should show as a Dual Case Study
-            // If the profile has custom projects for this card, check that list.
-            const customProjects = activeProfile?.projects?.[displayCard.id];
-            const isDual = customProjects ? customProjects.length > 1 : displayCard.isDual;
+            // Create Horizontal Track
+            const track = document.createElement('div');
+            track.className = 'project-track';
 
-            // Thumbnail support: use displayCard.thumbnail or the first project's main image as fallback
-            // Prioritize custom profile projects, then base projectsData
-            const firstProject = customProjects?.[0] || baseProject.projects?.[0];
-            const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
+            cards.forEach((displayCard, index) => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.setAttribute('data-project-id', displayCard.id);
 
-            card.innerHTML = `
-                <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
-                ${isDual ? '<div class="card-split-indicator"></div>' : ''}
-                <div class="card-content">
-                    <div class="card-header">
-                        <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
-                        <span class="card-number">${num}</span>
+                const num = (index + 1).toString().padStart(2, '0');
+
+                const customProjects = activeProfile?.projects?.[displayCard.id];
+                const isDual = customProjects ? customProjects.length > 1 : displayCard.isDual;
+
+                const baseProject = projectsData.find(p => p.id === displayCard.id) || {};
+                const firstProject = customProjects?.[0] || baseProject.projects?.[0];
+                const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
+
+                card.innerHTML = `
+                    <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
+                    ${isDual ? '<div class="card-split-indicator"></div>' : ''}
+                    <div class="card-content">
+                        <div class="card-header">
+                            <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
+                            <span class="card-number">${num}</span>
+                        </div>
+                        <h2>${displayCard.title}</h2>
+                        <p>${displayCard.shortDesc}</p>
+                        <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
                     </div>
-                    <h2>${displayCard.title}</h2>
-                    <p>${displayCard.shortDesc}</p>
-                    <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
-                </div>
-            `;
+                `;
 
-            card.addEventListener('click', () => openModal(displayCard.id));
-            grid.appendChild(card);
+                card.addEventListener('click', () => openModal(displayCard.id));
+                track.appendChild(card);
+            });
+
+            catSection.appendChild(track);
+            container.appendChild(catSection);
         });
 
         lucide.createIcons();
 
-        // Reveal animations
+        // Reveal animations per track/card
         gsap.from(".project-card", {
             y: 50,
             opacity: 0,
