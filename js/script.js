@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('year').textContent = new Date().getFullYear();
     }
 
-    // Render Projects Grid
+    // Render Projects Inline Case Studies
     function renderProjects(filter) {
         const grid = document.getElementById('project-grid');
         grid.innerHTML = '';
@@ -166,148 +166,100 @@ document.addEventListener('DOMContentLoaded', () => {
             const baseProject = projectsData.find(p => p.id === cardData.id) || {};
             const displayCard = { ...baseProject, ...cardData };
 
-            const card = document.createElement('div');
-            card.className = `project-card bento-item-${displayCard.bentoSize || 'medium'}`;
-            card.setAttribute('data-project-id', displayCard.id);
-
             const num = (index + 1).toString().padStart(2, '0');
 
-            // Determine if it should show as a Dual Case Study
-            // If the profile has custom projects for this card, check that list.
-            const customProjects = activeProfile?.projects?.[displayCard.id];
-            const isDual = customProjects ? customProjects.length > 1 : displayCard.isDual;
+            const projectBlock = document.createElement('div');
+            projectBlock.className = 'inline-case-study-block';
+            projectBlock.setAttribute('data-project-id', displayCard.id);
 
-            // Thumbnail support: use displayCard.thumbnail or the first project's main image as fallback
-            // Prioritize custom profile projects, then base projectsData
-            const firstProject = customProjects?.[0] || baseProject.projects?.[0];
-            const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
-
-            card.innerHTML = `
-                <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
-                ${isDual ? '<div class="card-split-indicator"></div>' : ''}
-                <div class="card-content">
-                    <div class="card-header">
-                        <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
-                        <span class="card-number">${num}</span>
+            // Construct card header and container
+            let contentHTML = `
+                <div class="inline-card-header">
+                    <div class="inline-card-meta">
+                        <span class="inline-card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
+                        <span class="inline-card-number">${num}</span>
                     </div>
-                    <h2>${displayCard.title}</h2>
-                    <p>${displayCard.shortDesc}</p>
-                    <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
+                    <h2 class="inline-card-title">${displayCard.title}</h2>
+                    <p class="inline-card-desc">${displayCard.shortDesc}</p>
                 </div>
+                <div class="inline-subprojects-container">
             `;
 
-            card.addEventListener('click', () => openModal(displayCard.id));
-            grid.appendChild(card);
+            // Resolve projectsList (case studies)
+            let projectsList = activeProfile?.projects?.[displayCard.id];
+            if (!projectsList) {
+                const originalData = projectsData.find(p => p.id === displayCard.id);
+                if (originalData) {
+                    const cardOverride = activeProfile?.projectOverrides?.[displayCard.id];
+                    const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
+                    projectsList = data.projects;
+                }
+            }
+
+            if (projectsList) {
+                projectsList.forEach((proj, i) => {
+                    const override = activeProfile?.projectOverrides?.[proj.id];
+                    const displayData = override ? { ...proj, ...override } : proj;
+
+                    contentHTML += `
+                        <div class="project-split-section">
+                            <div class="modal-header">
+                                <span class="project-type">${displayData.type}</span>
+                                <h2 class="project-name">${displayData.name}</h2>
+                            </div>
+                            <section class="cs-intro">
+                                <h3>Overview</h3>
+                                <p>${displayData.overview}</p>
+                            </section>
+                            <div class="cs-details-grid">
+                                <section class="cs-detail-item">
+                                    <h3>Problem & Solution</h3>
+                                    <p>${displayData.details}</p>
+                                </section>
+                                <section class="cs-detail-item highlight">
+                                    <h3>Impact</h3>
+                                    <p>${displayData.result}</p>
+                                </section>
+                            </div>
+                            <section class="cs-visuals">
+                                <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
+                                    ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
+                                </div>
+                                <div class="visual-grid">
+                                    <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
+                                        ${!displayData.images?.mockupA ? 'Mockup A' : ''}
+                                    </div>
+                                    <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
+                                        ${!displayData.images?.mockupB ? 'Mockup B' : ''}
+                                    </div>
+                                    <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover;"` : ''}>
+                                        ${!displayData.images?.mockupC ? 'Mockup C' : ''}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    `;
+
+                    if (i < projectsList.length - 1) {
+                        contentHTML += `<div class="modal-separator"></div>`;
+                    }
+                });
+            }
+
+            contentHTML += `</div>`; // Close inline-subprojects-container
+            projectBlock.innerHTML = contentHTML;
+            grid.appendChild(projectBlock);
+
+            // Add separator between project blocks (if not the last block)
+            if (index < filtered.length - 1) {
+                const sep = document.createElement('div');
+                sep.className = 'card-separator';
+                grid.appendChild(sep);
+            }
         });
 
         lucide.createIcons();
-
-        // Reveal animations
-        gsap.from(".project-card", {
-            y: 50,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power3.out",
-            scrollTrigger: {
-                trigger: "#project-grid",
-                start: "top 80%"
-            }
-        });
     }
-
-    // Modal Logic
-    const modal = document.getElementById('project-modal');
-    const modalClose = document.querySelector('.modal-close');
-
-    function openModal(projectId) {
-        // 1. Check for custom project list in the new modular structure
-        let projectsList = activeProfile?.projects?.[projectId];
-
-        // 2. Fallback to original project data
-        if (!projectsList) {
-            const originalData = projectsData.find(p => p.id === projectId);
-            if (!originalData) return;
-
-            // Apply legacy Card-Level Overrides if they exist
-            const cardOverride = activeProfile?.projectOverrides?.[projectId];
-            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
-            projectsList = data.projects;
-        }
-
-        const modalBody = modal.querySelector('.modal-body');
-        modalBody.innerHTML = '';
-
-        projectsList.forEach((proj, i) => {
-            // Apply legacy Inner Project Overrides from Active Profile (by inner project id)
-            const override = activeProfile?.projectOverrides?.[proj.id];
-            const displayData = override ? { ...proj, ...override } : proj;
-
-            const section = document.createElement('div');
-            section.className = 'project-split-section';
-            section.innerHTML = `
-                <div class="modal-header">
-                    <span class="project-type">${displayData.type}</span>
-                    <h2 class="project-name">${displayData.name}</h2>
-                </div>
-                <section class="cs-intro">
-                    <h3>Overview</h3>
-                    <p>${displayData.overview}</p>
-                </section>
-                <div class="cs-details-grid">
-                    <section class="cs-detail-item">
-                        <h3>Problem & Solution</h3>
-                        <p>${displayData.details}</p>
-                    </section>
-                    <section class="cs-detail-item highlight">
-                        <h3>Impact</h3>
-                        <p>${displayData.result}</p>
-                    </section>
-                </div>
-                <section class="cs-visuals">
-                    <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
-                        ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
-                    </div>
-                    <div class="visual-grid">
-                        <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupA ? 'Mockup A' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupB ? 'Mockup B' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupC ? 'Mockup C' : ''}
-                        </div>
-                    </div>
-                </section>
-            `;
-            modalBody.appendChild(section);
-
-            if (i < projectsList.length - 1) {
-                const sep = document.createElement('div');
-                sep.className = 'modal-separator';
-                modalBody.appendChild(sep);
-            }
-        });
-
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-
-        gsap.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" });
-    }
-
-    function closeModal() {
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
 
     // --- RE-INTEGRATED COMMON UI LOGIC ---
 
@@ -442,6 +394,22 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.from(".about-text, .contact-content", {
             scrollTrigger: { trigger: ".about-section", start: "top 80%" },
             y: 30, opacity: 0, duration: 1, stagger: 0.2
+        });
+
+        // Per-case-study ScrollTrigger reveals
+        const blocks = document.querySelectorAll('.inline-case-study-block');
+        blocks.forEach(block => {
+            gsap.from(block, {
+                scrollTrigger: {
+                    trigger: block,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
         });
     }
 
