@@ -28,6 +28,17 @@ Install the **Live Server** extension and click "Go Live" in the bottom status b
 
 ---
 
+## ✅ Tests
+Unit tests run `js/script.js` inside a jsdom copy of `index.html`, with `fetch`, GSAP, Lucide and the particles canvas stubbed.
+
+```bash
+npm install
+npm test            # run the suite
+npm run coverage    # run with a coverage report (text + coverage/index.html)
+```
+
+---
+
 ## 🌎 Deployment (GitHub Pages)
 This portfolio is optimized for GitHub Pages.
 1. Push your code to a GitHub repository.

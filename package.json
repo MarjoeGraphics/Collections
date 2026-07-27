@@ -1,0 +1,19 @@
+{
+  "name": "collections",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A high-impact, modern portfolio system showcasing over a decade of design leadership, strategic thinking, and production-ready visual communication.",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.9",
+    "jsdom": "^25.0.1",
+    "vitest": "^2.1.9"
+  }
+}
