@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const { setTexts, setAttrs, setListItems, backgroundImageAttr, visualPlaceholder, withOverride } = window.PortfolioUtils;
+
     let projectsData = [];
     let configData = {};
     let profilesData = {};
@@ -82,45 +84,34 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `${activeProfile.heroTitle} - Portfolio`
             : `${configData.portfolioTitle} - Portfolio`;
 
-        // Navbar branding - Always "Marjoe" or the name from config
-        document.getElementById('site-branding').textContent = configData.name;
-        document.getElementById('hero-role').textContent = configData.role;
+        setTexts({
+            // Navbar branding - Always "Marjoe" or the name from config
+            'site-branding': configData.name,
+            'hero-role': configData.role,
+            // Use custom hero headline if profile exists, otherwise default
+            'hero-title': activeProfile?.heroTitle || "Where Strategic Design Meets Technical Precision.",
+            'hero-description': configData.description,
+            'hero-location': configData.location,
+            'about-title': configData.about.title,
+            'about-lead': configData.about.lead,
+            'about-bio': configData.about.bio,
+            'about-philosophy': configData.about.philosophy,
+            'contact-description': activeProfile?.cta || "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.",
+            'contact-email': configData.contact.email,
+            'footer-name': configData.name,
+            'year': new Date().getFullYear()
+        });
 
-        // Use custom hero headline if profile exists, otherwise default
-        const heroTitleElem = document.getElementById('hero-title');
-        heroTitleElem.textContent = activeProfile
-            ? activeProfile.heroTitle
-            : "Where Strategic Design Meets Technical Precision.";
-
-        document.getElementById('hero-description').textContent = configData.description;
-        document.getElementById('hero-location').textContent = configData.location;
-
-        document.getElementById('about-title').textContent = configData.about.title;
-        document.getElementById('about-lead').textContent = configData.about.lead;
-        document.getElementById('about-bio').textContent = configData.about.bio;
-        document.getElementById('about-philosophy').textContent = configData.about.philosophy;
+        setAttrs({
+            'contact-email': { href: `mailto:${configData.contact.email}` },
+            'social-instagram': { href: configData.contact.social.instagram },
+            'social-linkedin': { href: configData.contact.social.linkedin },
+            'social-behance': { href: configData.contact.social.behance }
+        });
 
         // Populate Skills
-        const expertiseList = document.getElementById('expertise-list');
-        const toolkitList = document.getElementById('toolkit-list');
-        const expertiseData = activeProfile?.expertise || configData.defaultExpertise;
-        const toolkitData = activeProfile?.toolkit || configData.defaultToolkit;
-
-        expertiseList.innerHTML = expertiseData.map(item => `<li>${item}</li>`).join('');
-        toolkitList.innerHTML = toolkitData.map(item => `<li>${item}</li>`).join('');
-
-        const contactDescElem = document.getElementById('contact-description');
-        contactDescElem.textContent = activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.";
-
-        document.getElementById('contact-email').textContent = configData.contact.email;
-        document.getElementById('contact-email').href = `mailto:${configData.contact.email}`;
-
-        document.getElementById('social-instagram').href = configData.contact.social.instagram;
-        document.getElementById('social-linkedin').href = configData.contact.social.linkedin;
-        document.getElementById('social-behance').href = configData.contact.social.behance;
-
-        document.getElementById('footer-name').textContent = configData.name;
-        document.getElementById('year').textContent = new Date().getFullYear();
+        setListItems('expertise-list', activeProfile?.expertise || configData.defaultExpertise);
+        setListItems('toolkit-list', activeProfile?.toolkit || configData.defaultToolkit);
     }
 
     // Render Projects Grid
@@ -164,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         filtered.forEach((cardData, index) => {
             // Look for a match in projectsData for defaults, but prioritize cardData
             const baseProject = projectsData.find(p => p.id === cardData.id) || {};
-            const displayCard = { ...baseProject, ...cardData };
+            const displayCard = withOverride(baseProject, cardData);
 
             const card = document.createElement('div');
             card.className = `project-card bento-item-${displayCard.bentoSize || 'medium'}`;
@@ -183,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
 
             card.innerHTML = `
-                <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
+                <div class="card-bg" ${backgroundImageAttr(thumbnail)}></div>
                 ${isDual ? '<div class="card-split-indicator"></div>' : ''}
                 <div class="card-content">
                     <div class="card-header">
@@ -217,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Modal Logic
+    const MOCKUP_KEYS = ['mockupA', 'mockupB', 'mockupC'];
+    const MOCKUP_LABELS = { mockupA: 'Mockup A', mockupB: 'Mockup B', mockupC: 'Mockup C' };
     const modal = document.getElementById('project-modal');
     const modalClose = document.querySelector('.modal-close');
 
@@ -230,8 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!originalData) return;
 
             // Apply legacy Card-Level Overrides if they exist
-            const cardOverride = activeProfile?.projectOverrides?.[projectId];
-            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
+            const data = withOverride(originalData, activeProfile?.projectOverrides?.[projectId]);
             projectsList = data.projects;
         }
 
@@ -240,8 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         projectsList.forEach((proj, i) => {
             // Apply legacy Inner Project Overrides from Active Profile (by inner project id)
-            const override = activeProfile?.projectOverrides?.[proj.id];
-            const displayData = override ? { ...proj, ...override } : proj;
+            const displayData = withOverride(proj, activeProfile?.projectOverrides?.[proj.id]);
 
             const section = document.createElement('div');
             section.className = 'project-split-section';
@@ -265,19 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </section>
                 </div>
                 <section class="cs-visuals">
-                    <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
-                        ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
-                    </div>
+                    ${visualPlaceholder(displayData.images?.main, `Visualizing: ${displayData.name}`, 'main-visual')}
                     <div class="visual-grid">
-                        <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupA ? 'Mockup A' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupB ? 'Mockup B' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupC ? 'Mockup C' : ''}
-                        </div>
+                        ${MOCKUP_KEYS.map(key => visualPlaceholder(displayData.images?.[key], MOCKUP_LABELS[key])).join('')}
                     </div>
                 </section>
             `;
@@ -324,30 +305,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Magnetic Effect
         const magnetic = document.querySelectorAll('.footer-btn, .scroll-down, .nav-links a, #theme-toggle, .filter-btn');
+        const moveMagnetic = (btn, x, y, duration, ease) => gsap.to(btn, {
+            x,
+            y,
+            xPercent: btn.classList.contains('scroll-down') ? -50 : 0,
+            duration,
+            ease
+        });
+
         magnetic.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                const isCentered = btn.classList.contains('scroll-down');
-                gsap.to(btn, {
-                    x: x * 0.4,
-                    xPercent: isCentered ? -50 : 0,
-                    y: y * 0.4,
-                    duration: 0.4,
-                    ease: "power2.out"
-                });
+                moveMagnetic(
+                    btn,
+                    (e.clientX - rect.left - rect.width / 2) * 0.4,
+                    (e.clientY - rect.top - rect.height / 2) * 0.4,
+                    0.4,
+                    "power2.out"
+                );
             });
-            btn.addEventListener('mouseleave', () => {
-                const isCentered = btn.classList.contains('scroll-down');
-                gsap.to(btn, {
-                    x: 0,
-                    xPercent: isCentered ? -50 : 0,
-                    y: 0,
-                    duration: 0.6,
-                    ease: "elastic.out(1, 0.5)"
-                });
-            });
+            btn.addEventListener('mouseleave', () => moveMagnetic(btn, 0, 0, 0.6, "elastic.out(1, 0.5)"));
         });
 
         // Scroll Progress
@@ -371,14 +348,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (themeBtn) {
             themeBtn.addEventListener('click', () => {
-                const isDark = body.hasAttribute('data-theme');
-                if (isDark) {
-                    body.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    body.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                }
+                const nextTheme = body.hasAttribute('data-theme') ? 'light' : 'dark';
+                if (nextTheme === 'dark') body.setAttribute('data-theme', 'dark');
+                else body.removeAttribute('data-theme');
+                localStorage.setItem('theme', nextTheme);
                 gsap.to(themeBtn, { rotation: "+=360", duration: 0.5 });
             });
         }
