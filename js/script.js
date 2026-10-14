@@ -269,74 +269,59 @@ document.addEventListener('DOMContentLoaded', () => {
             catSection.appendChild(catHeader);
 
             cards.forEach((displayCard, index) => {
-                const cardBlock = document.createElement('div');
-                cardBlock.className = 'inline-case-study-card';
-                cardBlock.setAttribute('id', `case-study-${displayCard.id}`);
+                const banner = document.createElement('div');
+                banner.className = 'project-banner';
+                banner.setAttribute('id', `project-${displayCard.id}`);
 
                 const num = (index + 1).toString().padStart(2, '0');
                 const projectsList = getProjectsListForCard(displayCard.id);
+                const firstProject = projectsList[0] || {};
+                const featuredImg = displayCard.thumbnail || firstProject.images?.main;
 
-                let projectsHTML = '';
-                projectsList.forEach((proj, i) => {
+                let subProjectsHTML = '';
+                projectsList.forEach((proj) => {
                     const override = activeProfile?.projectOverrides?.[proj.id];
                     const displayData = override ? { ...proj, ...override } : proj;
 
-                    projectsHTML += `
-                        <div class="case-study-inner-item">
-                            <div class="case-study-sub-header">
+                    subProjectsHTML += `
+                        <div class="banner-sub-project">
+                            <div class="banner-sub-meta">
                                 <span class="project-type">${displayData.type}</span>
-                                <h3 class="project-name">${displayData.name}</h3>
+                                <h4>${displayData.name}</h4>
                             </div>
-                            <div class="cs-intro">
-                                <h4>Overview</h4>
-                                <p>${displayData.overview}</p>
-                            </div>
-                            <div class="cs-details-grid">
-                                <div class="cs-detail-item">
-                                    <h4>Problem & Solution</h4>
+                            <p class="banner-overview">${displayData.overview}</p>
+                            <div class="banner-details-grid">
+                                <div class="banner-detail-item">
+                                    <h5>Problem & Solution</h5>
                                     <p>${displayData.details}</p>
                                 </div>
-                                <div class="cs-detail-item highlight">
-                                    <h4>Impact</h4>
+                                <div class="banner-detail-item highlight">
+                                    <h5>Impact</h5>
                                     <p>${displayData.result}</p>
                                 </div>
                             </div>
-                            <div class="cs-visuals">
-                                <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover; background-position: center;"` : ''}>
-                                    ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
-                                </div>
-                                <div class="visual-grid">
-                                    <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover; background-position: center;"` : ''}>
-                                        ${!displayData.images?.mockupA ? 'Mockup A' : ''}
-                                    </div>
-                                    <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover; background-position: center;"` : ''}>
-                                        ${!displayData.images?.mockupB ? 'Mockup B' : ''}
-                                    </div>
-                                    <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover; background-position: center;"` : ''}>
-                                        ${!displayData.images?.mockupC ? 'Mockup C' : ''}
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        ${i < projectsList.length - 1 ? '<div class="case-study-inner-separator"></div>' : ''}
                     `;
                 });
 
-                cardBlock.innerHTML = `
-                    <div class="case-study-main-header">
-                        <div class="case-study-meta">
-                            <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
-                            <span class="card-number">${num}</span>
-                        </div>
-                        <h2>${displayCard.title}</h2>
-                        <p class="case-study-short-desc">${displayCard.shortDesc}</p>
+                banner.innerHTML = `
+                    <div class="banner-preview">
+                        <div class="banner-image" ${featuredImg ? `style="background-image: url('${featuredImg}');"` : ''}></div>
+                        <div class="banner-number">${num}</div>
                     </div>
-                    <div class="case-study-body">
-                        ${projectsHTML}
+                    <div class="banner-content">
+                        <div class="banner-meta">
+                            <span class="banner-category">${displayCard.tags ? displayCard.tags.join(' • ') : ''}</span>
+                        </div>
+                        <h2 class="banner-title">${displayCard.title}</h2>
+                        <p class="banner-desc">${displayCard.shortDesc}</p>
+                        <div class="banner-sub-projects">
+                            ${subProjectsHTML}
+                        </div>
                     </div>
                 `;
 
-                catSection.appendChild(cardBlock);
+                catSection.appendChild(banner);
             });
 
             container.appendChild(catSection);
@@ -344,9 +329,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lucide.createIcons();
 
-        // Reveal animations per case study block
-        gsap.from(".inline-case-study-card", {
-            y: 50,
+        // Reveal animations per project banner
+        gsap.from(".project-banner", {
+            y: 40,
             opacity: 0,
             duration: 0.8,
             stagger: 0.2,

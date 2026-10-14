@@ -510,41 +510,80 @@
             flex-grow: 1;
         }
 
-        /* Inline Case Study Card Styles */
-        .inline-case-study-card {
-            background: rgba(255, 255, 255, 0.03);
+        /* Full-Width Project Banner Styles */
+        .project-banner {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 3.5rem;
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
-            border-radius: 28px;
+            border-radius: 24px;
             padding: 3rem;
             margin-bottom: 3.5rem;
             transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        [data-theme="dark"] .inline-case-study-card {
+        [data-theme="dark"] .project-banner {
             background: rgba(255, 255, 255, 0.015);
         }
 
-        .inline-case-study-card:hover {
+        .project-banner:hover {
             border-color: var(--accent-color);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
         }
 
-        .case-study-main-header {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 2rem;
-            margin-bottom: 2.5rem;
+        .banner-preview {
+            position: relative;
+            width: 100%;
+            min-height: 360px;
+            border-radius: 18px;
+            overflow: hidden;
+            background-color: var(--border-color);
+            border: 1px solid var(--border-color);
         }
 
-        .case-study-meta {
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            min-height: 360px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-banner:hover .banner-image {
+            transform: scale(1.03);
+        }
+
+        .banner-number {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-color);
+            background: var(--bg-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .banner-content {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .card-category {
+        .banner-meta {
+            margin-bottom: 0.75rem;
+        }
+
+        .banner-category {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -552,130 +591,103 @@
             font-weight: 700;
         }
 
-        .card-number {
-            font-weight: 800;
-            opacity: 0.2;
-            font-size: 1.5rem;
+        .banner-title {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
         }
 
-        .case-study-main-header h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 0.75rem;
-            letter-spacing: -1px;
-        }
-
-        .case-study-short-desc {
-            font-size: 1.15rem;
+        .banner-desc {
+            font-size: 1.1rem;
+            line-height: 1.6;
             opacity: 0.8;
-            max-width: 750px;
-            line-height: 1.5;
-        }
-
-        .case-study-inner-item {
-            margin-bottom: 3rem;
-        }
-
-        .case-study-inner-separator {
-            height: 1px;
-            background: var(--accent-color);
-            opacity: 0.2;
-            margin: 3.5rem 0;
-        }
-
-        .case-study-sub-header {
             margin-bottom: 2rem;
+            max-width: 650px;
+        }
+
+        .banner-sub-projects {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .banner-sub-project {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .banner-sub-meta {
+            margin-bottom: 0.75rem;
         }
 
         .project-type {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--accent-color);
             font-weight: 600;
         }
 
-        .project-name {
-            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
-            margin-top: 0.25rem;
+        .banner-sub-meta h4 {
+            font-size: 1.4rem;
+            margin-top: 0.2rem;
+            font-family: 'Archivo Narrow', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
-        .cs-intro {
-            margin-bottom: 2.5rem;
+        .banner-overview {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.85;
+            margin-bottom: 1.25rem;
         }
 
-        .cs-intro h4,
-        .cs-detail-item h4 {
-            font-size: 0.85rem;
+        .banner-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .banner-detail-item h5 {
+            font-size: 0.75rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--accent-color);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.4rem;
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 700;
         }
 
-        .cs-intro p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            opacity: 0.85;
-            max-width: 800px;
-        }
-
-        .cs-details-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .cs-detail-item p {
-            font-size: 1rem;
-            line-height: 1.6;
+        .banner-detail-item p {
+            font-size: 0.95rem;
+            line-height: 1.5;
             opacity: 0.8;
         }
 
-        .cs-detail-item.highlight {
+        .banner-detail-item.highlight {
             background: rgba(197, 160, 89, 0.05);
-            padding: 1.75rem;
-            border-radius: 16px;
+            padding: 1.25rem;
+            border-radius: 12px;
             border-left: 3px solid var(--accent-color);
         }
 
-        .cs-visuals {
-            margin-top: 2rem;
-        }
-
-        .cs-visuals .visual-placeholder {
-            width: 100%;
-            height: 380px;
-            background-color: var(--border-color);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .visual-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .visual-grid .visual-placeholder {
-            height: 220px;
-            margin-bottom: 0;
-        }
-
-        @media (max-width: 768px) {
-            .inline-case-study-card {
-                padding: 1.75rem;
-            }
-            .cs-details-grid, .visual-grid {
+        @media (max-width: 1024px) {
+            .project-banner {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2rem;
+                padding: 2rem;
+            }
+            .banner-preview {
+                min-height: 280px;
+            }
+            .banner-image {
+                min-height: 280px;
+            }
+            .banner-details-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
 
