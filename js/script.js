@@ -22,6 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return company?.toLowerCase();
     }
 
+    // Free-form company query param detection (?company=Acme)
+    function getFreeFormCompanyFromURL() {
+        const companyParam = new URLSearchParams(window.location.search).get('company');
+        if (companyParam) {
+            // Capitalize each word of the company name
+            return companyParam
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+        return null;
+    }
+
     // Fetch All Data
     async function loadData() {
         try {
@@ -86,13 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('site-branding').textContent = configData.name;
         document.getElementById('hero-role').textContent = configData.role;
 
-        // Use custom hero headline if profile exists, otherwise default
+        // Use custom hero headline if profile exists, otherwise check free-form company param
         const heroTitleElem = document.getElementById('hero-title');
-        heroTitleElem.textContent = activeProfile
-            ? activeProfile.heroTitle
-            : "Where Strategic Design Meets Technical Precision.";
+        const heroDescElem = document.getElementById('hero-description');
+        const freeFormCompany = getFreeFormCompanyFromURL();
 
-        document.getElementById('hero-description').textContent = configData.description;
+        if (activeProfile) {
+            heroTitleElem.textContent = activeProfile.heroTitle;
+            heroDescElem.textContent = configData.description;
+        } else if (freeFormCompany) {
+            heroTitleElem.textContent = `Hey ${freeFormCompany} Team, I'm ${configData.name}`;
+            heroDescElem.textContent = `Let's collaborate to bring ${freeFormCompany}'s vision to life with strategic, production-ready design.`;
+        } else {
+            heroTitleElem.textContent = "Where Strategic Design Meets Technical Precision.";
+            heroDescElem.textContent = configData.description;
+        }
         document.getElementById('hero-location').textContent = configData.location;
 
         document.getElementById('about-title').textContent = configData.about.title;
@@ -100,14 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('about-bio').textContent = configData.about.bio;
         document.getElementById('about-philosophy').textContent = configData.about.philosophy;
 
-        // Populate Skills
+        // Populate Skills as glass cards (divs) instead of <li> pills
         const expertiseList = document.getElementById('expertise-list');
         const toolkitList = document.getElementById('toolkit-list');
         const expertiseData = activeProfile?.expertise || configData.defaultExpertise;
         const toolkitData = activeProfile?.toolkit || configData.defaultToolkit;
 
-        expertiseList.innerHTML = expertiseData.map(item => `<li>${item}</li>`).join('');
-        toolkitList.innerHTML = toolkitData.map(item => `<li>${item}</li>`).join('');
+        expertiseList.innerHTML = expertiseData.map(item => `<div class="skill-card">${item}</div>`).join('');
+        toolkitList.innerHTML = toolkitData.map(item => `<div class="skill-card">${item}</div>`).join('');
 
         const contactDescElem = document.getElementById('contact-description');
         contactDescElem.textContent = activeProfile?.cta ? activeProfile.cta : "Ready to elevate your brand with intentional, production-ready design? I'm currently accepting new projects and creative collaborations.";
@@ -121,93 +142,214 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('footer-name').textContent = configData.name;
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        initContactFormAndCopy();
     }
 
-    // Render Projects Grid
+    // Initialize Copy Email & Contact Form Handler
+    function initContactFormAndCopy() {
+        const copyBtn = document.getElementById('copy-email-btn');
+        const tooltip = document.getElementById('copy-tooltip');
+
+        if (copyBtn && !copyBtn.dataset.listenerAdded) {
+            copyBtn.dataset.listenerAdded = 'true';
+            copyBtn.addEventListener('click', () => {
+                const emailText = configData.contact?.email || 'marjoegraphics@gmail.com';
+                navigator.clipboard.writeText(emailText).then(() => {
+                    // Visual feedback
+                    const iconElem = copyBtn.querySelector('[data-lucide]') || copyBtn.querySelector('svg');
+                    if (iconElem) {
+                        iconElem.setAttribute('data-lucide', 'check');
+                        lucide.createIcons();
+                    }
+                    if (tooltip) {
+                        tooltip.textContent = 'Copied!';
+                        tooltip.classList.add('visible');
+                    }
+
+                    setTimeout(() => {
+                        const activeIcon = copyBtn.querySelector('[data-lucide]') || copyBtn.querySelector('svg');
+                        if (activeIcon) {
+                            activeIcon.setAttribute('data-lucide', 'copy');
+                            lucide.createIcons();
+                        }
+                        if (tooltip) {
+                            tooltip.textContent = 'Copy email';
+                            tooltip.classList.remove('visible');
+                        }
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Could not copy email: ', err);
+                });
+            });
+        }
+
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm && !contactForm.dataset.listenerAdded) {
+            contactForm.dataset.listenerAdded = 'true';
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('form-name').value;
+                const email = document.getElementById('form-email').value;
+                const message = document.getElementById('form-message').value;
+                const targetEmail = configData.contact?.email || 'marjoegraphics@gmail.com';
+
+                const subject = encodeURIComponent(`Inquiry from ${name}`);
+                const body = encodeURIComponent(
+                    `Name: ${name}\n` +
+                    `Email: ${email}\n\n` +
+                    `Message:\n${message}`
+                );
+
+                window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+            });
+        }
+    }
+
+    // Helper function to resolve inner project list for a card ID
+    function getProjectsListForCard(cardId) {
+        let projectsList = activeProfile?.projects?.[cardId];
+        if (!projectsList) {
+            const originalData = projectsData.find(p => p.id === cardId);
+            if (!originalData) return [];
+            const cardOverride = activeProfile?.projectOverrides?.[cardId];
+            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
+            projectsList = data.projects || [];
+        }
+        return projectsList;
+    }
+
+    // Render Projects inline directly on the main page flow
     function renderProjects(filter) {
-        const grid = document.getElementById('project-grid');
-        grid.innerHTML = '';
+        const container = document.getElementById('project-grid');
+        container.innerHTML = '';
 
-        let filtered = [];
+        const groupedCategories = {};
 
-        // 1. Check if the active profile has a modular "cards" definition
         if (activeProfile?.cards && filter === 'all') {
-            filtered = activeProfile.cards;
+            const categoryName = "Featured Work";
+            groupedCategories[categoryName] = [];
+            activeProfile.cards.forEach(cardData => {
+                const baseProject = projectsData.find(p => p.id === cardData.id) || {};
+                groupedCategories[categoryName].push({ ...baseProject, ...cardData });
+            });
         } else {
-            // Fallback to original filtering logic
-            filtered = filter === 'all'
-                ? projectsData
-                : projectsData.filter(p => p.category === filter || p.tags.includes(filter));
-
-            // Determine which featured project list to use
-            const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
-
-            // Sort or filter based on featured IDs if they exist
-            if (featuredIds) {
-                if (filter === 'all') {
+            let filtered = [];
+            if (filter === 'all') {
+                const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
+                if (featuredIds) {
                     filtered = featuredIds
                         .map(id => projectsData.find(p => p.id === id))
                         .filter(p => p !== undefined);
                 } else {
-                    filtered.sort((a, b) => {
-                        const indexA = featuredIds.indexOf(a.id);
-                        const indexB = featuredIds.indexOf(b.id);
-                        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-                        if (indexA !== -1) return -1;
-                        if (indexB !== -1) return 1;
-                        return 0;
-                    });
+                    filtered = [...projectsData];
                 }
+            } else {
+                filtered = projectsData.filter(p => p.category === filter || p.tags.includes(filter));
             }
+
+            filtered.forEach(proj => {
+                const cat = proj.category || "Uncategorized";
+                if (!groupedCategories[cat]) {
+                    groupedCategories[cat] = [];
+                }
+                groupedCategories[cat].push(proj);
+            });
         }
 
-        filtered.forEach((cardData, index) => {
-            // Look for a match in projectsData for defaults, but prioritize cardData
-            const baseProject = projectsData.find(p => p.id === cardData.id) || {};
-            const displayCard = { ...baseProject, ...cardData };
+        Object.entries(groupedCategories).forEach(([categoryName, cards]) => {
+            if (cards.length === 0) return;
 
-            const card = document.createElement('div');
-            card.className = `project-card bento-item-${displayCard.bentoSize || 'medium'}`;
-            card.setAttribute('data-project-id', displayCard.id);
+            const catSection = document.createElement('div');
+            catSection.className = 'project-category-section';
 
-            const num = (index + 1).toString().padStart(2, '0');
+            const catHeader = document.createElement('div');
+            catHeader.className = 'project-category-header';
+            catHeader.innerHTML = `<h3>${categoryName}</h3><div class="category-line"></div>`;
+            catSection.appendChild(catHeader);
 
-            // Determine if it should show as a Dual Case Study
-            // If the profile has custom projects for this card, check that list.
-            const customProjects = activeProfile?.projects?.[displayCard.id];
-            const isDual = customProjects ? customProjects.length > 1 : displayCard.isDual;
+            cards.forEach((displayCard, index) => {
+                const cardBlock = document.createElement('div');
+                cardBlock.className = 'inline-case-study-card';
+                cardBlock.setAttribute('id', `case-study-${displayCard.id}`);
 
-            // Thumbnail support: use displayCard.thumbnail or the first project's main image as fallback
-            // Prioritize custom profile projects, then base projectsData
-            const firstProject = customProjects?.[0] || baseProject.projects?.[0];
-            const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
+                const num = (index + 1).toString().padStart(2, '0');
+                const projectsList = getProjectsListForCard(displayCard.id);
 
-            card.innerHTML = `
-                <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
-                ${isDual ? '<div class="card-split-indicator"></div>' : ''}
-                <div class="card-content">
-                    <div class="card-header">
-                        <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
-                        <span class="card-number">${num}</span>
+                let projectsHTML = '';
+                projectsList.forEach((proj, i) => {
+                    const override = activeProfile?.projectOverrides?.[proj.id];
+                    const displayData = override ? { ...proj, ...override } : proj;
+
+                    projectsHTML += `
+                        <div class="case-study-inner-item">
+                            <div class="case-study-sub-header">
+                                <span class="project-type">${displayData.type}</span>
+                                <h3 class="project-name">${displayData.name}</h3>
+                            </div>
+                            <div class="cs-intro">
+                                <h4>Overview</h4>
+                                <p>${displayData.overview}</p>
+                            </div>
+                            <div class="cs-details-grid">
+                                <div class="cs-detail-item">
+                                    <h4>Problem & Solution</h4>
+                                    <p>${displayData.details}</p>
+                                </div>
+                                <div class="cs-detail-item highlight">
+                                    <h4>Impact</h4>
+                                    <p>${displayData.result}</p>
+                                </div>
+                            </div>
+                            <div class="cs-visuals">
+                                <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover; background-position: center;"` : ''}>
+                                    ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
+                                </div>
+                                <div class="visual-grid">
+                                    <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover; background-position: center;"` : ''}>
+                                        ${!displayData.images?.mockupA ? 'Mockup A' : ''}
+                                    </div>
+                                    <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover; background-position: center;"` : ''}>
+                                        ${!displayData.images?.mockupB ? 'Mockup B' : ''}
+                                    </div>
+                                    <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover; background-position: center;"` : ''}>
+                                        ${!displayData.images?.mockupC ? 'Mockup C' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        ${i < projectsList.length - 1 ? '<div class="case-study-inner-separator"></div>' : ''}
+                    `;
+                });
+
+                cardBlock.innerHTML = `
+                    <div class="case-study-main-header">
+                        <div class="case-study-meta">
+                            <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
+                            <span class="card-number">${num}</span>
+                        </div>
+                        <h2>${displayCard.title}</h2>
+                        <p class="case-study-short-desc">${displayCard.shortDesc}</p>
                     </div>
-                    <h2>${displayCard.title}</h2>
-                    <p>${displayCard.shortDesc}</p>
-                    <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
-                </div>
-            `;
+                    <div class="case-study-body">
+                        ${projectsHTML}
+                    </div>
+                `;
 
-            card.addEventListener('click', () => openModal(displayCard.id));
-            grid.appendChild(card);
+                catSection.appendChild(cardBlock);
+            });
+
+            container.appendChild(catSection);
         });
 
         lucide.createIcons();
 
-        // Reveal animations
-        gsap.from(".project-card", {
+        // Reveal animations per case study block
+        gsap.from(".inline-case-study-card", {
             y: 50,
             opacity: 0,
             duration: 0.8,
-            stagger: 0.1,
+            stagger: 0.2,
             ease: "power3.out",
             scrollTrigger: {
                 trigger: "#project-grid",
@@ -215,99 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Modal Logic
-    const modal = document.getElementById('project-modal');
-    const modalClose = document.querySelector('.modal-close');
-
-    function openModal(projectId) {
-        // 1. Check for custom project list in the new modular structure
-        let projectsList = activeProfile?.projects?.[projectId];
-
-        // 2. Fallback to original project data
-        if (!projectsList) {
-            const originalData = projectsData.find(p => p.id === projectId);
-            if (!originalData) return;
-
-            // Apply legacy Card-Level Overrides if they exist
-            const cardOverride = activeProfile?.projectOverrides?.[projectId];
-            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
-            projectsList = data.projects;
-        }
-
-        const modalBody = modal.querySelector('.modal-body');
-        modalBody.innerHTML = '';
-
-        projectsList.forEach((proj, i) => {
-            // Apply legacy Inner Project Overrides from Active Profile (by inner project id)
-            const override = activeProfile?.projectOverrides?.[proj.id];
-            const displayData = override ? { ...proj, ...override } : proj;
-
-            const section = document.createElement('div');
-            section.className = 'project-split-section';
-            section.innerHTML = `
-                <div class="modal-header">
-                    <span class="project-type">${displayData.type}</span>
-                    <h2 class="project-name">${displayData.name}</h2>
-                </div>
-                <section class="cs-intro">
-                    <h3>Overview</h3>
-                    <p>${displayData.overview}</p>
-                </section>
-                <div class="cs-details-grid">
-                    <section class="cs-detail-item">
-                        <h3>Problem & Solution</h3>
-                        <p>${displayData.details}</p>
-                    </section>
-                    <section class="cs-detail-item highlight">
-                        <h3>Impact</h3>
-                        <p>${displayData.result}</p>
-                    </section>
-                </div>
-                <section class="cs-visuals">
-                    <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
-                        ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
-                    </div>
-                    <div class="visual-grid">
-                        <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupA ? 'Mockup A' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupB ? 'Mockup B' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupC ? 'Mockup C' : ''}
-                        </div>
-                    </div>
-                </section>
-            `;
-            modalBody.appendChild(section);
-
-            if (i < projectsList.length - 1) {
-                const sep = document.createElement('div');
-                sep.className = 'modal-separator';
-                modalBody.appendChild(sep);
-            }
-        });
-
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-
-        gsap.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" });
-    }
-
-    function closeModal() {
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
 
     // --- RE-INTEGRATED COMMON UI LOGIC ---
 
@@ -319,6 +368,14 @@ document.addEventListener('DOMContentLoaded', () => {
             menuToggle.addEventListener('click', () => {
                 const active = menu.classList.toggle('active');
                 menuToggle.setAttribute('aria-expanded', active);
+            });
+
+            // Close mobile menu on link click
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                });
             });
         }
 
