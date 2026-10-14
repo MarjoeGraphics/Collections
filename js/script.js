@@ -424,6 +424,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const active = menu.classList.toggle('active');
                 menuToggle.setAttribute('aria-expanded', active);
             });
+
+            // Close mobile menu on link click
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
         }
 
         // Magnetic Effect
