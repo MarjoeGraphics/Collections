@@ -21,7 +21,13 @@
     <header>
         <nav class="navbar">
             <div class="nav-container">
-                <div class="branding" id="site-branding">Marjoe</div>
+                <a href="#" class="branding" id="site-branding">Marjoe</a>
+
+                <div class="nav-links desktop-links">
+                    <a href="#work">Work</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
 
                 <div class="nav-actions">
                     <button id="theme-toggle" aria-label="Toggle Theme">
@@ -35,6 +41,13 @@
                 </div>
             </div>
 
+            <div id="mobile-menu" class="mobile-menu">
+                <div class="mobile-menu-links">
+                    <a href="#work" class="mobile-nav-link">Work</a>
+                    <a href="#about" class="mobile-nav-link">About</a>
+                    <a href="#contact" class="mobile-nav-link">Contact</a>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -67,26 +80,10 @@
                 <div class="title-underline"></div>
             </div>
 
-
             <div id="project-grid" class="projects-container">
                 <!-- Projects injected via JavaScript -->
             </div>
         </section>
-
-        <!-- Project Modal -->
-        <div id="project-modal" class="modal" aria-hidden="true" role="dialog">
-            <div class="modal-overlay"></div>
-            <div class="modal-container">
-                <button class="modal-close" aria-label="Close Modal">
-                    <i data-lucide="x"></i>
-                </button>
-                <div class="modal-scroll-area">
-                    <div class="modal-body">
-                        <!-- Content injected via JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
         <section id="about" class="about-section">
             <div class="container">
                 <div class="about-grid">

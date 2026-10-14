@@ -206,17 +206,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Render Projects with category groupings and horizontal scrolling tracks
+    // Helper function to resolve inner project list for a card ID
+    function getProjectsListForCard(cardId) {
+        let projectsList = activeProfile?.projects?.[cardId];
+        if (!projectsList) {
+            const originalData = projectsData.find(p => p.id === cardId);
+            if (!originalData) return [];
+            const cardOverride = activeProfile?.projectOverrides?.[cardId];
+            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
+            projectsList = data.projects || [];
+        }
+        return projectsList;
+    }
+
+    // Render Projects inline directly on the main page flow
     function renderProjects(filter) {
         const container = document.getElementById('project-grid');
         container.innerHTML = '';
 
-        // We group into categories:
-        // Key is category name, Value is list of card display objects
         const groupedCategories = {};
 
         if (activeProfile?.cards && filter === 'all') {
-            // Under active profile, all cards go under a single "Featured Work" category
             const categoryName = "Featured Work";
             groupedCategories[categoryName] = [];
             activeProfile.cards.forEach(cardData => {
@@ -224,10 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 groupedCategories[categoryName].push({ ...baseProject, ...cardData });
             });
         } else {
-            // Default (or backup) filtering/rendering
             let filtered = [];
             if (filter === 'all') {
-                // Respect featuredProjectIds ordering if exists
                 const featuredIds = activeProfile?.featuredProjectIds || configData.featuredProjectIds;
                 if (featuredIds) {
                     filtered = featuredIds
@@ -240,7 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 filtered = projectsData.filter(p => p.category === filter || p.tags.includes(filter));
             }
 
-            // Group by category field
             filtered.forEach(proj => {
                 const cat = proj.category || "Uncategorized";
                 if (!groupedCategories[cat]) {
@@ -250,68 +257,99 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Now render each category
         Object.entries(groupedCategories).forEach(([categoryName, cards]) => {
             if (cards.length === 0) return;
 
-            // Create Category Section Block
             const catSection = document.createElement('div');
             catSection.className = 'project-category-section';
 
-            // Create Category Header
             const catHeader = document.createElement('div');
             catHeader.className = 'project-category-header';
             catHeader.innerHTML = `<h3>${categoryName}</h3><div class="category-line"></div>`;
             catSection.appendChild(catHeader);
 
-            // Create Horizontal Track
-            const track = document.createElement('div');
-            track.className = 'project-track';
-
             cards.forEach((displayCard, index) => {
-                const card = document.createElement('div');
-                card.className = 'project-card';
-                card.setAttribute('data-project-id', displayCard.id);
+                const cardBlock = document.createElement('div');
+                cardBlock.className = 'inline-case-study-card';
+                cardBlock.setAttribute('id', `case-study-${displayCard.id}`);
 
                 const num = (index + 1).toString().padStart(2, '0');
+                const projectsList = getProjectsListForCard(displayCard.id);
 
-                const customProjects = activeProfile?.projects?.[displayCard.id];
-                const isDual = customProjects ? customProjects.length > 1 : displayCard.isDual;
+                let projectsHTML = '';
+                projectsList.forEach((proj, i) => {
+                    const override = activeProfile?.projectOverrides?.[proj.id];
+                    const displayData = override ? { ...proj, ...override } : proj;
 
-                const baseProject = projectsData.find(p => p.id === displayCard.id) || {};
-                const firstProject = customProjects?.[0] || baseProject.projects?.[0];
-                const thumbnail = displayCard.thumbnail || firstProject?.images?.main;
+                    projectsHTML += `
+                        <div class="case-study-inner-item">
+                            <div class="case-study-sub-header">
+                                <span class="project-type">${displayData.type}</span>
+                                <h3 class="project-name">${displayData.name}</h3>
+                            </div>
+                            <div class="cs-intro">
+                                <h4>Overview</h4>
+                                <p>${displayData.overview}</p>
+                            </div>
+                            <div class="cs-details-grid">
+                                <div class="cs-detail-item">
+                                    <h4>Problem & Solution</h4>
+                                    <p>${displayData.details}</p>
+                                </div>
+                                <div class="cs-detail-item highlight">
+                                    <h4>Impact</h4>
+                                    <p>${displayData.result}</p>
+                                </div>
+                            </div>
+                            <div class="cs-visuals">
+                                <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover; background-position: center;"` : ''}>
+                                    ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
+                                </div>
+                                <div class="visual-grid">
+                                    <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover; background-position: center;"` : ''}>
+                                        ${!displayData.images?.mockupA ? 'Mockup A' : ''}
+                                    </div>
+                                    <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover; background-position: center;"` : ''}>
+                                        ${!displayData.images?.mockupB ? 'Mockup B' : ''}
+                                    </div>
+                                    <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover; background-position: center;"` : ''}>
+                                        ${!displayData.images?.mockupC ? 'Mockup C' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        ${i < projectsList.length - 1 ? '<div class="case-study-inner-separator"></div>' : ''}
+                    `;
+                });
 
-                card.innerHTML = `
-                    <div class="card-bg" ${thumbnail ? `style="background-image: url('${thumbnail}'); background-size: cover;"` : ''}></div>
-                    ${isDual ? '<div class="card-split-indicator"></div>' : ''}
-                    <div class="card-content">
-                        <div class="card-header">
+                cardBlock.innerHTML = `
+                    <div class="case-study-main-header">
+                        <div class="case-study-meta">
                             <span class="card-category">${displayCard.tags ? displayCard.tags.join(' & ') : ''}</span>
                             <span class="card-number">${num}</span>
                         </div>
                         <h2>${displayCard.title}</h2>
-                        <p>${displayCard.shortDesc}</p>
-                        <span class="card-link">Explore ${isDual ? 'Dual ' : ''}Case Study <i data-lucide="arrow-right"></i></span>
+                        <p class="case-study-short-desc">${displayCard.shortDesc}</p>
+                    </div>
+                    <div class="case-study-body">
+                        ${projectsHTML}
                     </div>
                 `;
 
-                card.addEventListener('click', () => openModal(displayCard.id));
-                track.appendChild(card);
+                catSection.appendChild(cardBlock);
             });
 
-            catSection.appendChild(track);
             container.appendChild(catSection);
         });
 
         lucide.createIcons();
 
-        // Reveal animations per track/card
-        gsap.from(".project-card", {
+        // Reveal animations per case study block
+        gsap.from(".inline-case-study-card", {
             y: 50,
             opacity: 0,
             duration: 0.8,
-            stagger: 0.1,
+            stagger: 0.2,
             ease: "power3.out",
             scrollTrigger: {
                 trigger: "#project-grid",
@@ -319,99 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Modal Logic
-    const modal = document.getElementById('project-modal');
-    const modalClose = document.querySelector('.modal-close');
-
-    function openModal(projectId) {
-        // 1. Check for custom project list in the new modular structure
-        let projectsList = activeProfile?.projects?.[projectId];
-
-        // 2. Fallback to original project data
-        if (!projectsList) {
-            const originalData = projectsData.find(p => p.id === projectId);
-            if (!originalData) return;
-
-            // Apply legacy Card-Level Overrides if they exist
-            const cardOverride = activeProfile?.projectOverrides?.[projectId];
-            const data = cardOverride ? { ...originalData, ...cardOverride } : originalData;
-            projectsList = data.projects;
-        }
-
-        const modalBody = modal.querySelector('.modal-body');
-        modalBody.innerHTML = '';
-
-        projectsList.forEach((proj, i) => {
-            // Apply legacy Inner Project Overrides from Active Profile (by inner project id)
-            const override = activeProfile?.projectOverrides?.[proj.id];
-            const displayData = override ? { ...proj, ...override } : proj;
-
-            const section = document.createElement('div');
-            section.className = 'project-split-section';
-            section.innerHTML = `
-                <div class="modal-header">
-                    <span class="project-type">${displayData.type}</span>
-                    <h2 class="project-name">${displayData.name}</h2>
-                </div>
-                <section class="cs-intro">
-                    <h3>Overview</h3>
-                    <p>${displayData.overview}</p>
-                </section>
-                <div class="cs-details-grid">
-                    <section class="cs-detail-item">
-                        <h3>Problem & Solution</h3>
-                        <p>${displayData.details}</p>
-                    </section>
-                    <section class="cs-detail-item highlight">
-                        <h3>Impact</h3>
-                        <p>${displayData.result}</p>
-                    </section>
-                </div>
-                <section class="cs-visuals">
-                    <div class="visual-placeholder main-visual" ${displayData.images?.main ? `style="background-image: url('${displayData.images.main}'); background-size: cover;"` : ''}>
-                        ${!displayData.images?.main ? `Visualizing: ${displayData.name}` : ''}
-                    </div>
-                    <div class="visual-grid">
-                        <div class="visual-placeholder" ${displayData.images?.mockupA ? `style="background-image: url('${displayData.images.mockupA}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupA ? 'Mockup A' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupB ? `style="background-image: url('${displayData.images.mockupB}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupB ? 'Mockup B' : ''}
-                        </div>
-                        <div class="visual-placeholder" ${displayData.images?.mockupC ? `style="background-image: url('${displayData.images.mockupC}'); background-size: cover;"` : ''}>
-                            ${!displayData.images?.mockupC ? 'Mockup C' : ''}
-                        </div>
-                    </div>
-                </section>
-            `;
-            modalBody.appendChild(section);
-
-            if (i < projectsList.length - 1) {
-                const sep = document.createElement('div');
-                sep.className = 'modal-separator';
-                modalBody.appendChild(sep);
-            }
-        });
-
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-
-        gsap.from(".project-split-section", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" });
-    }
-
-    function closeModal() {
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
 
     // --- RE-INTEGRATED COMMON UI LOGIC ---
 
@@ -423,6 +368,14 @@ document.addEventListener('DOMContentLoaded', () => {
             menuToggle.addEventListener('click', () => {
                 const active = menu.classList.toggle('active');
                 menuToggle.setAttribute('aria-expanded', active);
+            });
+
+            // Close mobile menu on link click
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                });
             });
         }
 
