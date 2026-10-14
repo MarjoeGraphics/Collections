@@ -206,6 +206,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Global fallback image handler for broken/missing image tags
+    window.handleImageError = function(img) {
+        if (!img) return;
+        const parent = img.parentElement;
+        if (parent) {
+            const isMini = parent.classList.contains('gallery-item');
+            parent.innerHTML = `
+                <div class="image-placeholder ${isMini ? 'mini' : ''}">
+                    <i data-lucide="image-off"></i>
+                    <span>Image Preview Unavailable</span>
+                </div>
+            `;
+            if (window.lucide) lucide.createIcons();
+        }
+    };
+
     // Helper function to resolve inner project list for a card ID
     function getProjectsListForCard(cardId) {
         let projectsList = activeProfile?.projects?.[cardId];
@@ -219,7 +235,35 @@ document.addEventListener('DOMContentLoaded', () => {
         return projectsList;
     }
 
-    // Render Projects inline directly on the main page flow
+    // Attach click listener once for project grid interactions (expandable case studies)
+    const projectGridContainer = document.getElementById('project-grid');
+    if (projectGridContainer && !projectGridContainer.dataset.listenerAdded) {
+        projectGridContainer.dataset.listenerAdded = 'true';
+        projectGridContainer.addEventListener('click', (e) => {
+            const toggleBtn = e.target.closest('.toggle-case-study-btn');
+            if (!toggleBtn) return;
+
+            const targetId = toggleBtn.getAttribute('data-target');
+            const targetElem = document.getElementById(targetId);
+            if (!targetElem) return;
+
+            const isExpanded = targetElem.classList.toggle('is-expanded');
+            toggleBtn.setAttribute('aria-expanded', isExpanded);
+
+            const btnText = toggleBtn.querySelector('.btn-text');
+            if (btnText) {
+                btnText.textContent = isExpanded ? 'Collapse Case Study' : 'Explore Case Study';
+            }
+
+            const icon = toggleBtn.querySelector('[data-lucide]') || toggleBtn.querySelector('svg');
+            if (icon) {
+                icon.setAttribute('data-lucide', isExpanded ? 'chevron-up' : 'chevron-down');
+                if (window.lucide) lucide.createIcons();
+            }
+        });
+    }
+
+    // Render Projects inline directly on the main page flow with expandable details
     function renderProjects(filter) {
         const container = document.getElementById('project-grid');
         container.innerHTML = '';
@@ -283,6 +327,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     const override = activeProfile?.projectOverrides?.[proj.id];
                     const displayData = override ? { ...proj, ...override } : proj;
 
+                    // Collect mockup images for sub-project gallery grid
+                    const galleryImages = [];
+                    if (displayData.images) {
+                        if (displayData.images.mockupA) galleryImages.push(displayData.images.mockupA);
+                        if (displayData.images.mockupB) galleryImages.push(displayData.images.mockupB);
+                        if (displayData.images.mockupC) galleryImages.push(displayData.images.mockupC);
+                        if (displayData.images.main && galleryImages.length === 0) galleryImages.push(displayData.images.main);
+                    }
+
+                    let galleryHTML = '';
+                    if (galleryImages.length > 0) {
+                        galleryHTML = `
+                            <div class="banner-gallery-container">
+                                <h5>Project Mockups & Visuals</h5>
+                                <div class="banner-gallery-grid">
+                                    ${galleryImages.map(imgSrc => `
+                                        <div class="gallery-item">
+                                            <img src="${imgSrc}" alt="${displayData.name} mockup" class="gallery-img" onerror="handleImageError(this)">
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+
                     subProjectsHTML += `
                         <div class="banner-sub-project">
                             <div class="banner-sub-meta">
@@ -300,23 +369,36 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <p>${displayData.result}</p>
                                 </div>
                             </div>
+                            ${galleryHTML}
                         </div>
                     `;
                 });
 
                 banner.innerHTML = `
-                    <div class="banner-preview">
-                        <div class="banner-image" ${featuredImg ? `style="background-image: url('${featuredImg}');"` : ''}></div>
-                        <div class="banner-number">${num}</div>
-                    </div>
-                    <div class="banner-content">
-                        <div class="banner-meta">
-                            <span class="banner-category">${displayCard.tags ? displayCard.tags.join(' • ') : ''}</span>
+                    <div class="banner-main-grid">
+                        <div class="banner-preview">
+                            ${featuredImg ? `<img src="${featuredImg}" alt="${displayCard.title}" class="banner-image" onerror="handleImageError(this)">` : `<div class="image-placeholder"><i data-lucide="image-off"></i><span>Image Preview Unavailable</span></div>`}
+                            <div class="banner-number">${num}</div>
                         </div>
-                        <h2 class="banner-title">${displayCard.title}</h2>
-                        <p class="banner-desc">${displayCard.shortDesc}</p>
-                        <div class="banner-sub-projects">
-                            ${subProjectsHTML}
+                        <div class="banner-content">
+                            <div class="banner-meta">
+                                <span class="banner-category">${displayCard.tags ? displayCard.tags.join(' • ') : ''}</span>
+                            </div>
+                            <h2 class="banner-title">${displayCard.title}</h2>
+                            <p class="banner-desc">${displayCard.shortDesc}</p>
+                            <div class="banner-action">
+                                <button class="btn btn-primary toggle-case-study-btn" data-target="details-${displayCard.id}" aria-expanded="false">
+                                    <span class="btn-text">Explore Case Study</span>
+                                    <i data-lucide="chevron-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-expandable-details" id="details-${displayCard.id}">
+                        <div class="banner-expandable-inner">
+                            <div class="banner-sub-projects">
+                                ${subProjectsHTML}
+                            </div>
                         </div>
                     </div>
                 `;
